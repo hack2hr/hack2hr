@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="angular-filter">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/bower_components/angular-filter/dist/angular-filter.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
