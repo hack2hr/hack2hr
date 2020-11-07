@@ -8,5 +8,6 @@ def index(request):
    
     query = Test.objects.all().values()[0]
     print(query)
-
-    return JsonResponse(query)
+    response = JsonResponse(query)
+    response["Access-Control-Allow-Origin"] = "*"
+    return response
