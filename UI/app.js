@@ -8,15 +8,13 @@ var serverUrlIndex = 0;
 setIpAddress();
 
 function setIpAddress() {
-    if (serverUrlIndex == 0) ipAdress = "http://168.63.61.94:8080";
+    if (serverUrlIndex == 0) ipAdress = "http://104.46.94.18:8080";
     //local
     if (serverUrlIndex == 1) ipAdress = "http://127.0.0.1:8080";
 };
 
 var myApp = angular.module('myApp', ['ngRoute', 'ui.bootstrap', 'ui.select', 'myApp.services', 'myApp.confirmationModal',
-        'myApp.infoModal',  'myApp.mainPage', 'myApp.hhModule', 'myApp.program', 'myApp.programs',
-        'myApp.grade', 'myApp.competition', 'myApp.student', 'myApp.analyse', 'myApp.analyseProgram',
-        'myApp.competitions', 'myApp.userDocumentation']);
+        'myApp.infoModal',  'myApp.mainPage', 'myApp.student']);
 
 myApp.config(function ($routeProvider) {
     /*$httpProvider.defaults.withCredentials = true;*/
@@ -31,54 +29,14 @@ myApp.config(function ($routeProvider) {
         .otherwise({
             redirectTo: '/main'
         })
-        .when('/users', {
-            templateUrl: 'users/users.html',
-            controller: 'UsersCtrl',
-        })
-        .when('/hhService', {
-            templateUrl: 'hhService/hh.html',
-            controller: 'HhPageCtrl',
-        })
         .when('/main', {
             templateUrl: 'mainPage/mainPage.html',
             controller: 'MainPageCtrl',
         })
-        .when('/programs', {
-            templateUrl: 'programs/programs.html',
-            controller: 'ProgramsCtrl',
-        })
-        .when('/program', {
-            templateUrl: 'program/program.html',
-            controller: 'ProgCtrl',
-        })
-        .when('/competition', {
-            templateUrl: 'competition/competition.html',
-            controller: 'CompCtrl',
-        })
         .when('/student', {
             templateUrl: 'student/student.html',
             controller: 'StudentCtrl',
-        })
-        .when('/grade', {
-            templateUrl: 'grade/grade.html',
-            controller: 'GradeCtrl',
-        })
-        .when('/analyse', {
-            templateUrl: 'analyse/analyse.html',
-            controller: 'AnalyseCtrl',
-        })
-        .when('/user_documentation', {
-            templateUrl: 'userDocumentation/userDocumentation.html',
-            controller: 'UserDocumentationCtrl',
-        })
-        .when('/competitions', {
-            templateUrl: 'competitions/competitions.html',
-            controller: 'CompsCtrl',
-        })
-        .when('/analyseProgram', {
-            templateUrl: 'analyseProgram/analyseProgram.html',
-            controller: 'AnalyseProgCtrl',
-        })
+        });
 });
 
 myApp.controller('UserCtrl', function ($scope) { //это контроллер , он ставится в шаблоне html ng-controller="UserCtrl" - и отвечает за видимость внутри вложенных dom элементов старницы
