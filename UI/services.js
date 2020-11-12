@@ -233,13 +233,129 @@ services.filter('orderObjectBy', function () {
     };
 });
 
+myApp.factory('hhService', function ($http, $window, $q, $location, $rootScope, $sce, infoService) {
+
+    var service = {};
+
+
+
+    service.getVacancies = function (search, page) {
+        var deferred = $q.defer();
+        $http.get('https://api.hh.ru/vacancies?page=' + page + '&per_page=100&text=' + search).success(function (response) {
+            deferred.resolve(response);
+        }).error(function () {
+            deferred.reject('Error in getDiagramm in hhService function');
+        });
+        return deferred.promise;
+    };
+
+
+    service.hhSearch = "";
+    service.searchList = [];
+    service.middleSalary = 0;
+    service.countVacancies = 0;
+    service.dispersion = 0;
+    service.params = [];
+    service.getHhParamsByVacancyName = function (vacancyName, program) {
+        var deferred = $q.defer();
+        service.params = [];
+        service.middleSalary = 0;
+        service.countVacancies = 0;
+        service.dispersion = 0;
+        service.searchList = [];
+
+        if (vacancyName) {
+            service.getHhVacancions(vacancyName, 0, program);
+
+            deferred.resolve(service.params)
+
+        } else {
+            alert("Bad search value")
+            deferred.reject('Error in  function');
+        }
+        return deferred.promise;
+    }
+
+    service.calcValues = function (program) {
+        service.countVacancies = service.searchList.length;
+        service.middleSalary = 0;
+        service.salaryCount = 0;
+        service.salaryes = [];
+        angular.forEach(service.searchList, function (item) {
+            if (item.salary) {
+                if (item.salary.from && item.salary.to) {
+                    service.salaryCount++;
+                    var salary = (item.salary.to - item.salary.from) / 2;
+                    service.middleSalary += salary;
+                    service.salaryes.push(salary)
+                } else {
+                    if (item.salary.from && !item.salary.to) {
+                        service.salaryCount++;
+                        service.middleSalary += item.salary.from;
+                        service.salaryes.push(item.salary.from);
+                    }
+                }
+            }
+        });
+
+        service.middleSalary = service.middleSalary / service.salaryCount;
+        var sSquare = 0;
+        angular.forEach(service.salaryes, function (salary) {
+            sSquare += ((salary - service.middleSalary) * (salary - service.middleSalary));
+        });
+
+        service.dispersion = Math.sqrt(sSquare / (service.salaryCount - 1));
+
+
+        var param1 = {
+            key: 'Дисперсия',
+            value: service.dispersion.toFixed(2)
+        };
+        var param2 =  {
+            key: 'Средняя зарплата',
+            value: service.middleSalary.toFixed(2)
+        };
+        var param3 ={
+            key: 'Количество вакансий',
+            value: service.countVacancies
+        };
+        program.params.push(param1)
+        program.params.push(param2)
+        program.params.push(param3)
+
+
+    }
+    var maxPageValue = 0;
+    service.getHhVacancions = function (search, page, program) {
+        service.getVacancies(search, page).then(function (data) {
+            if (data && data.items) {
+                service.searchList.push.apply(service.searchList, data.items);
+                var maxPageValue = 3; //data.pages
+                if (data.pages && data.pages > 3) {
+                    maxPageValue = 3;
+                }
+                if (maxPageValue - 1 > page) {
+                    page++;
+                    service.getHhVacancions(search, page, program);
+                } else {
+                    service.calcValues(program);
+                }
+            }
+        }, function () {
+            service.calcValues(program);
+        });
+    }
+
+    return service;
+});
+
 myApp.factory('mainService', function ($http, $window, $q, $location, $rootScope, $sce, infoService) {
 
     var service = {};
 
     service.getTestRequest = function () {
         var deferred = $q.defer();
-        $http.get(ipAdress + '/').success(function (response) {
+        $http.get(ipAdress ).success(function (response) {
             deferred.resolve(response);
         }).error(function () {
             deferred.reject('Error in getTestRequest in mainService function');
