@@ -355,7 +355,7 @@ myApp.factory('mainService', function ($http, $window, $q, $location, $rootScope
 
     service.getTestRequest = function () {
         var deferred = $q.defer();
-        $http.get(ipAdress ).success(function (response) {
+        $http.post(ipAdress + "/testPost/" ).success(function (response) {
             deferred.resolve(response);
         }).error(function () {
             deferred.reject('Error in getTestRequest in mainService function');
