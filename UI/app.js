@@ -14,7 +14,7 @@ function setIpAddress() {
 };
 
 var myApp = angular.module('myApp', ['ngRoute', 'ui.bootstrap', 'ui.select', 'myApp.services', 'myApp.confirmationModal',
-        'myApp.infoModal',  'myApp.mainPage', 'myApp.student']);
+        'myApp.infoModal',  'myApp.mainPage', 'myApp.manage']);
 
 myApp.config(function ($routeProvider) {
     /*$httpProvider.defaults.withCredentials = true;*/
@@ -33,9 +33,9 @@ myApp.config(function ($routeProvider) {
             templateUrl: 'mainPage/mainPage.html',
             controller: 'MainPageCtrl',
         })
-        .when('/student', {
-            templateUrl: 'student/student.html',
-            controller: 'StudentCtrl',
+        .when('/manage', {
+            templateUrl: 'manage/manage.html',
+            controller: 'ManageCtrl',
         });
 });
 

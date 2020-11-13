@@ -5,6 +5,7 @@ var mainPage = angular.module('myApp.mainPage', ['ngRoute']);
 mainPage.controller('MainPageCtrl', function ($scope, mainService) {
 
     getTestRequest();
+    $scope.activeTab = 'tab1';
     $scope.isLoading = true;
 
     function getTestRequest() {

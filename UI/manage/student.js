@@ -1,13 +1,8 @@
 'use strict';
 
-var student = angular.module('myApp.student', ['ngRoute']);
+var manage = angular.module('myApp.manage', ['ngRoute']);
 
-student.controller('StudentCtrl', function ($scope, datesService, $q) {
-    var student = JSON.parse(localStorage.getItem('student'));
-    $scope.student = student || "";
-    $scope.modules = (student && student.Modules) || {};
+manage.controller('ManageCtrl', function ($scope, datesService, $q) {
 
-    $scope.convertFromISO = function (dateInISOFormat) {
-        return datesService.parseDateToStringRussian(dateInISOFormat);
-    };
+
 });
