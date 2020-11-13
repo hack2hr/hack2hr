@@ -29,6 +29,9 @@ myApp.config(function ($routeProvider) {
         .otherwise({
             redirectTo: '/notFound404'
         })
+        .when('/', {
+            redirectTo: '/main'
+        })
         .when('/main', {
             templateUrl: 'mainPage/mainPage.html',
             controller: 'MainPageCtrl',
