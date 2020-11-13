@@ -22,4 +22,5 @@ urlpatterns = [
     path('', views.index),
     path('testPost', views.testPost),
     path('testGet', views.testGet),
+    path('testMongo', views.testMongo),
 ]

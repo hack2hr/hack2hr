@@ -1,10 +1,15 @@
 from django.shortcuts import render
-from .models import Coll
+from .models import People
 import statsmodels
 import json
 from django.http.response import JsonResponse
 from bson import json_util
 from django.views.decorators.csrf import csrf_exempt
+import pymongo
+
+client = MongoClient('localhost', 27017)
+db = client['KadryTest']
+series_collection = db['People']
 
 # query = Coll.objects.filter(ids="1").values()
     #query = Coll.objects.filter(id="1").values()
@@ -27,10 +32,11 @@ def testPost(request):
         response["Access-Control-Allow-Origin"] = "*"
         return response
     body_unicode = request.body.decode('utf-8')
-    body = json.loads(body_unicode)
+    jsonValue = json.loads(body_unicode)
     #content = body['content']
-    print(body)
-    response = JsonResponse(json_util.dumps({"test: 12"}), safe = False)
+    print(jsonValue)
+    response = JsonResponse(json_util.dumps({"test": jsonValue["title"]}), safe = False)
+    #jsonValue["title"] get json value
     response["Access-Control-Allow-Origin"] = "*"
     return response
 
@@ -38,6 +44,30 @@ def testPost(request):
 def testGet(request):
     testVal = request.GET.get("testVal")
     response = JsonResponse(json_util.dumps({"test": testVal}), safe = False)
+    response["Access-Control-Allow-Origin"] = "*"
+    return response
+
+@csrf_exempt 
+def insert_document(collection, data):
+    new_show = {
+    "year": 1994,
+    "total": 1000,
+        "data": {
+            "workAble": 200,
+            "migrants": 200,
+                "other": {
+                    "old": 200,
+                    "young" 200
+                }
+        }
+    }
+    print(insert_document(series_collection, new_show))
+    return collection.insert_one(data).inserted_id
+
+@csrf_exempt 
+def testMongo(request):
+    query = Coll.objects.filter(id="1").values()
+    response = JsonResponse(json_util.dumps(result), safe = False)
     response["Access-Control-Allow-Origin"] = "*"
     return response
 
