@@ -1,5 +1,6 @@
-from django.db import models
+from djongo import models
 
-class Test(models.Model): 
-    title = models.CharField(max_length = 200) 
-    title2 = models.CharField(max_length = 200) 
+class Coll(models.Model):
+    _id = models.ObjectIdField()
+    ids = models.CharField(max_length=255)
+    headline = models.CharField(max_length=255)    
