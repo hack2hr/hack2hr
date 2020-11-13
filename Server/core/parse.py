@@ -1,6 +1,14 @@
+import urllib.request
+import urllib.response
+import urllib.parse
+
+from bs4 import BeautifulSoup
+import re
+
+
 class Data:
 
-    def __init__(self, search_param, request='', area='Калининград'):
+    def __init__(self, search_param, request='', area=''):
         self.search_param = search_param
         self.request = request
         self.area = area
@@ -15,11 +23,13 @@ class Data:
         get_link, config = parse_function(self.search_param, self.request)
         param = config['search_params'][self.search_param]
 
-        html = self.get_html(get_link(self.global_config['areas'][self.area]))
+        html = self.get_html(get_link(self.area and self.global_config['areas'][self.area]) or '')
         if html != -1:
             result = re.search(param['place'], str(BeautifulSoup(html, "lxml")))
             if result:
                 return result.group(1)
+            else:
+                return 0
         else:
             return 'Error'
 
@@ -44,7 +54,7 @@ def parse_hh(search_param, request):
                 'data': {
                     'st': 'searchVacancy'
                 },
-                'place': r'<h1.*data-qa=\"bloko-header-1\".*>([0-9]+).*</h1>'
+                'place': r'<h1.*data-qa=\"bloko-header-1\".*>([0-9\s]+).*</h1>'
             },
             'resume': {
                 'data': {
@@ -52,30 +62,25 @@ def parse_hh(search_param, request):
                     'logic': 'normal',
                     'pos': 'position'
                 },
-                'place': r'<h1.*data-qa=\"bloko-header-1\">[^0-9]+([0-9]+).*</h1>'
+                'place': r'<h1.*data-qa=\"bloko-header-1\">[^0-9]+([0-9\s]+).*</h1>'
             }
         }
     }
 
     def get_link(area):
-        data = urllib.parse.urlencode({
+        data = {
             **config['search_params'][search_param]['data'],
             **config['default_data'],
-            'area': area,
             'text': request
-        })
-        return config['link'] + str(search_param) + '?' + data
+        }
+        if area:
+            data['area'] = area
+        return config['link'] + str(search_param) + '?' + urllib.parse.urlencode(data)
 
     return get_link, config
 
 
 if __name__ == '__main__':
-    import urllib.request
-    import urllib.response
-    import urllib.parse
 
-    from bs4 import BeautifulSoup
-    import re
-
-    countVacancies = Data('resume', 'инженер').get(parse_hh)
+    countVacancies = Data('vacancy', 'инженер', 'Калининград').get(parse_hh)
     print(countVacancies)
