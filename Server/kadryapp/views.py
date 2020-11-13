@@ -27,10 +27,11 @@ def testPost(request):
         response["Access-Control-Allow-Origin"] = "*"
         return response
     body_unicode = request.body.decode('utf-8')
-    body = json.loads(body_unicode)
+    jsonValue = json.loads(body_unicode)
     #content = body['content']
-    print(body)
-    response = JsonResponse(json_util.dumps({"test: 12"}), safe = False)
+    print(jsonValue)
+    response = JsonResponse(json_util.dumps({"test": jsonValue["title"]}), safe = False)
+    #jsonValue["title"] get json value
     response["Access-Control-Allow-Origin"] = "*"
     return response
 
