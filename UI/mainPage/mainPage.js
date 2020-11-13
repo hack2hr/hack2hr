@@ -8,15 +8,22 @@ mainPage.controller('MainPageCtrl', function ($scope, mainService) {
     $scope.isLoading = true;
 
     function getTestRequest() {
-        mainService.getTestRequest().then(function (response) {
+        var title = { "title":"TEST" };
+        mainService.getTestRequest(title).then(function (response) {
             $scope.testData = response;
             $scope.isLoading = false;
         },function(){
             $scope.isLoading = false;
         });
+        /*mainService.getTestRequest(title).then(function (response) {
+            $scope.testData = response;
+            $scope.isLoading = false;
+        },function(){
+            $scope.isLoading = false;
+        });*/
     }
 
-
+/*
 
     var chartData = {
         labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
@@ -248,7 +255,7 @@ mainPage.controller('MainPageCtrl', function ($scope, mainService) {
             ]
         }, {
             label: 'Dataset 2',
-        
+
             borderColor: "BLUE",
             data: [
                1,2,3,4
@@ -281,7 +288,7 @@ mainPage.controller('MainPageCtrl', function ($scope, mainService) {
             }
         });
 
-    };
+    };*/
 
 
 });

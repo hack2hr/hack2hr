@@ -20,4 +20,6 @@ from kadryapp import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index),
+    path('testPost', views.testPost),
+    path('testGet', views.testGet),
 ]
