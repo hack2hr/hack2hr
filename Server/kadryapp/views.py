@@ -50,13 +50,13 @@ def testGet(request):
 @csrf_exempt 
 def insert_document(collection, data):
     new_show = {
-    "year": 1994
-    "total": 1000
+    "year": 1994,
+    "total": 1000,
         "data": {
-            "workAble": 200
-            "migrants": 200
+            "workAble": 200,
+            "migrants": 200,
                 "other": {
-                    "old": 200
+                    "old": 200,
                     "young" 200
                 }
         }
