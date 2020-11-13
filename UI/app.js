@@ -27,7 +27,7 @@ myApp.config(function ($routeProvider) {
 
     $routeProvider
         .otherwise({
-            redirectTo: '/main'
+            redirectTo: '/notFound404'
         })
         .when('/main', {
             templateUrl: 'mainPage/mainPage.html',
@@ -36,7 +36,10 @@ myApp.config(function ($routeProvider) {
         .when('/manage', {
             templateUrl: 'manage/manage.html',
             controller: 'ManageCtrl',
-        });
+        })
+        .when('/notFound404', {
+            templateUrl: 'notFound404/404.html',
+        })
 });
 
 myApp.controller('UserCtrl', function ($scope) { //это контроллер , он ставится в шаблоне html ng-controller="UserCtrl" - и отвечает за видимость внутри вложенных dom элементов старницы
