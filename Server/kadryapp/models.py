@@ -14,7 +14,7 @@ class PeopleData(models.Model):
     WorkAble = models.CharField(max_length=255)
     Migrant = models.CharField(max_length=255)
     PeopleOldAndYoung = models.EmbeddedField(
-        model_container=OldAndYoung
+        model_container=PeopleOldAndYoung
     )  
 
 class PeopleOldAndYoung(models.Model):
