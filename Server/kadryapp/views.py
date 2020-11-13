@@ -1,12 +1,13 @@
 from django.shortcuts import render
-from .models import People
+
 import statsmodels
 import json
 from django.http.response import JsonResponse
+from django.http.response import HttpResponse
 from bson import json_util
 from django.views.decorators.csrf import csrf_exempt
-import pymongo
-
+from pymongo import MongoClient
+from bson.objectid import ObjectId
 client = MongoClient('localhost', 27017)
 db = client['KadryTest']
 series_collection = db['People']
@@ -48,21 +49,55 @@ def testGet(request):
     return response
 
 @csrf_exempt 
-def insert_document(collection, data):
-    new_show = {
-    "year": 1994,
-    "total": 1000,
+def testAddMongo(request):
+    data = {
+        "year": "1998",
+        "totalyear": "1000",
         "data": {
-            "workAble": 200,
-            "migrants": 200,
+            "q1": {
+                "totalq1": "800",
+                "workAble": "200",
+                "migrants": "200",
                 "other": {
-                    "old": 200,
-                    "young" 200
+                    "old": "200",
+                    "young": "200"
                 }
+            },
+            "q2": {
+                "totalq2": "800",
+                "workAble": "200",
+                "migrants": "200",
+                "other": {
+                    "old": "200",
+                    "young": "200"
+                }
+            },
+            "q3": {
+                "totalq3": "800",
+                "workAble": "200",
+                "migrants": "200",
+                "other": {
+                    "old": "200",
+                    "young": "200"
+                }
+            },
+            "q4": {
+                "totalq4": "800",
+                "workAble": "200",
+                "migrants": "200",
+                "other": {
+                    "old": "200",
+                    "young": "200"
+                }
+            }        
         }
     }
-    print(insert_document(series_collection, new_show))
-    return collection.insert_one(data).inserted_id
+    db = client['KadryTest']
+    collection = db['People']
+    doc_id = collection.insert_one(data).inserted_id
+    document = collection.find_one({'_id': ObjectId(doc_id)})
+    response = JsonResponse(json_util.dumps(document), safe = False)
+    return response
 
 @csrf_exempt 
 def testMongo(request):
