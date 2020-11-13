@@ -8,6 +8,7 @@ mainPage.controller('MainPageCtrl', function ($scope, mainService) {
     $scope.isLoading = true;
 
     function getTestRequest() {
+        var title = {"title":""};
         mainService.getTestRequest().then(function (response) {
             $scope.testData = response;
             $scope.isLoading = false;
@@ -16,7 +17,7 @@ mainPage.controller('MainPageCtrl', function ($scope, mainService) {
         });
     }
 
-
+/*
 
     var chartData = {
         labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
@@ -248,7 +249,7 @@ mainPage.controller('MainPageCtrl', function ($scope, mainService) {
             ]
         }, {
             label: 'Dataset 2',
-        
+
             borderColor: "BLUE",
             data: [
                1,2,3,4
@@ -281,7 +282,7 @@ mainPage.controller('MainPageCtrl', function ($scope, mainService) {
             }
         });
 
-    };
+    };*/
 
 
 });
