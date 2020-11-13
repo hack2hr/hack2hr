@@ -8,13 +8,19 @@ mainPage.controller('MainPageCtrl', function ($scope, mainService) {
     $scope.isLoading = true;
 
     function getTestRequest() {
-        var title = {"title":""};
-        mainService.getTestRequest().then(function (response) {
+        var title = { "title":"TEST" };
+        mainService.getTestRequest(title).then(function (response) {
             $scope.testData = response;
             $scope.isLoading = false;
         },function(){
             $scope.isLoading = false;
         });
+        /*mainService.getTestRequest(title).then(function (response) {
+            $scope.testData = response;
+            $scope.isLoading = false;
+        },function(){
+            $scope.isLoading = false;
+        });*/
     }
 
 /*
