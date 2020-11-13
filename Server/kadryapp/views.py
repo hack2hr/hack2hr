@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import Coll
+from .models import People
 import statsmodels
 import json
 from django.http.response import JsonResponse
@@ -27,10 +27,11 @@ def testPost(request):
         response["Access-Control-Allow-Origin"] = "*"
         return response
     body_unicode = request.body.decode('utf-8')
-    body = json.loads(body_unicode)
+    jsonValue = json.loads(body_unicode)
     #content = body['content']
-    print(body)
-    response = JsonResponse(json_util.dumps({"test: 12"}), safe = False)
+    print(jsonValue)
+    response = JsonResponse(json_util.dumps({"test": jsonValue["title"]}), safe = False)
+    #jsonValue["title"] get json value
     response["Access-Control-Allow-Origin"] = "*"
     return response
 
@@ -38,6 +39,29 @@ def testPost(request):
 def testGet(request):
     testVal = request.GET.get("testVal")
     response = JsonResponse(json_util.dumps({"test": testVal}), safe = False)
+    response["Access-Control-Allow-Origin"] = "*"
+    return response
+
+@csrf_exempt 
+def testAdd(request):
+    People = People()
+    People.id = '1'
+    People.Year = '2010'
+    People.Total = '1000'
+    People.PeopleData.WorkAble = '1000'
+    People.PeopleData.Migrant = '1000'
+    People.PeopleData.PeopleOldAndYoung.Old = '1000'
+    People.PeopleData.PeopleOldAndYoung.Young = '1000'
+    People.save()
+
+    response = JsonResponse(json_util.dumps("Added"), safe = False)
+    response["Access-Control-Allow-Origin"] = "*"
+    return response
+
+@csrf_exempt 
+def testMongo(request):
+    query = Coll.objects.filter(id="1").values()
+    response = JsonResponse(json_util.dumps(result), safe = False)
     response["Access-Control-Allow-Origin"] = "*"
     return response
 
