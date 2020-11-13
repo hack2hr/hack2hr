@@ -8,9 +8,10 @@ from bson import json_util
 from django.views.decorators.csrf import csrf_exempt
 from pymongo import MongoClient
 from bson.objectid import ObjectId
+import pprint
 client = MongoClient('localhost', 27017)
 db = client['KadryTest']
-series_collection = db['People']
+
 
 # query = Coll.objects.filter(ids="1").values()
     #query = Coll.objects.filter(id="1").values()
@@ -51,7 +52,7 @@ def testGet(request):
 @csrf_exempt 
 def testAddMongo(request):
     data = {
-        "year": "1998",
+        "year": "2000",
         "totalyear": "1000",
         "data": {
             "q1": {
@@ -92,7 +93,7 @@ def testAddMongo(request):
             }        
         }
     }
-    db = client['KadryTest']
+    
     collection = db['People']
     doc_id = collection.insert_one(data).inserted_id
     document = collection.find_one({'_id': ObjectId(doc_id)})
@@ -100,9 +101,15 @@ def testAddMongo(request):
     return response
 
 @csrf_exempt 
-def testMongo(request):
-    query = Coll.objects.filter(id="1").values()
-    response = JsonResponse(json_util.dumps(result), safe = False)
-    response["Access-Control-Allow-Origin"] = "*"
+def testPyMongo(request):
+   
+    collection = db['People']
+    test = []
+    for doc in collection.find():
+        test.append(doc)
+    
+    
+        
+    response = JsonResponse(json_util.dumps(test), safe = False)
     return response
 

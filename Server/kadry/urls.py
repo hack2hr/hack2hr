@@ -23,4 +23,5 @@ urlpatterns = [
     path('testPost', views.testPost),
     path('testGet', views.testGet),
     path('testAddMongo/', views.testAddMongo),
+    path('testPyMongo/', views.testPyMongo),
 ]
