@@ -5,6 +5,11 @@ import json
 from django.http.response import JsonResponse
 from bson import json_util
 from django.views.decorators.csrf import csrf_exempt
+import pymongo
+
+client = MongoClient('localhost', 27017)
+db = client['KadryTest']
+series_collection = db['People']
 
 # query = Coll.objects.filter(ids="1").values()
     #query = Coll.objects.filter(id="1").values()
@@ -43,20 +48,21 @@ def testGet(request):
     return response
 
 @csrf_exempt 
-def testAdd(request):
-    People = People()
-    People.id = '1'
-    People.Year = '2010'
-    People.Total = '1000'
-    People.PeopleData.WorkAble = '1000'
-    People.PeopleData.Migrant = '1000'
-    People.PeopleData.PeopleOldAndYoung.Old = '1000'
-    People.PeopleData.PeopleOldAndYoung.Young = '1000'
-    People.save()
-
-    response = JsonResponse(json_util.dumps("Added"), safe = False)
-    response["Access-Control-Allow-Origin"] = "*"
-    return response
+def insert_document(collection, data):
+    new_show = {
+    "year": 1994,
+    "total": 1000,
+        "data": {
+            "workAble": 200,
+            "migrants": 200,
+                "other": {
+                    "old": 200,
+                    "young" 200
+                }
+        }
+    }
+    print(insert_document(series_collection, new_show))
+    return collection.insert_one(data).inserted_id
 
 @csrf_exempt 
 def testMongo(request):
