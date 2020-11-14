@@ -5,11 +5,25 @@ var manage = angular.module('myApp.manage', ['ngRoute']);
 manage.controller('ManageCtrl', function ($scope, $rootScope, $window, infoService) {
 
     $scope.category = $rootScope.category;
+    $scope.currentYear = new Date().getFullYear();
+    $scope.q1 = 0;
+    $scope.q2 = 0;
+    $scope.q3 = 0;
+    $scope.q4 = 0;
+
+
+    if(!$scope.category || !$rootScope.category) $window.location.hash = "#/main";
+    setDefaultQuartals();
+    function setDefaultQuartals(){
+        if($scope.category.years){
+            var yearVal = $scope.category.years[$scope.currentYear];
+            $scope.q1=$scope.q2=$scope.q3=$scope.q4 = Number(yearVal/4).toFixed(1); //4 quart in year
+        }
+    }
+
     $scope.years = {};
 
-    if(!$scope.category) $window.location.hash = "#/main";
 
-    $scope.currentYear = 2014;
 
     $scope.selectYear = function(year){
         $scope.currentYear = year;
@@ -105,7 +119,7 @@ manage.controller('ManageCtrl', function ($scope, $rootScope, $window, infoServi
     var firstEnter = false;
     $scope.getPredictionByModel = function() {
         if($scope.model &&  $scope.model.selected  &&  $scope.model.selected.title) {
-            firstEnter = false;
+            firstEnter = true;
             $scope.q1Predict = Math.floor(Math.random() * 1050) + 50;
             $scope.q2Predict = Math.floor(Math.random() * 15) + 50;
             $scope.q3Predict = Math.floor(Math.random() * 100);
@@ -116,10 +130,7 @@ manage.controller('ManageCtrl', function ($scope, $rootScope, $window, infoServi
     }
     $scope.getPredictionByModel();
 
-    $scope.q1 = 0;
-    $scope.q2 = 0;
-    $scope.q3 = 0;
-    $scope.q4 = 0;
+
     $scope.isAccepted = false;
     $scope.isAuto = false;
 

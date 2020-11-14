@@ -65,7 +65,7 @@
                             <div class="d-inline">
                                 <span class="d-none d-inline mr-2 text-gray-600 small">{{user.lastName +" "+ user.firstName}}</span>
                                 <a class="dropdown-item d-inline p-0" role="presentation" ng-click="logOut()" href="#/login"><i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Выйти</a>
-                                <img class="border d-inline rounded-circle img-profile mr-2" src="assets/img/avatars/avatar1.jpeg"/>
+                                <img class="border d-inline rounded-circle img-profile mr-2" src="{{user.isAdmin?'assets/img/avatars/avatar2.jpeg':'assets/img/avatars/avatar1.jpeg'}}"/>
                             </div>
                         </div>
                     </li>

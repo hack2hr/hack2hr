@@ -33,7 +33,7 @@
                             <h4>Ответственный по внесению</h4>
                             <h6 class="text-muted mb-2">текст</h6>
                         </div>
-                        <div class="col-4"><button ng-click="addPeopleManage()" class="btn btn-primary" type="button">Принять</button></div>
+
                     </div>
                     <div class="table-responsive table mt-2" id="dataTable-2" role="grid" aria-describedby="dataTable_info" style="color: rgb(255,255,255);">
                         <table class="table my-0" id="dataTable">
@@ -134,28 +134,28 @@
                             <div>
                                 <input id="nm1" ng-class="{'ng-invalids':addError&&!q1}" placeholder="Заполните данные" class="form-control" type="text" ng-model="q1" />
                             </div>
-                            <p class="mb-0">{{q1Predict}}</p>
+                            <p class="mb-0 mt-1">{{q1Predict}}</p>
                         </div>
                         <div class="col-3">
                             <label for="nm2" class="text-left">Квартал 2<strong class="redStar">*</strong></label>
                             <div>
                                 <input id="nm2" ng-class="{'ng-invalids':addError&&!q2}" placeholder="Заполните данные" class="form-control" type="text" ng-model="q2" />
                             </div>
-                            <p class="mb-0">{{q2Predict}}</p>
+                            <p class="mb-0 mt-1">{{q2Predict}}</p>
                         </div>
                         <div class="col-3">
                             <label for="nm3" class="text-left">Квартал 3<strong class="redStar">*</strong></label>
                             <div >
                                 <input id="nm3" ng-class="{'ng-invalids':addError&&!q3}" placeholder="Заполните данные" class="form-control" type="text" ng-model="q3" />
                             </div>
-                            <p class="mb-0">{{q3Predict}}</p>
+                            <p class="mb-0 mt-1">{{q3Predict}}</p>
                         </div>
                         <div class="col-3">
                             <label for="nm4" class="text-left">Квартал 4<strong class="redStar">*</strong></label>
                             <div>
                                 <input id="nm4" ng-class="{'ng-invalids':addError&&!q4}" placeholder="Заполните данные" class="form-control" type="text" ng-model="q4" />
                             </div>
-                            <p class="mb-0">{{q4Predict}}</p>
+                            <p class="mb-0 mt-1">{{q4Predict}}</p>
                         </div>
                     </div>
                 </div>
@@ -197,6 +197,7 @@
                     </div>
                 </div>
             </div>
+            <div class="pt-2"><button ng-click="addPeopleManage()" class="btn btn-primary" type="button">Принять</button></div>
         </div>
     </div>
 </div>
