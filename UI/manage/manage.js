@@ -2,7 +2,7 @@
 
 var manage = angular.module('myApp.manage', ['ngRoute']);
 
-manage.controller('ManageCtrl', function ($scope, $rootScope, $window) {
+manage.controller('ManageCtrl', function ($scope, $rootScope, $window, infoService) {
 
     $scope.category = $rootScope.category;
 
@@ -93,6 +93,19 @@ manage.controller('ManageCtrl', function ($scope, $rootScope, $window) {
     }
 
     $scope.subCategories = $rootScope.subCategories;
+
+    $scope.model = {selected: null}
+
+    $scope.getPredictionByModel = function(){
+        if($scope.model &&  $scope.model.selected  &&  $scope.model.selected.modelName){
+
+            $scope.q1 = Math.floor(Math.random() * 1050) + 50;
+            $scope.q2 = Math.floor(Math.random() * 15) + 50;
+            $scope.q3 = Math.floor(Math.random() * 100) + $scope.q1;
+            $scope.q4 = Math.floor(Math.random() * $scope.q2) + 50;
+            infoService.infoFunction("По модели '" + $scope.model.selected.modelName + "' получены показатели Квартала 1: "+$scope.q1+". Квартала 2: "+$scope.q2+". Квартала 3: "+$scope.q3+". Квартала 4: "+$scope.q4+".");
+        }
+    }
 
     $scope.q1 = 0;
     $scope.q2 = 0;

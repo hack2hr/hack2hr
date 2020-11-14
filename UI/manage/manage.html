@@ -107,7 +107,7 @@
                         </div>
                         <div class="col">
                             <ui-select ng-model="model.selected"
-
+                                       ng-change="getPredictionByModel()"
                                        theme="selectize"
                                        style="width: 245px !important;">
                                 <ui-select-match placeholder="Выберите модель..."><span>{{model.selected.modelName}}</span></ui-select-match>
