@@ -6,8 +6,11 @@
         <input type="login" id="inputLogin" class="form-control mb-2  text-center" style="width: 500px"  placeholder="Логин" required="" autofocus="" ng-model="login">
         <input type="password" id="inputPassword" class="form-control text-center  mb-2"  style="width: 500px" placeholder="Пароль" required="" ng-model="password">
         <label for="inputPassword" class="sr-only">Password</label>
-        <button class="btn btn-primary btn-block mb-3" type="submit"    ng-click="authorize()">Войти</button>
+        <div class="text-center">
+            <button class="btn btn-primary width100px mb-3  " type="submit"    ng-click="authorize()">Войти</button>
+        </div>
     </div>
+
 
     <!--Модальное окно вывода ошибки авторизации-->
     <script type="text/ng-template" id="modalContentForViewErrorAuthorization.html">
