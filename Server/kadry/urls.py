@@ -30,4 +30,6 @@ urlpatterns = [
     path('api/staff/all/', views.apiStaffAll),
     path('api/staff/one/', views.apiStaffOne),
     path('api/staff/add/', views.apiStaffAdd),
+    path('api/staff/update/', views.apiStaffUpdate),
+    path('api/staff/delete/', views.apiStaffDelete),
 ]
