@@ -8,7 +8,9 @@ from django.views.decorators.csrf import csrf_exempt
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 import pprint
+from datetime import datetime
 import openpyxl
+from openpyxl import Workbook
 client = MongoClient('localhost', 27017)
 db = client['KadryTest']
 
@@ -416,6 +418,7 @@ def apiPeoplePredict(request):
     yearsrange = jsonValue['yearsrange']
     dataY = jsonValue['dataY']
     dataX = jsonValue['dataX']
+    modelValue = jsonValue['modelValue']
     
 
     collection = db['People']
@@ -430,13 +433,12 @@ def apiPeoplePredict(request):
         "y_param": dataY,
     }
 
+    result = Model(stringForModel, data).predict(modelValue)
+
 
 
     
-    
-    collection = db['Staff']
-    collection.delete_one(myquery)
-    response = JsonResponse(json_util.dumps(myquery), safe = False)
+    response = JsonResponse(json_util.dumps(result), safe = False)
     response["Access-Control-Allow-Origin"] = "*"
     return response
 
@@ -457,5 +459,101 @@ def apiPeopleDownload(request):
     data = []
     for doc in collection.find():
         data.append(doc)
+    response = HttpResponse(
+        content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    )
+    response['Content-Disposition'] = 'attachment; filename={date}---test.xlsx'.format(
+        date=datetime.now().strftime('%Y-%m-%d')
+    )
 
-    print(data)
+
+    workbook = Workbook()
+    # Get active worksheet/tab
+    worksheet = workbook.active
+    worksheet.title = 'Data'
+
+    columns = [
+        'Год',
+        'Численность трудовых ресурсов, в том числе:',
+        'К1 Численность трудовых ресурсов, в том числе: ',
+        'К1 трудоспособное население в трудоспособном возрасте',
+        'К1 иностранные трудовые мигранты',
+        'К1 лица старше трудоспособного возраста и подростки, занятые в экономике, в том числе',
+        'К1 лица старше трудоспособного возраста',
+        'К1 подростки',
+        'К2 Численность трудовых ресурсов, в том числе: ',
+        'К2 трудоспособное население в трудоспособном возрасте',
+        'К2 иностранные трудовые мигранты',
+        'К2 лица старше трудоспособного возраста и подростки, занятые в экономике, в том числе',
+        'К2 лица старше трудоспособного возраста',
+        'К2 подростки',
+        'К3 Численность трудовых ресурсов, в том числе: ',
+        'К3 трудоспособное население в трудоспособном возрасте',
+        'К3 иностранные трудовые мигранты',
+        'К3 лица старше трудоспособного возраста и подростки, занятые в экономике, в том числе',
+        'К3 лица старше трудоспособного возраста',
+        'К3 подростки',
+        'К4 Численность трудовых ресурсов, в том числе: ',
+        'К4 трудоспособное население в трудоспособном возрасте',
+        'К4 иностранные трудовые мигранты',
+        'К4 лица старше трудоспособного возраста и подростки, занятые в экономике, в том числе',
+        'К4 лица старше трудоспособного возраста',
+        'К4 подростки',
+        'Отчет принят',
+        'Расчитан автоматически',
+        'Расчитан сотрудником',
+    ]
+    row_num = 1
+
+    for col_num, column_title in enumerate(columns, 1):
+        cell = worksheet.cell(row=row_num, column=col_num)
+        cell.value = column_title
+
+    # Iterate through all 
+    for part in data:
+        row_num += 1
+        print()
+        # Define the data for each cell in the row 
+        row = [
+            part['year'],
+            part['totalyear'],
+            part['data']['q1']['totalq1'],
+            part['data']['q1']['workAble'],
+            part['data']['q1']['migrants'],
+            part['data']['q1']['other']['old'] + part['data']['q1']['other']['young'],
+            part['data']['q1']['other']['old'],
+            part['data']['q1']['other']['young'],
+            part['data']['q2']['totalq2'],
+            part['data']['q2']['workAble'],
+            part['data']['q2']['migrants'],
+            part['data']['q2']['other']['old'] + part['data']['q2']['other']['young'],
+            part['data']['q2']['other']['old'],
+            part['data']['q2']['other']['young'],
+            part['data']['q3']['totalq3'],
+            part['data']['q3']['workAble'],
+            part['data']['q3']['migrants'],
+            part['data']['q3']['other']['old'] + part['data']['q3']['other']['young'],
+            part['data']['q3']['other']['old'],
+            part['data']['q3']['other']['young'],
+            part['data']['q4']['totalq4'],
+            part['data']['q4']['workAble'],
+            part['data']['q4']['migrants'],
+            part['data']['q4']['other']['old'] + part['data']['q4']['other']['young'],
+            part['data']['q4']['other']['old'],
+            part['data']['q4']['other']['young'],
+            part['accepted'],
+            part['auto'],
+            part['madeby'],
+
+        ]
+        
+        # Assign the data for each cell of the row 
+        for col_num, cell_value in enumerate(row, 1):
+            cell = worksheet.cell(row=row_num, column=col_num)
+            cell.value = cell_value
+
+    workbook.save(response)
+
+    return response
+
+    
