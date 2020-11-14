@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-1">
             <h1 class="text-dark mb-0 mt-2 text-nowrap">{{category.name}}</h1>
-            <h6 class="text-gray-400 text-nowrap">Показатели {{years[1] + " - " + years[years.length-1]}} годов</h6>
+            <h6 class="text-gray-400 text-nowrap">Показатели {{yearsGraph[1] + " - " + yearsGraph[yearsGraph.length-1]}} годов</h6>
         </div>
         <!--<div class="col d-xl-flex align-items-xl-center">
             <div class="border rounded d-flex d-xl-flex align-items-xl-center" style="background-color: #dcffc1;padding-right: 20px;padding-left: 20px;">
@@ -13,9 +13,9 @@
     <div class="row">
         <div class="col-9">
             <div class="card mb-3" style="min-height: 400px; max-height: 400px;">
-                <div class="card-header   border-bottom-0 p-3" >
+                <div class="card-header   border-bottom-0 p-3" >    
                     <ul class="nav nav-tabs" >
-                        <li ng-repeat="year in years" class="nav-item" ng-click="selectYear(year)"><a ng-class="{'active':activeTab == year }" data-toggle="tab"  class="nav-link" href="">{{year!='All'?year:'Все'}}</a></li>
+                        <li ng-repeat="year in yearsGraph" class="nav-item" ng-click="selectYear(year)"><a ng-class="{'active':currentYear == year }" data-toggle="tab"  class="nav-link" href="">{{year}}</a></li>s
                     </ul>
                 </div>
                 <div class="card-body " >
@@ -110,9 +110,9 @@
                                        ng-change="getPredictionByModel()"
                                        theme="selectize"
                                        style="width: 245px !important;">
-                                <ui-select-match placeholder="Выберите модель..."><span>{{model.selected.modelName}}</span></ui-select-match>
+                                <ui-select-match placeholder="Выберите модель..."><span>{{model.selected.title}}</span></ui-select-match>
                                 <ui-select-choices repeat="model in models | filter:$select.search">
-                                    {{model.modelName}}
+                                    {{model.title}}
                                 </ui-select-choices>
                             </ui-select>
 
