@@ -6,9 +6,9 @@ editUser.controller('EditUserModalCtrl', function ($scope, $uibModalInstance, us
     $scope.newUser = JSON.parse(JSON.stringify(user));
 
     $scope.editUser = function(){
-        userService.users[userService.users.map(function(e){return e.id}).indexOf($scope.newUser.id)] = $scope.newUser; //todo edit user
+        // userService.users[userService.users.map(function(e){return e.id}).indexOf($scope.newUser.id)] = $scope.newUser; //todo edit user
 
-        $uibModalInstance.close();
+        // $uibModalInstance.close();
     }
 
     $scope.close = function () {
