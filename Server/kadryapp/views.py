@@ -7,6 +7,7 @@ from bson import json_util
 from django.views.decorators.csrf import csrf_exempt
 from pymongo import MongoClient
 from bson.objectid import ObjectId
+from core.models import Model
 import pprint
 from datetime import datetime
 import openpyxl
@@ -404,7 +405,7 @@ def apiStaffDelete(request):
 @csrf_exempt 
 #http://10.0.0.4:8080/api/people/predict/
 def apiPeoplePredict(request):
-    from Server.core.models import Model
+    
     if(request.method == "OPTIONS"): 
         response = JsonResponse({})
         response["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
