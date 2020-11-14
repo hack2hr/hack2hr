@@ -159,7 +159,7 @@ services.factory('modelService', function($http, $q) {
     var service = {};
 
     service.predict = function (data) {
-        return request($http, $q, 'post', '/api/model/', 'predict', 'modelService', data)
+        return request($http, $q, 'post', '/api/people/predict/', 'predict', 'modelService', data)
             .then(function(result) {
                 return JSON.parse(result);
             });

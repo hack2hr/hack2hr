@@ -25,7 +25,7 @@ manage.controller('ManageCtrl', function ($scope, $rootScope, $window, infoServi
     $scope.graph = {};
     $scope.selectYear = function(year){
         $scope.currentYear = year;
-        setDefaultQuartals();
+        // setDefaultQuartals();
     }
 
     $scope.models = [
@@ -121,6 +121,7 @@ manage.controller('ManageCtrl', function ($scope, $rootScope, $window, infoServi
             } else {
                 var quaters = prediction.slice(0, QUATERS_AMOUNT);
                 prediction = prediction.slice(QUATERS_AMOUNT);
+
                 var total = quaters.reduce(function(sum, value) {
                     return sum + value
                 }, 0);
@@ -139,7 +140,6 @@ manage.controller('ManageCtrl', function ($scope, $rootScope, $window, infoServi
                 return $scope.subCategories[sub].isSelected;
             });
 
-            
             modelService.predict({
                 year: $scope.currentYear,
                 yearsRange: 6,
