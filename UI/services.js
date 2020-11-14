@@ -148,11 +148,11 @@ services.factory('trendService', function($http, $q) {
 services.factory('modelService', function($http, $q) {
     var service = {};
 
-    service.predict = function () {
-        // return request($http, $q, 'get', '/api/model/', 'predict', 'modelService')
-        //     .then(function(result) {
-        //         return JSON.parse(result);
-        //     });
+    service.predict = function (data) {
+        return request($http, $q, 'post', '/api/model/', 'predict', 'modelService', data)
+            .then(function(result) {
+                return JSON.parse(result);
+            });
     }
 
     return service;

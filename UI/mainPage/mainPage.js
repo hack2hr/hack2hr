@@ -76,6 +76,7 @@ mainPage.controller('MainPageCtrl', function ($scope, mainService, trendService,
 
     $scope.redirectToManage = function(selectedSubName, category){
         $rootScope.category = category;
+        $rootScope.category.id = selectedSubName;
         $rootScope.subCategories = JSON.parse(JSON.stringify($scope.categorySelect.subCategories));
         delete $rootScope.subCategories[selectedSubName];
     }
