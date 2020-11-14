@@ -23425,7 +23425,7 @@ var ngControllerDirective = [function() {
           var evilError = element(by.id('evilError'));
 
           function getAndClearSevereErrors() {
-            return browser.users().logs().get('browser').then(function(browserLog) {
+            return browser.manage().logs().get('browser').then(function(browserLog) {
               return browserLog.filter(function(logEntry) {
                 return logEntry.level.value > webdriver.logging.Level.WARNING.value;
               });
