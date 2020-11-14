@@ -132,6 +132,16 @@ services.factory('trendService', function($http, $q) {
         }
     }
 
+    service.downloadReport = function() {
+        var deferred = $q.defer();
+        $http.get(ipAdress + "/api/people/download/").success(function (response) {
+            deferred.resolve(response);
+        }).error(function () {
+            deferred.reject('Error in addUser in downloadReport function');
+        });
+        return deferred.promise;
+    }
+
     service.addPeopleManage = function(data) {
         var deferred = $q.defer();
         $http.post(ipAdress + "/api/people/add/", data).success(function (response) {

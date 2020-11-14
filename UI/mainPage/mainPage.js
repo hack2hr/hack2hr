@@ -23,6 +23,33 @@ mainPage.controller('MainPageCtrl', function ($scope, mainService, trendService,
     var years = [];
 
 
+    $scope.isLoadingReport =false;
+    tryDigest();
+    $scope.downloadReport = function(){
+        $scope.isLoadingReport =true;
+        // trendService.downloadReport().then(function(fileInfo){
+        setTimeout(function(){
+            $scope.isLoadingReport =false;
+            tryDigest();
+        },1500)
+        var fileName = new Date().toDateString()+"report.xlsx";
+        if (fileName) {
+            var url = ipAdress + "/api/people/download/";
+            var save = document.createElement('a');
+            save.href = url;
+            save.download = fileName;
+            var event = document.createEvent("MouseEvents");
+            event.initMouseEvent(
+                "click", false, true, window, 0, 0, 0, 0, 0
+                , false, false, false, false, 0, null
+            );
+            save.dispatchEvent(event);
+        } else {
+            console.error("File cant download");
+        }
+
+        //})
+    }
 
     /* * * * * * * * * * * * * define scope * * * * * * * * * */
 
@@ -170,7 +197,7 @@ mainPage.controller('MainPageCtrl', function ($scope, mainService, trendService,
 
     var progressLabels = ['Неутверждено категорий', 'Утверждено категорий', 'Незаполненных категорий']
     drawHor();
-     function drawHor(){
+    function drawHor(){
         var horizontalBarData = {
             labels: "1",
             datasets: setDefaultDataSetPrograssBar(progressLabels)
@@ -247,9 +274,9 @@ mainPage.controller('MainPageCtrl', function ($scope, mainService, trendService,
             categoryTrend.forEach(function(trend) {
                 var params = JSON.parse(JSON.stringify($scope.categories[index].subCategories));
                 Object.keys(params).forEach(function(param) {
-                     var total = Object.keys(trend.data).reduce(function(sum, quater) {
-                         return sum + parseParam(param.split('.'), trend.data[quater]);
-                     }, 0);
+                    var total = Object.keys(trend.data).reduce(function(sum, quater) {
+                        return sum + parseParam(param.split('.'), trend.data[quater]);
+                    }, 0);
 
                     $scope.categories[index].subCategories[param].years[trend.year] = total / QUATER_AMOUNT;
                 });
@@ -261,7 +288,7 @@ mainPage.controller('MainPageCtrl', function ($scope, mainService, trendService,
 
 
     /* * * * * * * * * * * * * helpers * * * * * * * * * * * * * */
-    
+
     function setYears(){
         var currentYear = new Date().getFullYear();
         var beforeDate = currentYear;
