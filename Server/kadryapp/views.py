@@ -230,6 +230,7 @@ def apiStaffOne(request):
 
 #Insert Staff document
 @csrf_exempt 
+#http://10.0.0.4:8080/api/staff/add/
 def apiStaffAdd(request):
     if(request.method == "OPTIONS"): 
         response = JsonResponse({})
@@ -245,16 +246,78 @@ def apiStaffAdd(request):
     secname = jsonValue['secname']
     email = jsonValue['email']
     rank = jsonValue['rank']
+    isAdmin = jsonValue['isAdmin']
 
     data = {
         "surname": surname,
         "name": name,
         "secname": secname,
         "email": email,
-        "rank": rank
+        "rank": rank,
+        "isAdmin": isAdmin
     }
 
     collection = db['Staff']
     doc_id = collection.insert_one(data).inserted_id
     response = JsonResponse(json_util.dumps(doc_id), safe = False)
+    return response
+
+#Update Staff document
+@csrf_exempt 
+#http://10.0.0.4:8080/api/staff/update/
+def apiStaffUpdate(request):
+    if(request.method == "OPTIONS"): 
+        response = JsonResponse({})
+        response["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
+        response["Access-Control-Allow-Origin"] = "http://13.79.21.196:8080"
+        response["Access-Control-Allow-Headers"] = "origin, x-requested-with, content-type"
+        response["Access-Control-Allow-Origin"] = "*"
+        return response
+    body_unicode = request.body.decode('utf-8')
+    jsonValue = json.loads(body_unicode)
+    _id = jsonValue['_id']
+    surname = jsonValue['surname']
+    name = jsonValue['name']
+    secname = jsonValue['secname']
+    email = jsonValue['email']
+    rank = jsonValue['rank']
+    isAdmin = jsonValue['isAdmin']
+
+    
+    myquery = { "_id": _id }
+    data = { "$set": {
+            "surname": surname,
+            "name": name,
+            "secname": secname,
+            "email": email,
+            "rank": rank,
+            "isAdmin": isAdmin
+        }
+    }
+
+    collection = db['Staff']
+    collection.update_one(myquery, data)
+    response = JsonResponse(json_util.dumps(myquery), safe = False)
+    return response
+
+#Delete Staff document
+@csrf_exempt 
+#http://10.0.0.4:8080/api/staff/delete/
+def apiStaffDelete(request):
+    if(request.method == "OPTIONS"): 
+        response = JsonResponse({})
+        response["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
+        response["Access-Control-Allow-Origin"] = "http://13.79.21.196:8080"
+        response["Access-Control-Allow-Headers"] = "origin, x-requested-with, content-type"
+        response["Access-Control-Allow-Origin"] = "*"
+        return response
+    body_unicode = request.body.decode('utf-8')
+    jsonValue = json.loads(body_unicode)
+    _id = jsonValue['_id']
+    
+    myquery = { "_id": _id }
+    
+    collection = db['Staff']
+    collection.delete_one(myquery)
+    response = JsonResponse(json_util.dumps(myquery), safe = False)
     return response
