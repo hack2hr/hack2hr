@@ -20,7 +20,13 @@ users.controller('UsersCtrl', function ($scope, userService) {
     }
 
     $scope.editUser = function(user){
-        userService.editUserModal(user);
+        userService.editUserModal(user).then(function(result){
+            if (result) {
+                uploadUsers();
+            }
+        }, function(error) {
+            console.error('UsersCtrl editUserModal: ', error);
+        })
     }
 
     $scope.addUserModal = function(){

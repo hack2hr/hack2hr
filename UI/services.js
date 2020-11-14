@@ -75,7 +75,7 @@ services.factory('userService', function ($http, $uibModal, $sce, $q) {
     };
 
     service.editUserModal = function (user) {
-        var props = {
+        var modalInstance = $uibModal.open({
             templateUrl: 'modalWindows/editUserModal/editUserModal.html',
             controller: 'EditUserModalCtrl',
             resolve: {
@@ -83,9 +83,9 @@ services.factory('userService', function ($http, $uibModal, $sce, $q) {
                     return user;
                 }
             }
-        };
+        });
 
-        return $uibModal.open(props);
+        return modalInstance.result;
     };
 
     service.deleteUser = function(userId) {
@@ -102,12 +102,28 @@ services.factory('userService', function ($http, $uibModal, $sce, $q) {
     return service;
 });
 
-services.factory('addUserModalService', function($http, $q, ) {
+services.factory('addUserModalService', function($http, $q) {
     var service = {};
 
     service.addUser = function(data) {
         var deferred = $q.defer();
         $http.post(ipAdress + "/api/staff/add/", data).success(function (response) {
+            deferred.resolve(response);
+        }).error(function () {
+            deferred.reject('Error in addUser in addUserModalService function');
+        });
+        return deferred.promise;
+    }
+
+    return service;
+});
+
+services.factory('editUserModalService', function($http, $q) {
+    var service = {};
+
+    service.editUser = function(data) {
+        var deferred = $q.defer();
+        $http.post(ipAdress + "/api/staff/update/", data).success(function (response) {
             deferred.resolve(response);
         }).error(function () {
             deferred.reject('Error in addUser in addUserModalService function');
