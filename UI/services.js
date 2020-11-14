@@ -107,7 +107,10 @@ services.factory('trendService', function() {
 
     service.people = {
         getAll: function () {
-            request('get', '/api/people/all/');
+            request('get', '/api/people/all/', 'getAll', 'trendService')
+                .then(function(result) {
+                    
+                });
         }
     }
 
