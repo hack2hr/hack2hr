@@ -1,10 +1,17 @@
 from django.shortcuts import render
-from .models import People
+
 import statsmodels
 import json
 from django.http.response import JsonResponse
+from django.http.response import HttpResponse
 from bson import json_util
 from django.views.decorators.csrf import csrf_exempt
+from pymongo import MongoClient
+from bson.objectid import ObjectId
+import pprint
+client = MongoClient('localhost', 27017)
+db = client['KadryTest']
+
 
 # query = Coll.objects.filter(ids="1").values()
     #query = Coll.objects.filter(id="1").values()
@@ -43,25 +50,289 @@ def testGet(request):
     return response
 
 @csrf_exempt 
-def testAdd(request):
-    People = People()
-    People.id = '1'
-    People.Year = '2010'
-    People.Total = '1000'
-    People.PeopleData.WorkAble = '1000'
-    People.PeopleData.Migrant = '1000'
-    People.PeopleData.PeopleOldAndYoung.Old = '1000'
-    People.PeopleData.PeopleOldAndYoung.Young = '1000'
-    People.save()
-
-    response = JsonResponse(json_util.dumps("Added"), safe = False)
+def testAddMongo(request):
+    data = {
+        "year": "2000",
+        "totalyear": "1000",
+        "data": {
+            "q1": {
+                "totalq1": "800",
+                "workAble": "200",
+                "migrants": "200",
+                "other": {
+                    "old": "200",
+                    "young": "200"
+                }
+            },
+            "q2": {
+                "totalq2": "800",
+                "workAble": "200",
+                "migrants": "200",
+                "other": {
+                    "old": "200",
+                    "young": "200"
+                }
+            },
+            "q3": {
+                "totalq3": "800",
+                "workAble": "200",
+                "migrants": "200",
+                "other": {
+                    "old": "200",
+                    "young": "200"
+                }
+            },
+            "q4": {
+                "totalq4": "800",
+                "workAble": "200",
+                "migrants": "200",
+                "other": {
+                    "old": "200",
+                    "young": "200"
+                }
+            }        
+        }
+    }
+    
+    collection = db['People']
+    doc_id = collection.insert_one(data).inserted_id
+    document = collection.find_one({'_id': ObjectId(doc_id)})
+    response = JsonResponse(json_util.dumps(document), safe = False)
     response["Access-Control-Allow-Origin"] = "*"
     return response
 
 @csrf_exempt 
-def testMongo(request):
-    query = Coll.objects.filter(id="1").values()
+def testPyMongo(request):
+    from Server.core.models import Model
+   
+    collection = db['People']
+    test = []
+    for doc in collection.find():
+        test.append(doc)
+    
+
+    response["Access-Control-Allow-Origin"] = "*"    
+    response = JsonResponse(json_util.dumps(test), safe = False)
+    return response
+
+
+
+#People
+
+#Get all People documents
+@csrf_exempt 
+#http://10.0.0.4:8080/api/people/all/
+def apiPeopleAll(request):
+    collection = db['People']
+    test = []
+    for doc in collection.find():
+        test.append(doc)
+    response = JsonResponse(json_util.dumps(test), safe = False)
+    response["Access-Control-Allow-Origin"] = "*"
+    return response
+
+#Get one People document
+@csrf_exempt 
+#http://10.0.0.4:8080/api/people/one/?year=int
+def apiPeopleOne(request):
+    year = request.GET.get("year")
+    collection = db['People']  
+    result = collection.find_one({"year": year})  
     response = JsonResponse(json_util.dumps(result), safe = False)
     response["Access-Control-Allow-Origin"] = "*"
     return response
 
+#Insert People document
+@csrf_exempt 
+def apiPeopleAdd(request):
+    if(request.method == "OPTIONS"): 
+        response = JsonResponse({})
+        response["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
+        response["Access-Control-Allow-Origin"] = "http://13.79.21.196:8080"
+        response["Access-Control-Allow-Headers"] = "origin, x-requested-with, content-type"
+        response["Access-Control-Allow-Origin"] = "*"
+        return response
+    body_unicode = request.body.decode('utf-8')
+    jsonValue = json.loads(body_unicode)
+    year = jsonValue['year']
+    totalyear = jsonValue['totalyear']
+    madeby = jsonValue['madeby']
+    accepted = jsonValue['accepted']
+    
+
+    data = {
+        "year": "2000",
+        "totalyear": "1000",
+        "madeby": "Ivanov",
+        "auto": "true",
+        "accepted": "false",
+        "data": {
+            "q1": {
+                "totalq1": "800",
+                "workAble": "200",
+                "migrants": "200",
+                "other": {
+                    "old": "200",
+                    "young": "200"
+                }
+            },
+            "q2": {
+                "totalq2": "800",
+                "workAble": "200",
+                "migrants": "200",
+                "other": {
+                    "old": "200",
+                    "young": "200"
+                }
+            },
+            "q3": {
+                "totalq3": "800",
+                "workAble": "200",
+                "migrants": "200",
+                "other": {
+                    "old": "200",
+                    "young": "200"
+                }
+            },
+            "q4": {
+                "totalq4": "800",
+                "workAble": "200",
+                "migrants": "200",
+                "other": {
+                    "old": "200",
+                    "young": "200"
+                }
+            }        
+        }
+    }
+
+    collection = db['People']
+    doc_id = collection.insert_one(data).inserted_id
+    document = collection.find_one({'_id': ObjectId(doc_id)})
+    response = JsonResponse(json_util.dumps(document), safe = False)
+    response["Access-Control-Allow-Origin"] = "*"
+    return response
+
+
+
+#Staff
+
+#Get all Staff documents
+@csrf_exempt 
+#http://10.0.0.4:8080/api/staff/all/
+def apiStaffAll(request):
+    collection = db['Staff']
+    test = []
+    for doc in collection.find():
+        test.append(doc)
+    response = JsonResponse(json_util.dumps(test), safe = False)
+    response["Access-Control-Allow-Origin"] = "*"
+    return response
+
+#Get one Staff document
+@csrf_exempt 
+#http://10.0.0.4:8080/api/people/one/?_id=str
+def apiStaffOne(request):
+    _id = request.GET.get("_id")
+    collection = db['Staff']  
+    result = collection.find_one({"_id": _id})  
+    response = JsonResponse(json_util.dumps(result), safe = False)
+    response["Access-Control-Allow-Origin"] = "*"
+    return response
+
+#Insert Staff document
+@csrf_exempt 
+#http://10.0.0.4:8080/api/staff/add/
+def apiStaffAdd(request):
+    if(request.method == "OPTIONS"): 
+        response = JsonResponse({})
+        response["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
+        response["Access-Control-Allow-Origin"] = "http://13.79.21.196:8080"
+        response["Access-Control-Allow-Headers"] = "origin, x-requested-with, content-type"
+        response["Access-Control-Allow-Origin"] = "*"
+        return response
+    body_unicode = request.body.decode('utf-8')
+    jsonValue = json.loads(body_unicode)
+    surname = jsonValue['surname']
+    name = jsonValue['name']
+    secname = jsonValue['secname']
+    email = jsonValue['email']
+    rank = jsonValue['rank']
+    isAdmin = jsonValue['isAdmin']
+
+    data = {
+        "surname": surname,
+        "name": name,
+        "secname": secname,
+        "email": email,
+        "rank": rank,
+        "isAdmin": isAdmin
+    }
+
+    collection = db['Staff']
+    doc_id = collection.insert_one(data).inserted_id
+    response = JsonResponse(json_util.dumps(doc_id), safe = False)
+    response["Access-Control-Allow-Origin"] = "*"
+    return response
+
+#Update Staff document
+@csrf_exempt 
+#http://10.0.0.4:8080/api/staff/update/
+def apiStaffUpdate(request):
+    if(request.method == "OPTIONS"): 
+        response = JsonResponse({})
+        response["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
+        response["Access-Control-Allow-Origin"] = "http://13.79.21.196:8080"
+        response["Access-Control-Allow-Headers"] = "origin, x-requested-with, content-type"
+        response["Access-Control-Allow-Origin"] = "*"
+        return response
+    body_unicode = request.body.decode('utf-8')
+    jsonValue = json.loads(body_unicode)
+    _id = jsonValue['_id']
+    surname = jsonValue['surname']
+    name = jsonValue['name']
+    secname = jsonValue['secname']
+    email = jsonValue['email']
+    rank = jsonValue['rank']
+    isAdmin = jsonValue['isAdmin']
+
+    
+    myquery = { "_id": _id }
+    data = { "$set": {
+            "surname": surname,
+            "name": name,
+            "secname": secname,
+            "email": email,
+            "rank": rank,
+            "isAdmin": isAdmin
+        }
+    }
+
+    collection = db['Staff']
+    collection.update_one(myquery, data)
+    response = JsonResponse(json_util.dumps(myquery), safe = False)
+    response["Access-Control-Allow-Origin"] = "*"
+    return response
+
+#Delete Staff document
+@csrf_exempt 
+#http://10.0.0.4:8080/api/staff/delete/
+def apiStaffDelete(request):
+    if(request.method == "OPTIONS"): 
+        response = JsonResponse({})
+        response["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
+        response["Access-Control-Allow-Origin"] = "http://13.79.21.196:8080"
+        response["Access-Control-Allow-Headers"] = "origin, x-requested-with, content-type"
+        response["Access-Control-Allow-Origin"] = "*"
+        return response
+    body_unicode = request.body.decode('utf-8')
+    jsonValue = json.loads(body_unicode)
+    _id = jsonValue['_id']
+    
+    myquery = { "_id": _id }
+    
+    collection = db['Staff']
+    collection.delete_one(myquery)
+    response = JsonResponse(json_util.dumps(myquery), safe = False)
+    response["Access-Control-Allow-Origin"] = "*"
+    return response

@@ -14,7 +14,7 @@ function setIpAddress() {
 };
 
 var myApp = angular.module('myApp', ['ngRoute', 'ui.bootstrap', 'ui.select', 'myApp.services', 'myApp.confirmationModal',
-        'myApp.infoModal',  'myApp.mainPage', 'myApp.student']);
+        'myApp.infoModal',  'myApp.mainPage', 'myApp.manage', 'myApp.users', 'myApp.addUserModalModal', 'myApp.editUserModalModal']);
 
 myApp.config(function ($routeProvider) {
     /*$httpProvider.defaults.withCredentials = true;*/
@@ -27,19 +27,31 @@ myApp.config(function ($routeProvider) {
 
     $routeProvider
         .otherwise({
+            redirectTo: '/notFound404'
+        })
+        .when('/', {
             redirectTo: '/main'
         })
         .when('/main', {
             templateUrl: 'mainPage/mainPage.html',
             controller: 'MainPageCtrl',
         })
-        .when('/student', {
-            templateUrl: 'student/student.html',
-            controller: 'StudentCtrl',
-        });
+        .when('/manage', {
+            templateUrl: 'manage/manage.html',
+            controller: 'ManageCtrl',
+        })
+        .when('/notFound404', {
+            templateUrl: 'notFound404/404.html',
+        })
+        .when('/users', {
+            templateUrl: 'users/users.html',
+            controller: 'UsersCtrl',
+        })
+
 });
 
 myApp.controller('UserCtrl', function ($scope) { //это контроллер , он ставится в шаблоне html ng-controller="UserCtrl" - и отвечает за видимость внутри вложенных dom элементов старницы
+    $scope.isToggled = true;
 
     $scope.openDD = function (selectedTab) {
         $('#' + selectedTab + 'Li .dropdown-menu').css({
