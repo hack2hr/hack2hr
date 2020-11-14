@@ -96,11 +96,35 @@ mainPage.controller('MainPageCtrl', function ($scope, mainService, trendService,
         return data;
     }
 
+    function setDataByLabels(labels){
+        var data = [];
+        angular.forEach(labels, function (label){
+            data.push((Math.random() * 10).toFixed(2))
+        })
+        return data;
+    }
+
     function setDataSet(subCategory){
         var dataset = [];
-        var data = {type: 'line',fill:false, backdropColor:dynamicColors(), label: subCategory.categoryName, data: setData(subCategory) };
+        var data = {type: 'line',fill:false, backgroundColor:dynamicColors(), label: subCategory.categoryName, data: setData(subCategory) };
         dataset.push(data);
         return dataset;
+    }
+
+    function colorsSet(labels){
+        var colors = [];
+        angular.forEach(labels, function (label){
+            colors.push(dynamicColors())
+        })
+        return colors;
+    }
+
+    function setDefaultDataSetPrograssBar(progressLabels){
+        var data = [] ;
+        angular.forEach(progressLabels, function (label){
+            data.push({label: label, backgroundColor: dynamicColors(), data: (Math.random() * 10).toFixed(2) });
+        })
+        return data;
     }
 
     function drawChart(subCategory){
@@ -125,6 +149,69 @@ mainPage.controller('MainPageCtrl', function ($scope, mainService, trendService,
                 //    mode: 'index',
                 //    intersect: true
                 //}
+            }
+        });
+    }
+
+    var progressLabels = ['Неутверждено категорий', 'Утверждено категорий', 'Незаполненных категорий']
+    drawHor();
+     function drawHor(){
+        var horizontalBarData = {
+            labels: "1",
+            datasets: setDefaultDataSetPrograssBar(progressLabels)
+        };
+        var ctx = document.getElementById('canvasVert').getContext('2d');
+        var myHorizontalBar = new Chart(ctx, {
+            type: 'horizontalBar',
+            data: horizontalBarData,
+            options: {
+                // Elements options apply to all of the options unless overridden in a dataset
+                // In this case, we are setting the border of each horizontal bar to be 2px wide
+                elements: {
+                    rectangle: {
+                        borderWidth: 2,
+                    }
+                },
+                indexAxis: 'y',
+                responsive: true,
+                legend: {
+                    position: 'right',
+                },
+                title: {
+                    display: true,
+                    text: 'Прогресс по категориям'
+                }
+            }
+        });
+    }
+
+    var categoryPercent = ['Сельское хозяйство', 'Полезные ископаемые', 'Строительство']
+    drawCategoryProgress();
+    function drawCategoryProgress(){
+        var pieData = {
+            labels:categoryPercent,
+            datasets: [{label:"Data", data:setDataByLabels(categoryPercent),backgroundColor:colorsSet(categoryPercent)}]
+        };
+        var ctx = document.getElementById('canvasPercents').getContext('2d');
+        var myHorizontalBar = new Chart(ctx, {
+            type: 'doughnut',
+            data: pieData,
+            options: {
+                // Elements options apply to all of the options unless overridden in a dataset
+                // In this case, we are setting the border of each horizontal bar to be 2px wide
+                elements: {
+                    rectangle: {
+                        borderWidth: 2,
+                    }
+                },
+                responsive: true,
+                legend: {
+                    position: 'right',
+                },
+                title: {
+                    display: true,
+                    text: 'Доля по категориям'
+                }
             }
         });
     }

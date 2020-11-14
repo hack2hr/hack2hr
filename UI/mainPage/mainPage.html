@@ -1,10 +1,15 @@
 <div class="container-fluid" style="margin-top: 50px;">
     <div class="row mt-2" style="margin-bottom: 20px;">
-        <div class="col-8">
-            <h1 class="text-dark mb-0">Главная страница</h1>
-            <h6 class="text-gray-400">Показатели {{years[0] + " - " + years[years.length-1]}} годов</h6>
+        <div class="col-9">
+            <div class="d-inline-block">
+                <h1 class="text-dark mb-0">Главная страница</h1>
+                <h6 class="text-gray-400">Показатели {{years[0] + " - " + years[years.length-1]}} годов</h6>
+
+            </div>
         </div>
-        <div class="col-2"><a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" href="" style="background-color: #42caeb;"><i class="fas fa-download fa-sm text-white-50"></i>&nbsp;Загрузить отчет</a></div>
+        <div class="col-3">
+            <button class="btn btn-primary" ng-click="">Новая категория</button>
+        </div>
     </div>
     <div class="row">
         <div class="col-9">
@@ -28,7 +33,7 @@
                     <div class="col">
                         <div class="row">
                             <div class="col">
-                                <h5 class="text-gray-400">Показатели</h5>
+                                <h5 class="text-black-50">Показатели</h5>
                             </div>
                         </div>
                         <div class="row">
@@ -65,9 +70,9 @@
                         <div class="card-body">
                             <div class="row d-flex justify-content-center align-items-center">
                                 <div class="col-3">
-                                    <i class="fas fa-file-contract fa-6x"></i>
+                                    <i class="fas fa-file-contract fa-3x"></i>
                                 </div>
-                                <div class="col text-left">
+                                <div class="col-9 text-left">
                                     <h3 class="text-dark mb-2">{{categories.length}}</h3>
                                     <h6 class="text-dark mb-2">Всего категорий</h6>
                                 </div>
@@ -80,9 +85,9 @@
                         <div class="card-body">
                             <div class="row d-flex justify-content-center align-items-center">
                                 <div class="col-3">
-                                    <i class="far fa-file-alt fa-6x"></i>
+                                    <i class="far fa-file-alt fa-3x"></i>
                                 </div>
-                                <div class="col text-left">
+                                <div class="col-9 text-left">
                                     <h3 class="text-dark mb-2">{{userCategories.length}}</h3>
                                     <h6 class="text-dark mb-2">Всего пользовательских категорий</h6>
                                 </div>
@@ -95,7 +100,7 @@
                 <div class="card-header py-3" style="background-color: white">
                     <div class="row">
                         <div class="col-9 d-xl-flex align-items-xl-center">
-                            <h6 class="text-dark font-weight-bold m-0">Витрина</h6>
+                            <h6 class="text-dark font-weight-bold m-0">Прогресс по категориям</h6>
                         </div>
                         <div class="col-2 text-right">
                             <div><button class="btn text-center" type="button" style="padding-top: 3px;padding-right: 3px;padding-bottom: 3px;padding-left: 3px;width: 32px;background-color: rgba(78,115,223,0);margin-right: 4px;"><i class="icon ion-ios-arrow-back" style="margin-right: 25px;color: #858796;"></i></button>
@@ -109,17 +114,8 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <h4 class="small font-weight-bold">Server migration<span class="float-right">20%</span></h4>
-                    <div class="progress mb-4" style="height: 10px;">
-                        <div class="progress-bar bg-danger" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%;"><span class="sr-only">20%</span></div>
-                    </div>
-                    <h4 class="small font-weight-bold">Sales tracking<span class="float-right">40%</span></h4>
-                    <div class="progress mb-4" style="height: 10px;">
-                        <div class="progress-bar bg-warning" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%;"><span class="sr-only">40%</span></div>
-                    </div>
-                    <h4 class="small font-weight-bold">Customer Database<span class="float-right">60%</span></h4>
-                    <div class="progress mb-4" style="height: 10px;">
-                        <div class="progress-bar bg-primary" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"><span class="sr-only">60%</span></div>
+                    <div>
+                        <canvas id="canvasVert" style="display: block; width: 900px; height: 450px;" width="1010" height="380" class="chartjs-render-monitor"></canvas>
                     </div>
                 </div>
             </div>
@@ -129,7 +125,7 @@
                 <div class="col">
                     <div class="card shadow mb-4" style="height: 465px;">
                         <div class="card-header d-flex justify-content-between align-items-center">
-                            <h6 class="text-primary font-weight-bold m-0">Доли по категориям</h6>
+                            <h6 class="text-primary font-weight-bold m-0">Предсказания</h6>
                         </div>
                         <div class="card-body" style="height: 240px;">
                             <div style="margin-top: 0px;" class="table-responsive table" id="dataTable-2" role="grid" aria-describedby="dataTable_info" style="color: rgb(255,255,255);">
@@ -175,17 +171,12 @@
                     <div class="card shadow mb-4">
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <h6 class="text-primary font-weight-bold m-0">Доли по категориям</h6>
-                            <div class="dropdown no-arrow"><button class="btn btn-link btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button"><i class="fas fa-ellipsis-v text-gray-400"></i></button>
-                                <div class="dropdown-menu shadow dropdown-menu-right animated--fade-in"
-                                     role="menu">
-                                    <p class="text-center dropdown-header">dropdown header:</p><a class="dropdown-item" role="presentation" href="">&nbsp;Action</a><a class="dropdown-item" role="presentation" href="">&nbsp;Another action</a>
-                                    <div class="dropdown-divider"></div><a class="dropdown-item" role="presentation" href="">&nbsp;Something else here</a></div>
-                            </div>
+
                         </div>
                         <div class="card-body" >
-                            <div class="chart-area"><canvas data-bs-chart="{&quot;type&quot;:&quot;doughnut&quot;,&quot;data&quot;:{&quot;labels&quot;:[&quot;Direct&quot;,&quot;Social&quot;,&quot;Referral&quot;],&quot;datasets&quot;:[{&quot;label&quot;:&quot;&quot;,&quot;backgroundColor&quot;:[&quot;#4e73df&quot;,&quot;#1cc88a&quot;,&quot;#36b9cc&quot;],&quot;borderColor&quot;:[&quot;#ffffff&quot;,&quot;#ffffff&quot;,&quot;#ffffff&quot;],&quot;data&quot;:[&quot;50&quot;,&quot;30&quot;,&quot;15&quot;]}]},&quot;options&quot;:{&quot;maintainAspectRatio&quot;:false,&quot;legend&quot;:{&quot;display&quot;:false},&quot;title&quot;:{}}}"></canvas></div>
-                            <div
-                                    class="text-center small mt-4"><span class="mr-2"><i class="fas fa-circle text-primary"></i>&nbsp;Direct</span><span class="mr-2"><i class="fas fa-circle text-success"></i>&nbsp;Social</span><span class="mr-2"><i class="fas fa-circle text-info"></i>&nbsp;Refferal</span></div>
+                            <div>
+                                <canvas id="canvasPercents"  class="chartjs-render-monitor"></canvas>
+                            </div>
                         </div>
                     </div>
                 </div>
