@@ -8,7 +8,7 @@ manage.controller('ManageCtrl', function ($scope, $rootScope, $window) {
 
     if(!$scope.category) $window.location.hash = "#/main";
 
-    $scope.activeTab = null;
+    $scope.activeTab = "All";
 
     $scope.selectYear = function(year){
         $scope.activeTab = year;
@@ -39,9 +39,28 @@ manage.controller('ManageCtrl', function ($scope, $rootScope, $window) {
         var data = {type: 'line', backgroundColor:"rgb(0,190,255)", label: "test", data: setData(subCategory) };        dataset.push(data);
         return dataset;
     }
+    $scope.years = []
+    var years = [];
 
-    $scope.years = [null, '2020', '2021', '2022', '2023', '2024', '2025', '2026']
-    var years = ['2020', '2021', '2022', '2023', '2024', '2025', '2026']
+    setYears();
+    function setYears(){
+        var currentYear = new Date().getFullYear();
+        var beforeDate = currentYear;
+        var afterDate = currentYear;
+        $scope.years.push(afterDate);
+        years.push(afterDate);
+        for(var i=0; i < 6; i++){
+            beforeDate--;
+            afterDate++;
+            $scope.years.push(afterDate);
+            $scope.years.unshift(beforeDate);
+            years.push(afterDate);
+            years.unshift(beforeDate);
+        }
+        $scope.years.unshift("All");
+    }
+
+
 
 
     $scope.drawChart = function(subCategory){
