@@ -50,6 +50,41 @@ services.factory('infoService', function ($uibModal, $sce) {
     return service;
 });
 
+services.factory('userService', function ($uibModal, $sce) {
+    var service = {};
+
+    service.addUserModal = function () {
+        var modalInstance = $uibModal.open({
+            templateUrl: 'modalWindows/addUserModal/addUserModal.html',
+            controller: 'AddUserModalCtrl',
+            windowClass: 'info-window-modal',
+            size: 'size'
+        });
+    };
+
+    service.editUserModal = function (user) {
+        var props = {
+            templateUrl: 'modalWindows/editUserModal/editUserModal.html',
+            controller: 'EditUserModalCtrl',
+            resolve: {
+                user: function () {
+                    return user;
+                }
+            }
+        };
+
+        return $uibModal.open(props);
+    };
+
+    service.users = [
+        {id:1, firstName:"ИМЯ1",lastName:"ФАМИЛИЯ1",patronymic:"ОТЧЕСТВО3", status:"Заполнено",email:"test@test",kindOfActivity:"Руководитель", isAdmin: false, activityDate: new Date()},
+        {id:2, firstName:"ИМЯ2",lastName:"ФАМИЛИЯ2",patronymic:"ОТЧЕСТВО5", status:"Не заполнено",email:"test1@test",kindOfActivity:"Разработчик", isAdmin: true, activityDate: new Date()},
+        {id:3, firstName:"ИМЯ3",lastName:"ФАМИЛИЯ3",patronymic:"ОТЧЕСТВО4", status:"Заполнено",email:"test33@test", kindOfActivity:"Тестировщик", isAdmin: true, activityDate: new Date()}]
+
+
+    return service;
+});
+
 services.factory('datesService', function () {
     var service = {};
 
