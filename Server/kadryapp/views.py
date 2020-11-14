@@ -102,6 +102,7 @@ def testAddMongo(request):
 
 @csrf_exempt 
 def testPyMongo(request):
+    from Server.core.models import Model
    
     collection = db['People']
     test = []
