@@ -22,5 +22,12 @@ urlpatterns = [
     path('', views.index),
     path('testPost', views.testPost),
     path('testGet', views.testGet),
-    path('testMongo', views.testMongo),
+    path('testAddMongo/', views.testAddMongo),
+    path('testPyMongo/', views.testPyMongo),
+    path('api/people/all/', views.apiPeopleAll),
+    path('api/people/one/', views.apiPeopleOne),
+    path('api/people/add/', views.apiPeopleAdd),
+    path('api/staff/all/', views.apiStaffAll),
+    path('api/staff/one/', views.apiStaffOne),
+    path('api/staff/add/', views.apiStaffAdd),
 ]
