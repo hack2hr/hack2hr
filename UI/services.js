@@ -50,8 +50,18 @@ services.factory('infoService', function ($uibModal, $sce) {
     return service;
 });
 
-services.factory('userService', function ($uibModal, $sce) {
+services.factory('userService', function ($http, $uibModal, $sce, $q) {
     var service = {};
+
+    service.getAllUsers = function () {
+        var deferred = $q.defer();
+        $http.get(ipAdress + "/api/staff/all/").success(function (response) {
+            deferred.resolve(JSON.parse(response));
+        }).error(function () {
+            deferred.reject('Error in getAllUsers in userService function');
+        });
+        return deferred.promise;
+    }
 
     service.addUserModal = function () {
         var modalInstance = $uibModal.open({
@@ -60,6 +70,8 @@ services.factory('userService', function ($uibModal, $sce) {
             windowClass: 'info-window-modal',
             size: 'size'
         });
+
+        return modalInstance.result;
     };
 
     service.editUserModal = function (user) {
@@ -76,11 +88,21 @@ services.factory('userService', function ($uibModal, $sce) {
         return $uibModal.open(props);
     };
 
-    service.users = [
-        {id:1, firstName:"ИМЯ1",lastName:"ФАМИЛИЯ1",patronymic:"ОТЧЕСТВО3", status:"Заполнено",email:"test@test",kindOfActivity:"Руководитель", isAdmin: false, activityDate: new Date()},
-        {id:2, firstName:"ИМЯ2",lastName:"ФАМИЛИЯ2",patronymic:"ОТЧЕСТВО5", status:"Не заполнено",email:"test1@test",kindOfActivity:"Разработчик", isAdmin: true, activityDate: new Date()},
-        {id:3, firstName:"ИМЯ3",lastName:"ФАМИЛИЯ3",patronymic:"ОТЧЕСТВО4", status:"Заполнено",email:"test33@test", kindOfActivity:"Тестировщик", isAdmin: true, activityDate: new Date()}]
+    return service;
+});
 
+services.factory('addUserModalService', function($http, $q, ) {
+    var service = {};
+
+    service.addUser = function(data) {
+        var deferred = $q.defer();
+        $http.post(ipAdress + "/api/staff/add/", data).success(function (response) {
+            deferred.resolve(response);
+        }).error(function () {
+            deferred.reject('Error in addUser in addUserModalService function');
+        });
+        return deferred.promise;
+    }
 
     return service;
 });
