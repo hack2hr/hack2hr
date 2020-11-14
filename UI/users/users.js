@@ -13,6 +13,12 @@ users.controller('UsersCtrl', function ($scope, userService) {
         });
     }
 
+
+    $scope.deleteUser = function(user){
+        var id = { _id: user._id }
+        userService.deleteUser(id);
+    }
+
     $scope.editUser = function(user){
         userService.editUserModal(user);
     }

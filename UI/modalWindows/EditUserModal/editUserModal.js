@@ -11,6 +11,7 @@ editUser.controller('EditUserModalCtrl', function ($scope, $uibModalInstance, us
         // $uibModalInstance.close();
     }
 
+
     $scope.close = function () {
         close();
     };

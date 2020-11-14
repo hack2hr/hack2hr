@@ -94,7 +94,7 @@
 
                                        theme="selectize"
                                        style="width: 245px !important;">
-                                <ui-select-match ><span>{{model.selected.modelName}}</span></ui-select-match>
+                                <ui-select-match placeholder="Выберите модель..."><span>{{model.selected.modelName}}</span></ui-select-match>
                                 <ui-select-choices repeat="model in models | filter:$select.search">
                                     {{model.modelName}}
                                 </ui-select-choices>
@@ -115,16 +115,14 @@
                     <div class="row" style="margin-bottom: 30px;">
                         <div class="col-3">
                             <label for="nm1" class="text-left">Квартал 1<strong class="redStar">*</strong></label>
-                            <div >
+                            <div>
                                 <input id="nm1" placeholder="Заполните данные" class="form-control" type="text" ng-model="q1" />
-
                             </div>
                         </div>
                         <div class="col-3">
                             <label for="nm2" class="text-left">Квартал 2<strong class="redStar">*</strong></label>
-                            <div >
+                            <div>
                                 <input id="nm2" placeholder="Заполните данные" class="form-control" type="text" ng-model="q2" />
-
                             </div>
                         </div>
                         <div class="col-3">

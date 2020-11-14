@@ -60,9 +60,6 @@ manage.controller('ManageCtrl', function ($scope, $rootScope, $window) {
         $scope.years.unshift("All");
     }
 
-
-
-
     $scope.drawChart = function(subCategory){
         drawChart(subCategory);
     }

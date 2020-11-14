@@ -88,6 +88,17 @@ services.factory('userService', function ($http, $uibModal, $sce, $q) {
         return $uibModal.open(props);
     };
 
+    service.deleteUser = function(userId) {
+        var deferred = $q.defer();
+        $http.post(ipAdress + "/api/staff/delete/", userId).success(function (response) {
+            deferred.resolve(response);
+        }).error(function () {
+            deferred.reject('Error in addUser in deleteUser function');
+        });
+        return deferred.promise;
+    }
+
+
     return service;
 });
 

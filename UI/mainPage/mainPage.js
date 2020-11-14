@@ -46,7 +46,25 @@ mainPage.controller('MainPageCtrl', function ($scope, mainService, $rootScope) {
 
     $scope.isLoading = true;
 
-    $scope.years = ['2020', '2021', '2022', '2023', '2024', '2025', '2026']
+    $scope.years = [];
+    var years = [];
+    setYears();
+    function setYears(){
+        var currentYear = new Date().getFullYear();
+        var beforeDate = currentYear;
+        var afterDate = currentYear;
+        $scope.years.push(afterDate);
+        years.push(afterDate);
+        for(var i=0; i < 6; i++){
+            beforeDate--;
+            afterDate++;
+            $scope.years.push(afterDate);
+            $scope.years.unshift(beforeDate);
+            years.push(afterDate);
+            years.unshift(beforeDate);
+        }
+    }
+    //$scope.years = ['2020', '2021', '2022', '2023', '2024', '2025', '2026']
 
     var dynamicColors = function() {
         var r = Math.floor(Math.random() * 255);
