@@ -2,8 +2,11 @@
 
 var manage = angular.module('myApp.manage', ['ngRoute']);
 
-manage.controller('ManageCtrl', function ($scope, datesService, $q) {
+manage.controller('ManageCtrl', function ($scope, $rootScope, $window) {
 
+    $scope.category = $rootScope.category;
+
+    if(!$scope.category) $window.location.hash = "#/main";
 
     $scope.activeTab = null;
 
