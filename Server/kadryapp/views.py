@@ -431,6 +431,8 @@ def apiPeoplePredict(request):
     }
 
     
+
+    
     
     collection = db['Staff']
     collection.delete_one(myquery)

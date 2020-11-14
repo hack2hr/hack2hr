@@ -5,13 +5,14 @@ var manage = angular.module('myApp.manage', ['ngRoute']);
 manage.controller('ManageCtrl', function ($scope, $rootScope, $window, infoService) {
 
     $scope.category = $rootScope.category;
+    $scope.years = {};
 
     if(!$scope.category) $window.location.hash = "#/main";
 
-    $scope.activeTab = "All";
+    $scope.currentYear = 2014;
 
     $scope.selectYear = function(year){
-        $scope.activeTab = year;
+        $scope.currentYear = year;
     }
 
     $scope.models = [
@@ -40,7 +41,7 @@ manage.controller('ManageCtrl', function ($scope, $rootScope, $window, infoServi
         dataset.push(data);
         return dataset;
     }
-    $scope.years = []
+    $scope.yearsGraph = []
     var years = [];
 
     setYears();
@@ -48,17 +49,16 @@ manage.controller('ManageCtrl', function ($scope, $rootScope, $window, infoServi
         var currentYear = new Date().getFullYear();
         var beforeDate = currentYear;
         var afterDate = currentYear;
-        $scope.years.push(afterDate);
+        $scope.yearsGraph.push(afterDate);
         years.push(afterDate);
         for(var i=0; i < 6; i++){
             beforeDate--;
             afterDate++;
-            $scope.years.push(afterDate);
-            $scope.years.unshift(beforeDate);
+            $scope.yearsGraph.push(afterDate);
+            $scope.yearsGraph.unshift(beforeDate);
             years.push(afterDate);
             years.unshift(beforeDate);
         }
-        $scope.years.unshift("All");
     }
 
     $scope.drawChart = function(){
@@ -98,16 +98,11 @@ manage.controller('ManageCtrl', function ($scope, $rootScope, $window, infoServi
     $scope.model = {selected: $scope.models[0]};
 
 
-    loadModel($scope.models[0]);
-    function loadModel(modelSelected) {
-        $scope.model.selected = modelSelected;
-    }
-
 
 
 
     $scope.getPredictionByModel = function() {
-        if($scope.model &&  $scope.model.selected  &&  $scope.model.selected.title){
+        if($scope.model &&  $scope.model.selected  &&  $scope.model.selected.title) {
             $scope.q1Predict = Math.floor(Math.random() * 1050) + 50;
             $scope.q2Predict = Math.floor(Math.random() * 15) + 50;
             $scope.q3Predict = Math.floor(Math.random() * 100) + $scope.q1;
@@ -115,6 +110,7 @@ manage.controller('ManageCtrl', function ($scope, $rootScope, $window, infoServi
             infoService.infoFunction("По модели '" + $scope.model.selected.title + "' получены показатели Квартала 1: "+$scope.q1+". Квартала 2: "+$scope.q2+". Квартала 3: "+$scope.q3+". Квартала 4: "+$scope.q4+".");
         }
     }
+    $scope.getPredictionByModel();
     $scope.q1Predict = null;
     $scope.q2Predict = null;
     $scope.q3Predict = null;
