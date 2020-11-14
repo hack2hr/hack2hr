@@ -24,4 +24,10 @@ urlpatterns = [
     path('testGet', views.testGet),
     path('testAddMongo/', views.testAddMongo),
     path('testPyMongo/', views.testPyMongo),
+    path('api/people/all/', views.apiPeopleAll),
+    path('api/people/one/', views.apiPeopleOne),
+    path('api/people/add/', views.apiPeopleAdd),
+    path('api/staff/all/', views.apiStaffAll),
+    path('api/staff/one/', views.apiStaffOne),
+    path('api/staff/add/', views.apiStaffAdd),
 ]
