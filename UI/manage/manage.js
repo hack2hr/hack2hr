@@ -111,14 +111,24 @@ manage.controller('ManageCtrl', function ($scope, $rootScope, $window, infoServi
     $scope.func = {selected: $scope.functions[0]};
 
     function fillPredictionData(prediction) {
+        var QUATERS_AMOUNT = 4;
         $scope.yearsGraph.forEach(function(year) {
-            $scope.graph[year] = year <= $scope.currentYear ? $scope.category.years[year] : prediction.shift()
+            if (year <= $scope.currentYear) {
+                $scope.graph[year] = $scope.category.years[year];
+            } else {
+                var quaters = prediction.shift();
+                var total = quaters.reduce(function(sum, value) {
+                    return sum + value
+                }, 0);
+
+                $scope.graph[year] = total / QUATERS_AMOUNT;
+                $scope.prediction[year] = quaters;
+            }
         });
     }
 
     var firstEnter = true;
     $scope.getPredictionByModel = function() {
-        var QUATERS_AMOUNT = 4;
         if($scope.model &&  $scope.model.selected  &&  $scope.model.selected.title) {
 
             var selectedSubCategories = Object.keys($scope.subCategories).filter(function(sub) {
@@ -140,21 +150,15 @@ manage.controller('ManageCtrl', function ($scope, $rootScope, $window, infoServi
                     [0, 0, 0, 0],
                     [0, 0, 0, 0]
                 ];
-                fillPredictionData(prediction.map(function(year) {
-                    var total = year.reduce(function(sum, value) {
-                        return sum + value
-                    }, 0);
-
-                    return total / QUATERS_AMOUNT;
-                }));
+                fillPredictionData(prediction);
                 drawChart();
             // }, function(error) {
             //     console.error('Error in predicting model: ', error);
             // });
 
 
-            if(!firstEnter) infoService.infoFunction("По модели '" + $scope.model.selected.title + "' получены показатели Квартала 1: <b>"+$scope.q1Predict
-                +"</b>. Квартала 2: <b>" + $scope.q2Predict+"</b>. Квартала 3: <b>"+$scope.q3Predict+"</b>. Квартала 4: <b>"+$scope.q4Predict+".", "Автоматический расчет");
+            if(!firstEnter) infoService.infoFunction("По модели '" + $scope.model.selected.title + "' получены показатели Квартала 1: <b>"+$scope.prediction[currentYear][0]
+                +"</b>. Квартала 2: <b>" + $scope.prediction[currentYear][1]+"</b>. Квартала 3: <b>"+$scope.prediction[currentYear][2]+"</b>. Квартала 4: <b>"+$scope.prediction[currentYear][3]+".", "Автоматический расчет");
             firstEnter = false;
         }
     }
