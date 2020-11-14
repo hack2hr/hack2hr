@@ -84,16 +84,22 @@ mainPage.controller('MainPageCtrl', function ($scope, mainService, trendService,
             categorySelected($scope.categories[0]);
             drawChart($scope.categorySelect.subCategories.workAble);
             $scope.categorySelect.subCategories.workAble.isChecked = true;
+            tryDigest();
             $scope.isLoading = false;
         });
 
-
+    function tryDigest() {
+        if (!$scope.$$phase) {
+            $scope.$apply();
+        }
+    }
+    
     /* * * * * * * * * * * * * chart * * * * * * * * * * * * * * */
 
     function setDataByLabels(labels){
         var data = [];
         angular.forEach(labels, function (label){
-            data.push((Math.random() * 10).toFixed(2))
+            data.push(((Math.random() * 10)+1).toFixed(2))
         })
         return data;
     }
@@ -124,7 +130,7 @@ mainPage.controller('MainPageCtrl', function ($scope, mainService, trendService,
     function setDefaultDataSetPrograssBar(progressLabels){
         var data = [] ;
         angular.forEach(progressLabels, function (label){
-            data.push({label: label, backgroundColor: dynamicColors(), data: (Math.random() * 10).toFixed(2) });
+            data.push({label: label, backgroundColor: dynamicColors(), data: ((Math.random() * 10)+1).toFixed(2) });
         })
         return data;
     }
