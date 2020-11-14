@@ -1,0 +1,11 @@
+[{
+  "_id": {
+    "$oid": "5faf98168bed33c68951492a"
+  },
+  "surname": "Смирнов",
+  "name": "Михаил",
+  "secname": "Михайлович",
+  "email": "fff@mail.ru",
+  "rank": "аааeeee",
+  "isAdmin": false
+}]

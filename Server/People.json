@@ -1,0 +1,612 @@
+[{
+  "_id": {
+    "$oid": "5faf8fcce43a9c0518a8a012"
+  },
+  "year": "2016",
+  "totalyear": "624",
+  "data": {
+    "q1": {
+      "totalq1": "250",
+      "workAble": "66",
+      "migrants": "88",
+      "other": {
+        "old": "4",
+        "young": "4"
+      }
+    },
+    "q2": {
+      "totalq2": "250",
+      "workAble": "99",
+      "migrants": "52",
+      "other": {
+        "old": "4",
+        "young": "1"
+      }
+    },
+    "q3": {
+      "totalq3": "250",
+      "workAble": "111",
+      "migrants": "55",
+      "other": {
+        "old": "1",
+        "young": "1"
+      }
+    },
+    "q4": {
+      "totalq4": "255",
+      "workAble": "110",
+      "migrants": "40",
+      "other": {
+        "old": "1",
+        "young": "1"
+      }
+    }
+  },
+  "accepted": true,
+  "auto": true,
+  "madeby": "Ivanov"
+},{
+  "_id": {
+    "$oid": "5faf8fd6e43a9c0518a8a013"
+  },
+  "year": "2017",
+  "totalyear": "627",
+  "data": {
+    "q1": {
+      "totalq1": "355",
+      "workAble": "33",
+      "migrants": "88",
+      "other": {
+        "old": "2",
+        "young": "2"
+      }
+    },
+    "q2": {
+      "totalq2": "355",
+      "workAble": "130",
+      "migrants": "59",
+      "other": {
+        "old": "2",
+        "young": "1"
+      }
+    },
+    "q3": {
+      "totalq3": "355",
+      "workAble": "133",
+      "migrants": "50",
+      "other": {
+        "old": "1",
+        "young": "1"
+      }
+    },
+    "q4": {
+      "totalq4": "355",
+      "workAble": "122",
+      "migrants": "50",
+      "other": {
+        "old": "15",
+        "young": "15"
+      }
+    }
+  },
+  "accepted": true,
+  "auto": true,
+  "madeby": "Ivanov"
+},{
+  "_id": {
+    "$oid": "5faf8fdce43a9c0518a8a014"
+  },
+  "year": "2018",
+  "totalyear": "631",
+  "data": {
+    "q1": {
+      "totalq1": "800",
+      "workAble": "133",
+      "migrants": "44",
+      "other": {
+        "old": "1",
+        "young": "1"
+      }
+    },
+    "q2": {
+      "totalq2": "800",
+      "workAble": "86",
+      "migrants": "90",
+      "other": {
+        "old": "15",
+        "young": "5"
+      }
+    },
+    "q3": {
+      "totalq3": "800",
+      "workAble": "110",
+      "migrants": "62",
+      "other": {
+        "old": "11",
+        "young": "11"
+      }
+    },
+    "q4": {
+      "totalq4": "800",
+      "workAble": "102",
+      "migrants": "80",
+      "other": {
+        "old": "16",
+        "young": "28"
+      }
+    }
+  },
+  "accepted": true,
+  "auto": true,
+  "madeby": "Ivanov"
+},{
+  "_id": {
+    "$oid": "5faf8fe4e43a9c0518a8a015"
+  },
+  "year": "2019",
+  "totalyear": "633.5",
+  "data": {
+    "q1": {
+      "totalq1": "800",
+      "workAble": "155",
+      "migrants": "15",
+      "other": {
+        "old": "1",
+        "young": "1"
+      }
+    },
+    "q2": {
+      "totalq2": "800",
+      "workAble": "92",
+      "migrants": "112",
+      "other": {
+        "old": "18",
+        "young": "28"
+      }
+    },
+    "q3": {
+      "totalq3": "800",
+      "workAble": "95",
+      "migrants": "114",
+      "other": {
+        "old": "5",
+        "young": "26"
+      }
+    },
+    "q4": {
+      "totalq4": "800",
+      "workAble": "95",
+      "migrants": "44",
+      "other": {
+        "old": "4",
+        "young": "4"
+      }
+    }
+  },
+  "accepted": true,
+  "auto": true,
+  "madeby": "Ivanov"
+},{
+  "_id": {
+    "$oid": "5faf8fede43a9c0518a8a016"
+  },
+  "year": "2020",
+  "totalyear": "637",
+  "data": {
+    "q1": {
+      "totalq1": "800",
+      "workAble": "98",
+      "migrants": "135",
+      "other": {
+        "old": "4",
+        "young": "19"
+      }
+    },
+    "q2": {
+      "totalq2": "800",
+      "workAble": "120",
+      "migrants": "44",
+      "other": {
+        "old": "5",
+        "young": "4"
+      }
+    },
+    "q3": {
+      "totalq3": "800",
+      "workAble": "135",
+      "migrants": "44",
+      "other": {
+        "old": "4",
+        "young": "25"
+      }
+    },
+    "q4": {
+      "totalq4": "800",
+      "workAble": "90",
+      "migrants": "82",
+      "other": {
+        "old": "6",
+        "young": "15"
+      }
+    }
+  },
+  "accepted": true,
+  "auto": true,
+  "madeby": "Ivanov"
+},{
+  "_id": {
+    "$oid": "5faf8ff5e43a9c0518a8a017"
+  },
+  "year": "2021",
+  "totalyear": "637",
+  "data": {
+    "q1": {
+      "totalq1": "800",
+      "workAble": "67",
+      "migrants": "85",
+      "other": {
+        "old": "10",
+        "young": "27"
+      }
+    },
+    "q2": {
+      "totalq2": "800",
+      "workAble": "130",
+      "migrants": "87",
+      "other": {
+        "old": "12",
+        "young": "28"
+      }
+    },
+    "q3": {
+      "totalq3": "800",
+      "workAble": "129",
+      "migrants": "85",
+      "other": {
+        "old": "13",
+        "young": "28"
+      }
+    },
+    "q4": {
+      "totalq4": "800",
+      "workAble": "128",
+      "migrants": "86",
+      "other": {
+        "old": "14",
+        "young": "25"
+      }
+    }
+  },
+  "accepted": true,
+  "auto": true,
+  "madeby": "Ivanov"
+},{
+  "_id": {
+    "$oid": "5faf8ffce43a9c0518a8a018"
+  },
+  "year": "2022",
+  "totalyear": "639",
+  "data": {
+    "q1": {
+      "totalq1": "800",
+      "workAble": "111",
+      "migrants": "87",
+      "other": {
+        "old": "15",
+        "young": "26"
+      }
+    },
+    "q2": {
+      "totalq2": "800",
+      "workAble": "130",
+      "migrants": "85",
+      "other": {
+        "old": "16",
+        "young": "24"
+      }
+    },
+    "q3": {
+      "totalq3": "800",
+      "workAble": "122",
+      "migrants": "82",
+      "other": {
+        "old": "18",
+        "young": "26"
+      }
+    },
+    "q4": {
+      "totalq4": "800",
+      "workAble": "128",
+      "migrants": "85",
+      "other": {
+        "old": "19",
+        "young": "22"
+      }
+    }
+  },
+  "accepted": true,
+  "auto": true,
+  "madeby": "Ivanov"
+},{
+  "_id": {
+    "$oid": "5faf900fe43a9c0518a8a01a"
+  },
+  "year": "2024",
+  "totalyear": "639",
+  "data": {
+    "q1": {
+      "totalq1": "800",
+      "workAble": "133",
+      "migrants": "80",
+      "other": {
+        "old": "24",
+        "young": "18"
+      }
+    },
+    "q2": {
+      "totalq2": "800",
+      "workAble": "95",
+      "migrants": "105",
+      "other": {
+        "old": "24",
+        "young": "27"
+      }
+    },
+    "q3": {
+      "totalq3": "800",
+      "workAble": "144",
+      "migrants": "105",
+      "other": {
+        "old": "24",
+        "young": "27"
+      }
+    },
+    "q4": {
+      "totalq4": "800",
+      "workAble": "122",
+      "migrants": "105",
+      "other": {
+        "old": "28",
+        "young": "33"
+      }
+    }
+  },
+  "accepted": true,
+  "auto": true,
+  "madeby": "Ivanov"
+},{
+  "_id": {
+    "$oid": "5faf9018e43a9c0518a8a01b"
+  },
+  "year": "2025",
+  "totalyear": "642",
+  "data": {
+    "q1": {
+      "totalq1": "800",
+      "workAble": "211",
+      "migrants": "95",
+      "other": {
+        "old": "30",
+        "young": "35"
+      }
+    },
+    "q2": {
+      "totalq2": "800",
+      "workAble": "92",
+      "migrants": "80",
+      "other": {
+        "old": "25",
+        "young": "32"
+      }
+    },
+    "q3": {
+      "totalq3": "800",
+      "workAble": "92",
+      "migrants": "82",
+      "other": {
+        "old": "27",
+        "young": "30"
+      }
+    },
+    "q4": {
+      "totalq4": "800",
+      "workAble": "92",
+      "migrants": "85",
+      "other": {
+        "old": "24",
+        "young": "30"
+      }
+    }
+  },
+  "accepted": true,
+  "auto": true,
+  "madeby": "Ivanov"
+},{
+  "_id": {
+    "$oid": "5faf9028e43a9c0518a8a01c"
+  },
+  "year": "2015",
+  "totalyear": "621",
+  "data": {
+    "q1": {
+      "totalq1": "101",
+      "workAble": "91",
+      "migrants": "44",
+      "other": {
+        "old": "1",
+        "young": "1"
+      }
+    },
+    "q2": {
+      "totalq2": "103",
+      "workAble": "91",
+      "migrants": "44",
+      "other": {
+        "old": "11",
+        "young": "15"
+      }
+    },
+    "q3": {
+      "totalq3": "103",
+      "workAble": "91",
+      "migrants": "95",
+      "other": {
+        "old": "15",
+        "young": "15"
+      }
+    },
+    "q4": {
+      "totalq4": "103",
+      "workAble": "91",
+      "migrants": "83",
+      "other": {
+        "old": "1",
+        "young": "1"
+      }
+    }
+  },
+  "accepted": true,
+  "auto": true,
+  "madeby": "Ivanov"
+},{
+  "_id": {
+    "$oid": "5faf902fe43a9c0518a8a01d"
+  },
+  "year": "2014",
+  "totalyear": "618",
+  "data": {
+    "q1": {
+      "totalq1": "95",
+      "workAble": "90",
+      "migrants": "82",
+      "other": {
+        "old": "1",
+        "young": "1"
+      }
+    },
+    "q2": {
+      "totalq2": "85",
+      "workAble": "90",
+      "migrants": "44",
+      "other": {
+        "old": "2",
+        "young": "2"
+      }
+    },
+    "q3": {
+      "totalq3": "95",
+      "workAble": "90",
+      "migrants": "85",
+      "other": {
+        "old": "2",
+        "young": "2"
+      }
+    },
+    "q4": {
+      "totalq4": "133",
+      "workAble": "90",
+      "migrants": "44",
+      "other": {
+        "old": "25",
+        "young": "33"
+      }
+    }
+  },
+  "accepted": true,
+  "auto": true,
+  "madeby": "Ivanov"
+},{
+  "_id": {
+    "$oid": "5fafd6f7c5935f1934c39c66"
+  },
+  "year": "2026",
+  "totalyear": "642",
+  "data": {
+    "q1": {
+      "totalq1": "800",
+      "workAble": "155",
+      "migrants": "95",
+      "other": {
+        "old": "26",
+        "young": "30"
+      }
+    },
+    "q2": {
+      "totalq2": "122",
+      "workAble": "122",
+      "migrants": "105",
+      "other": {
+        "old": "26",
+        "young": "30"
+      }
+    },
+    "q3": {
+      "totalq3": "800",
+      "workAble": "126",
+      "migrants": "82",
+      "other": {
+        "old": "27",
+        "young": "33"
+      }
+    },
+    "q4": {
+      "totalq4": "800",
+      "workAble": "128",
+      "migrants": "83",
+      "other": {
+        "old": "28",
+        "young": "35"
+      }
+    }
+  },
+  "accepted": true,
+  "auto": true,
+  "madeby": "Ivanov"
+},{
+  "_id": {
+    "$oid": "5fb03117c5935f1934c39c67"
+  },
+  "year": "2023",
+  "totalyear": "642",
+  "data": {
+    "q1": {
+      "totalq1": "800",
+      "workAble": "113",
+      "migrants": "125",
+      "other": {
+        "old": "30",
+        "young": "35"
+      }
+    },
+    "q2": {
+      "totalq2": "800",
+      "workAble": "124",
+      "migrants": "80",
+      "other": {
+        "old": "25",
+        "young": "15"
+      }
+    },
+    "q3": {
+      "totalq3": "800",
+      "workAble": "122",
+      "migrants": "82",
+      "other": {
+        "old": "27",
+        "young": "30"
+      }
+    },
+    "q4": {
+      "totalq4": "800",
+      "workAble": "124",
+      "migrants": "85",
+      "other": {
+        "old": "24",
+        "young": "30"
+      }
+    }
+  },
+  "accepted": true,
+  "auto": true,
+  "madeby": "Ivanov"
+}]
