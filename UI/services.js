@@ -102,6 +102,19 @@ services.factory('userService', function ($http, $uibModal, $sce, $q) {
     return service;
 });
 
+services.factory('trendService', function() {
+    var service = {};
+
+    service.people = {
+        getAll: function () {
+            request('get', '/api/people/all/');
+        }
+    }
+
+
+    return service;
+});
+
 services.factory('addUserModalService', function($http, $q) {
     var service = {};
 
@@ -449,6 +462,20 @@ myApp.factory('mainService', function ($http, $window, $q, $location, $rootScope
 
     return service;
 });
+
+function request(method, url, func, service, data='') {
+    var deferred = $q.defer();
+
+    (data
+        ? $http[method](ipAdress + url, data)
+        : $http[method](ipAdress + url)
+    ).success(function (response) {
+        deferred.resolve(response);
+    }).error(function (error) {
+        deferred.reject('Error in ' + func + ' in ' + service + ' function: ' + error);
+    });
+    return deferred.promise;
+}
 
 
 function findAndReplaceLink(inputText) {
