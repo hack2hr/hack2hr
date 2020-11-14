@@ -2,7 +2,7 @@
 
 var manage = angular.module('myApp.manage', ['ngRoute']);
 
-manage.controller('ManageCtrl', function ($scope, $rootScope, $window, infoService) {
+manage.controller('ManageCtrl', function ($scope, $rootScope, $window, infoService, modelService) {
 
     $scope.category = $rootScope.category;
     $scope.years = {};
@@ -20,6 +20,10 @@ manage.controller('ManageCtrl', function ($scope, $rootScope, $window, infoServi
         {title:"С использованием экспоненты", name: 'exponential'},
         {title:"Логарифмическая", name: 'logarithmic'},
         {title:"Нормативная", name: 'default'}
+    ];
+
+    $scope.functions = [
+        {title: 'hh', name: 'hh.ru'}
     ];
 
     var dynamicColors = function() {
@@ -96,17 +100,20 @@ manage.controller('ManageCtrl', function ($scope, $rootScope, $window, infoServi
     }
     $scope.subCategories = $rootScope.subCategories;
     $scope.model = {selected: $scope.models[0]};
-
-
-
-
+    $scope.func = {selected: $scope.functions[0]};
 
     $scope.getPredictionByModel = function() {
         if($scope.model &&  $scope.model.selected  &&  $scope.model.selected.title) {
-            $scope.q1Predict = Math.floor(Math.random() * 1050) + 50;
-            $scope.q2Predict = Math.floor(Math.random() * 15) + 50;
-            $scope.q3Predict = Math.floor(Math.random() * 100) + $scope.q1;
-            $scope.q4Predict = Math.floor(Math.random() * $scope.q2) + 50;
+
+
+            // modelService.predict();
+            // $scope.q1Predict = Math.floor(Math.random() * 1050) + 50;
+            // $scope.q2Predict = Math.floor(Math.random() * 15) + 50;
+            // $scope.q3Predict = Math.floor(Math.random() * 100) + $scope.q1;
+            // $scope.q4Predict = Math.floor(Math.random() * $scope.q2) + 50;
+
+
+
             infoService.infoFunction("По модели '" + $scope.model.selected.title + "' получены показатели Квартала 1: "+$scope.q1+". Квартала 2: "+$scope.q2+". Квартала 3: "+$scope.q3+". Квартала 4: "+$scope.q4+".");
         }
     }

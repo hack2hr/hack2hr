@@ -93,9 +93,9 @@
                             <ui-select ng-model="func.selected"
                                        theme="selectize"
                                        style="width: 245px !important;">
-                                <ui-select-match placeholder="Выберите функцию для расчета..."><span>{{func.selected.functionName}}</span></ui-select-match>
+                                <ui-select-match placeholder="Выберите функцию для расчета..."><span>{{func.selected.name}}</span></ui-select-match>
                                 <ui-select-choices repeat="func in functions | filter:$select.search">
-                                    {{func.functionName}}
+                                    {{func.name}}
                                 </ui-select-choices>
                             </ui-select>
 

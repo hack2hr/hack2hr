@@ -128,6 +128,19 @@ services.factory('trendService', function($http, $q) {
     return service;
 });
 
+services.factory('modelService', function($http, $q) {
+    var service = {};
+
+    service.predict = function () {
+        // return request($http, $q, 'get', '/api/model/', 'predict', 'modelService')
+        //     .then(function(result) {
+        //         return JSON.parse(result);
+        //     });
+    }
+
+    return service;
+});
+
 services.factory('addUserModalService', function($http, $q) {
     return {
         addUser: function(data) {
