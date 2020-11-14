@@ -5,6 +5,7 @@
 <h3><a href="http://13.79.21.196/#/main">Демо версия web сайта</a></h2>
 <h3><a href="http://13.79.21.196:8080/api">Демо API</a></h2>
 <h3><a href="https://www.canva.com/design/DAENbcz9wtg/L5HMZ6JowNa1aPIEelSkXw/view?utm_content=DAENbcz9wtg&utm_campaign=designshare&utm_medium=link&utm_source=publishpresent">Презентация проекта </a> </h3>
+<h3><a href="https://www.figma.com/file/jDKiADQxhNXPpG08fDoQCw/Course-Dashboard-(Copy)?node-id=4798%3A262">Макеты</a> </h3>
 
 ## О проекте
 Проект является репозиторием команды "Кострома Nova" для <a href="https://leadersofdigital.ru/cabinet/63011">кейса по хакатону </a>  на цифровом прорыве 
