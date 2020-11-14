@@ -125,7 +125,7 @@
                     <div class="row" style="margin-bottom: 30px;">
                         <div class="col">
                             <h4>Кварталы</h4>
-                            <!-- <h6 class="text-muted mb-2">Subtitle</h6>-->
+                             <h6 class="text-muted mb-2">Выберите модель для автоматического расчета значений</h6>
                         </div>
                     </div>
                     <div class="row" style="margin-bottom: 30px;">
@@ -134,26 +134,28 @@
                             <div>
                                 <input id="nm1" ng-class="{'ng-invalids':addError&&!q1}" placeholder="Заполните данные" class="form-control" type="text" ng-model="q1" />
                             </div>
+                            <p class="mb-0">{{q1Predict}}</p>
                         </div>
                         <div class="col-3">
                             <label for="nm2" class="text-left">Квартал 2<strong class="redStar">*</strong></label>
                             <div>
                                 <input id="nm2" ng-class="{'ng-invalids':addError&&!q2}" placeholder="Заполните данные" class="form-control" type="text" ng-model="q2" />
                             </div>
+                            <p class="mb-0">{{q2Predict}}</p>
                         </div>
                         <div class="col-3">
                             <label for="nm3" class="text-left">Квартал 3<strong class="redStar">*</strong></label>
                             <div >
                                 <input id="nm3" ng-class="{'ng-invalids':addError&&!q3}" placeholder="Заполните данные" class="form-control" type="text" ng-model="q3" />
-
                             </div>
+                            <p class="mb-0">{{q3Predict}}</p>
                         </div>
                         <div class="col-3">
                             <label for="nm4" class="text-left">Квартал 4<strong class="redStar">*</strong></label>
-                            <div >
+                            <div>
                                 <input id="nm4" ng-class="{'ng-invalids':addError&&!q4}" placeholder="Заполните данные" class="form-control" type="text" ng-model="q4" />
-
                             </div>
+                            <p class="mb-0">{{q4Predict}}</p>
                         </div>
                     </div>
                 </div>
