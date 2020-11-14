@@ -25,6 +25,7 @@ manage.controller('ManageCtrl', function ($scope, $rootScope, $window, infoServi
 
     $scope.selectYear = function(year){
         $scope.currentYear = year;
+        setDefaultQuartals();
     }
 
     $scope.models = [
