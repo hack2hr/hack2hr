@@ -14,13 +14,13 @@ manage.controller('ManageCtrl', function ($scope, $rootScope, $window, infoServi
 
     if(!$scope.category || !$rootScope.category) $window.location.hash = "#/main";
 
-    setDefaultQuartals();
-    function setDefaultQuartals(){
-        if($scope.category.years){
-            var yearVal = $scope.category.years[$scope.currentYear];
-            $scope.q1=$scope.q2=$scope.q3=$scope.q4 = Number(yearVal/4).toFixed(1); //4 quart in year
-        }
-    }
+    // setDefaultQuartals();
+    // function setDefaultQuartals(){
+    //     if($scope.category.years){
+    //         var yearVal = $scope.category.years[$scope.currentYear];
+    //         $scope.q1=$scope.q2=$scope.q3=$scope.q4 = Number(yearVal/4).toFixed(1); //4 quart in year
+    //     }
+    // }
 
     $scope.graph = {};
     $scope.selectYear = function(year){
@@ -107,6 +107,9 @@ manage.controller('ManageCtrl', function ($scope, $rootScope, $window, infoServi
 
     $scope.prediction = {};
     $scope.subCategories = $rootScope.subCategories;
+    Object.keys($scope.subCategories).forEach(function(sub) {
+        $scope.subCategories[sub].isSelected = true;
+    });
     $scope.model = {selected: $scope.models[0]};
     $scope.func = {selected: $scope.functions[0]};
 
@@ -135,31 +138,39 @@ manage.controller('ManageCtrl', function ($scope, $rootScope, $window, infoServi
                 return $scope.subCategories[sub].isSelected;
             });
 
-            // modelService.predict({
-            //     year: $scope.currentYear,
-            //     yearsrange: 6,
-            //     modelvalue: $scope.model.selected.name,
-            //     dataY: $scope.category.id,
-            //     dataX: selectedSubCategories
-            // }).then(function(prediction) {
-                var prediction = [
-                    [0, 0, 0, 0],
-                    [0, 0, 0, 0],
-                    [0, 0, 0, 0],
-                    [0, 0, 0, 0],
-                    [0, 0, 0, 0],
-                    [0, 0, 0, 0]
-                ];
-                fillPredictionData(prediction);
-                drawChart();
-            // }, function(error) {
-            //     console.error('Error in predicting model: ', error);
-            // });
+            if (selectedSubCategories.length) {
+                modelService.predict({
+                    year: $scope.currentYear,
+                    yearsRange: 6,
+                    modelValue: $scope.model.selected.name,
+                    dataY: $scope.category.id,
+                    dataX: selectedSubCategories
+                }).then(function(prediction) {
+                    // var prediction = [
+                    //     [0, 0, 0, 0],
+                    //     [0, 0, 0, 0],
+                    //     [0, 0, 0, 0],
+                    //     [0, 0, 0, 0],
+                    //     [0, 0, 0, 0],
+                    //     [0, 0, 0, 0]
+                    // ];
+                    fillPredictionData(prediction);
+                    drawChart();
+                }, function(error) {
+                    console.error('Error in predicting model: ', error);
+                });
 
 
-            if(!firstEnter) infoService.infoFunction("По модели '" + $scope.model.selected.title + "' получены показатели Квартала 1: <b>"+$scope.prediction[currentYear][0]
-                +"</b>. Квартала 2: <b>" + $scope.prediction[currentYear][1]+"</b>. Квартала 3: <b>"+$scope.prediction[currentYear][2]+"</b>. Квартала 4: <b>"+$scope.prediction[currentYear][3]+".", "Автоматический расчет");
-            firstEnter = false;
+                if(!firstEnter) infoService.infoFunction("По модели '" + $scope.model.selected.title + "' получены показатели Квартала 1: <b>"+$scope.prediction[currentYear][0]
+                    +"</b>. Квартала 2: <b>" + $scope.prediction[currentYear][1]+"</b>. Квартала 3: <b>"+$scope.prediction[currentYear][2]+"</b>. Квартала 4: <b>"+$scope.prediction[currentYear][3]+".", "Автоматический расчет");
+                firstEnter = false;
+            } else {
+                $scope.addModelError = true;
+                setTimeout(function (){
+                    $scope.addModelError = false;
+                    tryDigest();
+                }, 1000)
+            }
         }
     }
     $scope.getPredictionByModel();

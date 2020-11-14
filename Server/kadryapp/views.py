@@ -415,7 +415,7 @@ def apiPeoplePredict(request):
     body_unicode = request.body.decode('utf-8')
     jsonValue = json.loads(body_unicode)
     year = jsonValue['year']
-    yearsrange = jsonValue['yearsrange']
+    yearsrange = jsonValue['yearsRange']
     dataY = jsonValue['dataY']
     dataX = jsonValue['dataX']
     modelValue = jsonValue['modelValue']

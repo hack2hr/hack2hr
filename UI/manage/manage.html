@@ -20,7 +20,7 @@
                 </div>
                 <div class="card-body " >
                     <div >
-                        <canvas id="canvas" style="position: relative; height:40vh; width:80vw" class="chartjs-render-monitor"></canvas>
+                        <canvas id="canvas" style="position: relative; height:290px!important; width:80vw; max-height: 290px;" class="chartjs-render-monitor"></canvas>
                     </div>
                 </div>
             </div>
@@ -166,17 +166,17 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col">
-                            <h4>Отрасли</h4>
+                            <h4>Зависимые параметры</h4>
                            <!-- <h6 class="text-muted mb-2">текст</h6>-->
                         </div>
 
                     </div>
-                    <div class="table-responsive table mt-2" id=" " ng-class="{'ng-invalids':addError && !isAnySelected}" role="grid" aria-describedby="dataTable_info" style="color: rgb(255,255,255);">
+                    <div class="table-responsive table mt-2" id=" " ng-class="{'ng-invalids':addError && addModelError && !isAnySelected}" role="grid" aria-describedby="dataTable_info" style="color: rgb(255,255,255);">
                         <table class="table my-0" id="dataTable1">
                             <thead>
                             <tr>
                                 <th></th>
-                                <th>Отрасль</th>
+                                <th>Параметр</th>
                                 <th></th>
                             </tr>
                             </thead>

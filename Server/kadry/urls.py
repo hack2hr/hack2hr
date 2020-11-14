@@ -33,4 +33,5 @@ urlpatterns = [
     path('api/staff/update/', views.apiStaffUpdate),
     path('api/staff/delete/', views.apiStaffDelete),
     path('api/people/download/', views.apiPeopleDownload),
+    path('api/people/predict/', views.apiPeoplePredict),
 ]
