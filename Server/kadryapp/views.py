@@ -30,7 +30,7 @@ def testPost(request):
         response = JsonResponse({})
         response["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
         response["Access-Control-Allow-Origin"] = "http://13.79.21.196:8080"
-        response["Access-Control-Allow-Headers"] = "origin, x-requested-with, content-type"
+        response["Access-Control-Allow-Headers"] = "origin, x-requested-with, content-type, x-ijt"
         response["Access-Control-Allow-Origin"] = "*"
         return response
     body_unicode = request.body.decode('utf-8')
@@ -123,6 +123,13 @@ def testPyMongo(request):
 @csrf_exempt 
 #http://10.0.0.4:8080/api/people/all/
 def apiPeopleAll(request):
+    if(request.method == "OPTIONS"): 
+        response = JsonResponse({})
+        response["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
+        response["Access-Control-Allow-Origin"] = "http://13.79.21.196:8080"
+        response["Access-Control-Allow-Headers"] = "origin, x-requested-with, content-type, x-ijt"
+        response["Access-Control-Allow-Origin"] = "*"
+        return response
     collection = db['People']
     test = []
     for doc in collection.find():
@@ -135,6 +142,13 @@ def apiPeopleAll(request):
 @csrf_exempt 
 #http://10.0.0.4:8080/api/people/one/?year=int
 def apiPeopleOne(request):
+    if(request.method == "OPTIONS"): 
+        response = JsonResponse({})
+        response["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
+        response["Access-Control-Allow-Origin"] = "http://13.79.21.196:8080"
+        response["Access-Control-Allow-Headers"] = "origin, x-requested-with, content-type, x-ijt"
+        response["Access-Control-Allow-Origin"] = "*"
+        return response
     year = request.GET.get("year")
     collection = db['People']  
     result = collection.find_one({"year": year})  
@@ -149,7 +163,7 @@ def apiPeopleAdd(request):
         response = JsonResponse({})
         response["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
         response["Access-Control-Allow-Origin"] = "http://13.79.21.196:8080"
-        response["Access-Control-Allow-Headers"] = "origin, x-requested-with, content-type"
+        response["Access-Control-Allow-Headers"] = "origin, x-requested-with, content-type, x-ijt"
         response["Access-Control-Allow-Origin"] = "*"
         return response
     body_unicode = request.body.decode('utf-8')
@@ -221,6 +235,13 @@ def apiPeopleAdd(request):
 @csrf_exempt 
 #http://10.0.0.4:8080/api/staff/all/
 def apiStaffAll(request):
+    if(request.method == "OPTIONS"): 
+        response = JsonResponse({})
+        response["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
+        response["Access-Control-Allow-Origin"] = "http://13.79.21.196:8080"
+        response["Access-Control-Allow-Headers"] = "origin, x-requested-with, content-type, x-ijt"
+        response["Access-Control-Allow-Origin"] = "*"
+        return response
     collection = db['Staff']
     test = []
     for doc in collection.find():
@@ -233,6 +254,13 @@ def apiStaffAll(request):
 @csrf_exempt 
 #http://10.0.0.4:8080/api/people/one/?_id=str
 def apiStaffOne(request):
+    if(request.method == "OPTIONS"): 
+        response = JsonResponse({})
+        response["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
+        response["Access-Control-Allow-Origin"] = "http://13.79.21.196:8080"
+        response["Access-Control-Allow-Headers"] = "origin, x-requested-with, content-type, x-ijt"
+        response["Access-Control-Allow-Origin"] = "*"
+        return response
     _id = request.GET.get("_id")
     collection = db['Staff']  
     result = collection.find_one({"_id": _id})  
@@ -248,7 +276,7 @@ def apiStaffAdd(request):
         response = JsonResponse({})
         response["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
         response["Access-Control-Allow-Origin"] = "http://13.79.21.196:8080"
-        response["Access-Control-Allow-Headers"] = "origin, x-requested-with, content-type"
+        response["Access-Control-Allow-Headers"] = "origin, x-requested-with, content-type, x-ijt"
         response["Access-Control-Allow-Origin"] = "*"
         return response
     body_unicode = request.body.decode('utf-8')
@@ -283,7 +311,7 @@ def apiStaffUpdate(request):
         response = JsonResponse({})
         response["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
         response["Access-Control-Allow-Origin"] = "http://13.79.21.196:8080"
-        response["Access-Control-Allow-Headers"] = "origin, x-requested-with, content-type"
+        response["Access-Control-Allow-Headers"] = "origin, x-requested-with, content-type, x-ijt"
         response["Access-Control-Allow-Origin"] = "*"
         return response
     body_unicode = request.body.decode('utf-8')
@@ -297,7 +325,7 @@ def apiStaffUpdate(request):
     isAdmin = jsonValue['isAdmin']
 
     
-    myquery = { "_id": _id }
+    myquery = { "_id": ObjectId(""+_id+"") }
     data = { "$set": {
             "surname": surname,
             "name": name,
@@ -322,14 +350,14 @@ def apiStaffDelete(request):
         response = JsonResponse({})
         response["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
         response["Access-Control-Allow-Origin"] = "http://13.79.21.196:8080"
-        response["Access-Control-Allow-Headers"] = "origin, x-requested-with, content-type"
+        response["Access-Control-Allow-Headers"] = "origin, x-requested-with, content-type, x-ijt"
         response["Access-Control-Allow-Origin"] = "*"
         return response
     body_unicode = request.body.decode('utf-8')
     jsonValue = json.loads(body_unicode)
     _id = jsonValue['_id']
     
-    myquery = { "_id": _id }
+    myquery = { "_id": ObjectId(""+_id+"") }
     
     collection = db['Staff']
     collection.delete_one(myquery)
