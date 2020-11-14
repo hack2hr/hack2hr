@@ -27,9 +27,9 @@ class Model:
                     self.X.append([self.parse_param(x_param.split('.'), quater) for year in self.data for quater in year['data'].values()])
 
                 self.X = np.array(self.X).T
-                self.X = np.hstack((self.X, np.arange(len(self.X)).reshape(-1, 1)))
+                self.X = np.hstack((self.X, np.arange(1, len(self.X) + 1).reshape(-1, 1)))
             else:
-                self.X = np.arange(len(self.Y)).reshape(-1, 1)
+                self.X = np.arange(1, len(self.Y) + 1).reshape(-1, 1)
 
         return getattr(self, model)()
 
@@ -74,139 +74,7 @@ class Model:
 
 
 if __name__ == '__main__':
-    string = [{
-        '_id': {
-            '$oid': '5faef371cdf178651838d36d'
-        },
-        'year': '1998',
-        'totalyear': '1000',
-        'data': {
-            'q1': {
-                'totalq1': '800',
-                'workAble': '200',
-                'migrants': '200',
-                'other': {
-                    'old': '200',
-                    'young': '200'
-                }
-            },
-            'q2': {
-                'totalq2': '800',
-                'workAble': '200',
-                'migrants': '200',
-                'other': {
-                    'old': '200',
-                    'young': '200'
-                }
-            },
-            'q3': {
-                'totalq3': '800',
-                'workAble': '200',
-                'migrants': '200',
-                'other': {
-                    'old': '200',
-                    'young': '200'
-                }
-            },
-            'q4': {
-                'totalq4': '800',
-                'workAble': '200',
-                'migrants': '200',
-                'other': {
-                    'old': '200',
-                    'young': '200'
-                }
-            }
-        }
-    }, {
-        '_id': {
-            '$oid': '5faef3b814bcc17c7a4af696'
-        },
-        'year': '1999',
-        'totalyear': '1000',
-        'data': {
-            'q1': {
-                'totalq1': '800',
-                'workAble': '200',
-                'migrants': '200',
-                'other': {
-                    'old': '200',
-                    'young': '200'
-                }
-            },
-            'q2': {
-                'totalq2': '800',
-                'workAble': '200',
-                'migrants': '200',
-                'other': {
-                    'old': '200',
-                    'young': '200'
-                }
-            },
-            'q3': {
-                'totalq3': '800',
-                'workAble': '200',
-                'migrants': '200',
-                'other': {
-                    'old': '200',
-                    'young': '200'
-                }
-            },
-            'q4': {
-                'totalq4': '800',
-                'workAble': '200',
-                'migrants': '200',
-                'other': {
-                    'old': '200',
-                    'young': '200'
-                }
-            }
-        }
-    }, {
-        '_id': {
-            '$oid': '5faef3d08e3f2d43500bdb92'
-        },
-        'year': '2000',
-        'totalyear': '1000',
-        'data': {
-            'q1': {
-                'totalq1': '800',
-                'workAble': '200',
-                'migrants': '200',
-                'other': {
-                    'old': '200',
-                    'young': '200'
-                }
-            },
-            'q2': {
-                'totalq2': '800',
-                'workAble': '200',
-                'migrants': '200',
-                'other': {
-                    'old': '200',
-                    'young': '200'
-                }
-            },
-            'q3': {
-                'totalq3': '800',
-                'workAble': '200',
-                'migrants': '200',
-                'other': {
-                    'old': '200',
-                    'young': '200'
-                }
-            },
-            'q4': {
-                'totalq4': '800',
-                'workAble': '200',
-                'migrants': '200',
-                'other': {
-                    'old': '200',
-                    'young': '200'
-                }
-            }
-        }
-    }]
+    string = [{},{}]
 
     print(Model(string, {
         'current_year': 1999,
