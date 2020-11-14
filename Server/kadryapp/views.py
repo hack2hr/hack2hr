@@ -418,6 +418,7 @@ def apiPeoplePredict(request):
     yearsrange = jsonValue['yearsrange']
     dataY = jsonValue['dataY']
     dataX = jsonValue['dataX']
+    modelValue = jsonValue['modelValue']
     
 
     collection = db['People']
@@ -432,13 +433,12 @@ def apiPeoplePredict(request):
         "y_param": dataY,
     }
 
+    result = Model(stringForModel, data).predict(modelValue)
+
 
 
     
-    
-    collection = db['Staff']
-    collection.delete_one(myquery)
-    response = JsonResponse(json_util.dumps(myquery), safe = False)
+    response = JsonResponse(json_util.dumps(result), safe = False)
     response["Access-Control-Allow-Origin"] = "*"
     return response
 
