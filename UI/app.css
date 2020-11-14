@@ -17,6 +17,9 @@ input:focus,select:focus{
 p,a,label{
     font-family: Montserrat, sans-serif;
 }
+.img-profile{
+    height: 40px;
+}
 label{
     color: #818182;
 }

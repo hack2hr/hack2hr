@@ -13,17 +13,17 @@ function setIpAddress() {
     if (serverUrlIndex == 1) ipAdress = "http://127.0.0.1:8080";
 };
 
-var myApp = angular.module('myApp', ['ngRoute', 'ui.bootstrap', 'ui.select', 'myApp.services', 'myApp.confirmationModal',
+var myApp = angular.module('myApp', ['ngRoute', 'ui.bootstrap', 'ui.select', 'myApp.services', 'myApp.confirmationModal','myApp.loginPage',
         'myApp.infoModal',  'myApp.mainPage', 'myApp.manage', 'myApp.users', 'myApp.addUserModalModal', 'myApp.editUserModalModal']);
 
 myApp.config(function ($routeProvider) {
-    /*$httpProvider.defaults.withCredentials = true;*/
 
-    /*var UserResolve = {
+
+    var UserResolve = {
         authorizeCheck: function(userService) {
             return userService.resolveCheck();
         }
-    };*/
+    };
 
     $routeProvider
         .otherwise({
@@ -35,10 +35,12 @@ myApp.config(function ($routeProvider) {
         .when('/main', {
             templateUrl: 'mainPage/mainPage.html',
             controller: 'MainPageCtrl',
+            resolve: UserResolve
         })
         .when('/manage', {
             templateUrl: 'manage/manage.html',
             controller: 'ManageCtrl',
+            resolve: UserResolve
         })
         .when('/notFound404', {
             templateUrl: 'notFound404/404.html',
@@ -46,13 +48,31 @@ myApp.config(function ($routeProvider) {
         .when('/users', {
             templateUrl: 'users/users.html',
             controller: 'UsersCtrl',
+            resolve: UserResolve
+        })
+        .when('/login', {
+            templateUrl: 'loginPage/loginPage.html',
+            controller: 'LoginCtrl',
         })
 
 });
 
-myApp.controller('UserCtrl', function ($scope) { //это контроллер , он ставится в шаблоне html ng-controller="UserCtrl" - и отвечает за видимость внутри вложенных dom элементов старницы
+myApp.controller('UserCtrl', function ($scope, $rootScope) { //это контроллер , он ставится в шаблоне html ng-controller="UserCtrl" - и отвечает за видимость внутри вложенных dom элементов старницы
     $scope.isToggled = true;
-
+    var localUser = localStorage.getItem("user"); //todo в будущем не будет пользователя будет куки и токен
+    if(localUser){
+        $rootScope.user = JSON.parse(localUser);
+        $scope.user = $rootScope.user;
+    }
+    tryDigest();
+    $scope.$on('user:isActive', function() {
+        var localUser = localStorage.getItem("user"); //todo в будущем не будет пользователя будет куки и токен
+        if(localUser){
+            $rootScope.user = JSON.parse(localUser);
+            $scope.user = $rootScope.user;
+        }
+        tryDigest();
+    });
     $scope.openDD = function (selectedTab) {
         $('#' + selectedTab + 'Li .dropdown-menu').css({
             'display': 'unset'
@@ -60,11 +80,19 @@ myApp.controller('UserCtrl', function ($scope) { //это контроллер ,
         $('#' + selectedTab + 'Li .dropdown-menu').show(0);
         $('.dropdown:hover .dropdown-menu').slideDown(0);
     };
-
+    function tryDigest() {
+        if (!$scope.$$phase) {
+            $scope.$apply();
+        }
+    }
     $scope.closeDropDown = function () {
         $('.dropdown-menu').slideUp(0);
     }
-
+    $scope.logOut = function(){
+        localStorage.clear();
+        $scope.user = $rootScope.user = null;
+        tryDigest();
+    }
     $scope.setSelectedTabInTab = function (value) {
         //$scope.selectedTabChoise = true;
         $scope.selectedTabInTab = value;

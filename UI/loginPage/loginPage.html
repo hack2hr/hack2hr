@@ -1,0 +1,37 @@
+<div class="container  ">
+    <div class="form-signin  " >
+        <p>Admin Демо доступ login: <b>'admin'</b> password: <b>'admin'</b></p>
+        <p>User Демо доступ login: <b>'user'</b> password: <b>'user'</b></p>
+        <label for="inputLogin" class="sr-only">Логин</label>
+        <input type="login" id="inputLogin" class="form-control mb-2  text-center" style="width: 500px"  placeholder="Логин" required="" autofocus="" ng-model="login">
+        <input type="password" id="inputPassword" class="form-control text-center  mb-2"  style="width: 500px" placeholder="Пароль" required="" ng-model="password">
+        <label for="inputPassword" class="sr-only">Password</label>
+        <button class="btn btn-primary btn-block mb-3" type="submit"    ng-click="authorize()">Войти</button>
+    </div>
+
+    <!--Модальное окно вывода ошибки авторизации-->
+    <script type="text/ng-template" id="modalContentForViewErrorAuthorization.html">
+        <div class="modal-body text-danger"><strong>Ошибка авторизации!</strong> {{element}}</div>
+    </script>
+</div>
+<style>
+    .form-signin {
+        width: 100%;
+        margin-top: 50px;
+        max-width: 450px;
+        padding: 15px;
+        margin-right: auto;
+        margin-left: auto;
+    }
+    .form-signin .checkbox {
+        font-weight: 400;
+    }
+    .form-signin .form-control {
+        position: relative;
+        box-sizing: border-box;
+        height: auto;
+        padding: 10px;
+        font-size: 16px;
+    }
+
+</style>

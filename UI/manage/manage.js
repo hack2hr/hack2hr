@@ -110,7 +110,8 @@ manage.controller('ManageCtrl', function ($scope, $rootScope, $window, infoServi
             $scope.q2Predict = Math.floor(Math.random() * 15) + 50;
             $scope.q3Predict = Math.floor(Math.random() * 100);
             $scope.q4Predict = Math.floor(Math.random()) + 50;
-            if(!firstEnter) infoService.infoFunction("По модели '" + $scope.model.selected.title + "' получены показатели Квартала 1: "+$scope.q1Predict+". Квартала 2: "+$scope.q2Predict+". Квартала 3: "+$scope.q3Predict+". Квартала 4: "+$scope.q4Predict+".");
+            if(!firstEnter) infoService.infoFunction("По модели '" + $scope.model.selected.title + "' получены показатели Квартала 1: <b>"+$scope.q1Predict
+                +"</b>. Квартала 2: <b>" + $scope.q2Predict+"</b>. Квартала 3: <b>"+$scope.q3Predict+"</b>. Квартала 4: <b>"+$scope.q4Predict+".", "Автоматический расчет");
         }
     }
     $scope.getPredictionByModel();
