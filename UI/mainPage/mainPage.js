@@ -86,14 +86,13 @@ mainPage.controller('MainPageCtrl', function ($scope, mainService) {
     }
 
     $scope.drawChart = function(subCategory){
-
         drawChart(subCategory);
     }
 
     var barChart = null;
 
     function drawChart(subCategory){
-        if(barChart!=null) barChart.clear();
+        if(barChart!=null) barChart.destroy();
         var chartData = {
             labels: $scope.years,
             datasets:  setDataSet(subCategory)
