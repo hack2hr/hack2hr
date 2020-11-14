@@ -241,11 +241,11 @@ mainPage.controller('MainPageCtrl', function ($scope, mainService, trendService,
             categoryTrend.forEach(function(trend) {
                 var params = JSON.parse(JSON.stringify($scope.categories[index].subCategories));
                 Object.keys(params).forEach(function(param) {
-                    var total = Object.keys(trend.data).reduce(function(sum, quater) {
-                        return sum + parseParam(param.split('.'), trend.data[quater]);
-                    }, 0);
+                    //var total = Object.keys(trend.data).reduce(function(sum, quater) {
+                    //    return sum + parseParam(param.split('.'), trend.data[quater]);
+                    //}, 0);
 
-                    $scope.categories[index].subCategories[param].years[trend.year] = total / QUATER_AMOUNT;
+                    $scope.categories[index].subCategories[param].years[trend.year] = trend.totalyear ;// / QUATER_AMOUNT;
                 });
             });
         });

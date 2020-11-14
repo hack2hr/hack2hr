@@ -15,7 +15,7 @@
             <div class="card mb-3" style="min-height: 400px; max-height: 400px;">
                 <div class="card-header   border-bottom-0 p-3" >    
                     <ul class="nav nav-tabs" >
-                        <li ng-repeat="year in yearsGraph" class="nav-item" ng-click="selectYear(year)"><a ng-class="{'active':currentYear == year }" data-toggle="tab"  class="nav-link" href="">{{year}}</a></li>
+                        <li ng-repeat="year in yearsGraph" class="nav-item" ng-click="selectYear(year)"><a ng-class="{'active':currentYear == year }" data-toggle="tab"  class="nav-link" href="">{{year}}</a></li>s
                     </ul>
                 </div>
                 <div class="card-body " >
@@ -110,9 +110,15 @@
                                        ng-change="getPredictionByModel()"
                                        theme="selectize"
                                        style="width: 245px !important;">
+<<<<<<< HEAD
+                                <ui-select-match placeholder="Выберите модель..."><span>{{model.selected.name}}</span></ui-select-match>
+                                <ui-select-choices repeat="model in models | filter:$select.search">
+                                    {{model.name}}
+=======
                                 <ui-select-match placeholder="Выберите модель..."><span>{{model.selected.title}}</span></ui-select-match>
                                 <ui-select-choices repeat="model in models | filter:$select.search">
                                     {{model.title}}
+>>>>>>> 033cedbe24dead1ec6a012671c01b1226d41b213
                                 </ui-select-choices>
                             </ui-select>
 
