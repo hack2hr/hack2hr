@@ -50,8 +50,25 @@ services.factory('infoService', function ($uibModal, $sce) {
     return service;
 });
 
-services.factory('userService', function ($http, $uibModal, $sce, $q) {
+services.factory('userService', function ($http, $uibModal, $sce, $q, $rootScope ) {
     var service = {};
+    var defered = $q.defer();
+    service.resolveCheck = function(){
+
+        var localUser = localStorage.getItem("user");
+        if(localUser){
+            $rootScope.$broadcast('user:isActive',true);
+            $rootScope.user = JSON.parse(localUser);
+        }
+        tryDigest();
+        defered.resolve(true);
+        return defered.promise;
+    }
+    function tryDigest() {
+        if (!$rootScope.$$phase) {
+            $rootScope.$apply();
+        }
+    }
 
     service.getAllUsers = function () {
         return request($http, $q, 'get', '/api/staff/all/', 'getAllUsers', 'userService')
