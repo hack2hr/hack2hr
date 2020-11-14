@@ -29,6 +29,18 @@
     <link rel="stylesheet" href="bower_components/selectize/dist/css/selectize.bootstrap3.css">
     <link rel="stylesheet" href="bower_components/selectize/dist/css/selectize.css">
     <link rel="stylesheet" href="bower_components/radar/Chart.css">
+    <style>
+        .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+        background: white;
+        border-bottom: 2px solid black;
+        }
+        .nav-link {
+            color: grey;
+        }
+        .active {
+            color: black;
+        }
+    </style>
 </head>
 
 <body ng-cloak id="page-top">
@@ -47,12 +59,12 @@
                 <div class="text-center d-none d-md-inline"><button ng-click="isToggled=!isToggled" class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>
             </div>
         </nav>
-        <div class="mt-2 d-flex flex-column container-fluid">
-            <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
+        <div class="d-flex flex-column">
+            <nav class="navbar navbar-light navbar-expand bg-white topbar static-top">
                 <div class="container-fluid"><button class="btn btn-link d-md-none rounded-circle mr-3" id="sidebarToggleTop" type="button"><i class="fas fa-bars"></i></button>
                     <form class="form-inline d-none d-sm-inline-block mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                        <div class="input-group"><input class="bg-light form-control border-0 small" type="text" placeholder="Поиск...">
-                            <div class="input-group-append"><button class="btn btn-primary py-0" type="button"><i class="fas fa-search"></i></button></div>
+                        <div style="margin-left: 15px;" class="input-group"> <i class="fas fa-search align-self-center"></i><input class="bg-white form-control border-0 small" style="background-color: white" type="text" placeholder="Поиск...">
+                            
                         </div>
                     </form>
                     <ul class="nav navbar-nav flex-nowrap ml-auto">
@@ -73,7 +85,7 @@
                                     <div class="dropdown-divider"></div><a class="dropdown-item" role="presentation" href=""><i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>&nbsp;Выйти</a></div>
                             </div>
                         </li>
-                        <div class="d-none d-sm-block topbar-divider"></div>
+                        
                         <li class="nav-item dropdown no-arrow mx-1" role="presentation">
                             <div class="nav-item dropdown no-arrow"><a class="dropdown-toggle nav-link" data-toggle="dropdown" aria-expanded="false" href=""><span class="badge badge-danger badge-counter">3+</span><i class="fas fa-bell fa-fw"></i></a>
                                 <div class="dropdown-menu dropdown-menu-right dropdown-list dropdown-menu-right animated--grow-in"
@@ -152,7 +164,7 @@
                     </ul>
                 </div>
             </nav>
-            <div ng-view class="container-fluid theme-showcase" id="content-wrapper" role="main"></div>
+            <div ng-view class="container-fluid theme-showcase" id="content-wrapper" role="main" style="background-color: #F8F8FB; "></div>
         </div>
     </div>
     <div class="d-contents bg-white sticky-footer" ng-include="'footer.html'"></div>
