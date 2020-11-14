@@ -103,7 +103,7 @@
                     </div>
                     <div class="row" style="margin-bottom: 30px;">
                         <div class="col-3">
-                            <div class="form-check"><input class="form-check-input" ng-model="isAccepted" type="checkbox" id="formCheck2"><label class="form-check-label" for="formCheck2">Автоматический расчёт</label></div>
+                            <div class="form-check"><input class="form-check-input" ng-click="acceptedChosen()" ng-model="isAccepted" type="checkbox" id="formCheck2"><label class="form-check-label" for="formCheck2">Автоматический расчёт</label></div>
                         </div>
                         <div class="col">
                             <ui-select ng-model="model.selected"
@@ -134,28 +134,28 @@
                             <div>
                                 <input id="nm1" ng-class="{'ng-invalids':addError&&!q1}" placeholder="Заполните данные" class="form-control" type="text" ng-model="q1" />
                             </div>
-                            <p class="mb-0 mt-1">{{prediction[currentYear][0]}}</p>
+                            <p class="mb-0 mt-1">{{showPredictionQuartals ? prediction[currentYear][0] : ''}}</p>
                         </div>
                         <div class="col-3">
                             <label for="nm2" class="text-left">Квартал 2<strong class="redStar">*</strong></label>
                             <div>
                                 <input id="nm2" ng-class="{'ng-invalids':addError&&!q2}" placeholder="Заполните данные" class="form-control" type="text" ng-model="q2" />
                             </div>
-                            <p class="mb-0 mt-1">{{prediction[currentYear][1]}}</p>
+                            <p class="mb-0 mt-1">{{showPredictionQuartals ? prediction[currentYear][1] : ''}}</p>
                         </div>
                         <div class="col-3">
                             <label for="nm3" class="text-left">Квартал 3<strong class="redStar">*</strong></label>
                             <div >
                                 <input id="nm3" ng-class="{'ng-invalids':addError&&!q3}" placeholder="Заполните данные" class="form-control" type="text" ng-model="q3" />
                             </div>
-                            <p class="mb-0 mt-1">{{prediction[currentYear][2]}}</p>
+                            <p class="mb-0 mt-1">{{showPredictionQuartals ? prediction[currentYear][2] : ''}}</p>
                         </div>
                         <div class="col-3">
                             <label for="nm4" class="text-left">Квартал 4<strong class="redStar">*</strong></label>
                             <div>
                                 <input id="nm4" ng-class="{'ng-invalids':addError&&!q4}" placeholder="Заполните данные" class="form-control" type="text" ng-model="q4" />
                             </div>
-                            <p class="mb-0 mt-1">{{prediction[currentYear][3]}}</p>
+                            <p class="mb-0 mt-1">{{showPredictionQuartals ? prediction[currentYear][3] : ''}}</p>
                         </div>
                     </div>
                 </div>
@@ -183,7 +183,7 @@
                             <tbody>
                             <tr ng-repeat="category in subCategories">
                                 <td >
-                                    <input type="checkbox" id="cat{{$index}}" ng-click="category.isSelected=!category.isSelected" ng-checked="category.isSelected">
+                                    <input type="checkbox" id="cat{{$index}}" ng-click="reBuildModel(category)" ng-checked="category.isSelected">
                                 </td>
                                 <td>
                                     <label for="cat{{$index}}">{{category.name}}</label>

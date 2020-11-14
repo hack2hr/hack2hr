@@ -25,6 +25,7 @@ manage.controller('ManageCtrl', function ($scope, $rootScope, $window, infoServi
     $scope.graph = {};
     $scope.selectYear = function(year){
         $scope.currentYear = year;
+        recalculateQuartals();
         // setDefaultQuartals();
     }
 
@@ -148,18 +149,39 @@ manage.controller('ManageCtrl', function ($scope, $rootScope, $window, infoServi
                 dataX: selectedSubCategories
             }).then(function(prediction) {
                 fillPredictionData(prediction);
-                drawChart();
+
+                if ($scope.isAccepted || firstEnter) {
+                    drawChart();
+                }
+
+                if(!firstEnter) infoService.infoFunction("По модели '" + $scope.model.selected.title + "' получены показатели Квартала 1: <b>"+$scope.prediction[currentYear][0]
+                    +"</b>. Квартала 2: <b>" + $scope.prediction[currentYear][1]+"</b>. Квартала 3: <b>"+$scope.prediction[currentYear][2]+"</b>. Квартала 4: <b>"+$scope.prediction[currentYear][3]+".", "Автоматический расчет");
+                firstEnter = false;
             }, function(error) {
                 console.error('Error in predicting model: ', error);
             });
-
-
-            if(!firstEnter) infoService.infoFunction("По модели '" + $scope.model.selected.title + "' получены показатели Квартала 1: <b>"+$scope.prediction[currentYear][0]
-                +"</b>. Квартала 2: <b>" + $scope.prediction[currentYear][1]+"</b>. Квартала 3: <b>"+$scope.prediction[currentYear][2]+"</b>. Квартала 4: <b>"+$scope.prediction[currentYear][3]+".", "Автоматический расчет");
-            firstEnter = false;
         }
     }
     $scope.getPredictionByModel();
+
+    $scope.reBuildModel = function (category) {
+        category.isSelected = !category.isSelected;
+        if ($scope.isAccepted) {
+            $scope.getPredictionByModel();
+        }
+    }
+
+    $scope.showPredictionQuartals = true
+    $scope.acceptedChosen = function() {
+        $scope.showPredictionQuartals = !$scope.isAccepted;
+        if ($scope.isAccepted) {
+            $scope.getPredictionByModel();
+        }
+        $scope.q1 = $scope.isAccepted ? $scope.prediction[$scope.currentYear][0] : 0;
+        $scope.q2 = $scope.isAccepted ? $scope.prediction[$scope.currentYear][1] : 0;
+        $scope.q3 = $scope.isAccepted ? $scope.prediction[$scope.currentYear][2] : 0;
+        $scope.q4 = $scope.isAccepted ? $scope.prediction[$scope.currentYear][3] : 0;
+    }
 
 
     $scope.isAccepted = false;
