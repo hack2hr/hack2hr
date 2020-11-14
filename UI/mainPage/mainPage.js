@@ -31,7 +31,7 @@ mainPage.controller('MainPageCtrl', function ($scope, mainService, $rootScope) {
 
     }];
 
-    categorySelected($scope.categories[0]);
+
 
     $scope.userCategories = [{
 
@@ -133,6 +133,10 @@ mainPage.controller('MainPageCtrl', function ($scope, mainService, $rootScope) {
             $scope.isLoading = false;
         });*/
     }
+
+    categorySelected($scope.categories[0]);
+    drawChart($scope.categories[0].subCategories[0]);
+    $scope.categories[0].subCategories[0].isChecked = true
 
     $scope.redirectToManage = function(category){
         $rootScope.category = category;
