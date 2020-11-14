@@ -108,9 +108,6 @@ manage.controller('ManageCtrl', function ($scope, $rootScope, $window, infoServi
 
     $scope.prediction = {};
     $scope.subCategories = $rootScope.subCategories;
-    Object.keys($scope.subCategories).forEach(function(sub) {
-        $scope.subCategories[sub].isSelected = true;
-    });
     $scope.model = {selected: $scope.models[0]};
     $scope.func = {selected: $scope.functions[0]};
 
@@ -133,6 +130,7 @@ manage.controller('ManageCtrl', function ($scope, $rootScope, $window, infoServi
                 });
             }
         });
+        tryDigest();
     }
 
     var firstEnter = true;
@@ -154,10 +152,11 @@ manage.controller('ManageCtrl', function ($scope, $rootScope, $window, infoServi
 
                 if ($scope.isAccepted || firstEnter) {
                     drawChart();
+                    fillQuartals();
                 }
 
-                if(!firstEnter) infoService.infoFunction("По модели '" + $scope.model.selected.title + "' получены показатели Квартала 1: <b>"+$scope.prediction[currentYear][0]
-                    +"</b>. Квартала 2: <b>" + $scope.prediction[currentYear][1]+"</b>. Квартала 3: <b>"+$scope.prediction[currentYear][2]+"</b>. Квартала 4: <b>"+$scope.prediction[currentYear][3]+".", "Автоматический расчет");
+                // if(!firstEnter) infoService.infoFunction("По модели '" + $scope.model.selected.title + "' получены показатели Квартала 1: <b>"+$scope.prediction[currentYear][0]
+                //     +"</b>. Квартала 2: <b>" + $scope.prediction[currentYear][1]+"</b>. Квартала 3: <b>"+$scope.prediction[currentYear][2]+"</b>. Квартала 4: <b>"+$scope.prediction[currentYear][3]+".", "Автоматический расчет");
                 firstEnter = false;
             }, function(error) {
                 console.error('Error in predicting model: ', error);
@@ -183,10 +182,24 @@ manage.controller('ManageCtrl', function ($scope, $rootScope, $window, infoServi
     }
 
     function fillQuartals() {
-        $scope.q1 = $scope.isAccepted ? $scope.prediction[$scope.currentYear][0] : 0;
-        $scope.q2 = $scope.isAccepted ? $scope.prediction[$scope.currentYear][1] : 0;
-        $scope.q3 = $scope.isAccepted ? $scope.prediction[$scope.currentYear][2] : 0;
-        $scope.q4 = $scope.isAccepted ? $scope.prediction[$scope.currentYear][3] : 0;
+        if ($scope.isAccepted) {
+            if ($scope.prediction.hasOwnProperty($scope.currentYear)) {
+                $scope.q1 = $scope.prediction[$scope.currentYear][0];
+                $scope.q2 = $scope.prediction[$scope.currentYear][1];
+                $scope.q3 = $scope.prediction[$scope.currentYear][2];
+                $scope.q4 = $scope.prediction[$scope.currentYear][3];
+            } else {
+                $scope.q1 = 0;
+                $scope.q2 = 0;
+                $scope.q3 = 0;
+                $scope.q4 = 0;
+            }
+        } else {
+            $scope.q1 = 0;
+            $scope.q2 = 0;
+            $scope.q3 = 0;
+            $scope.q4 = 0;
+        }
     }
 
 
