@@ -105,11 +105,11 @@ manage.controller('ManageCtrl', function ($scope, $rootScope, $window, infoServi
     var firstEnter = false;
     $scope.getPredictionByModel = function() {
         if($scope.model &&  $scope.model.selected  &&  $scope.model.selected.title) {
-            firstEnter =!firstEnter;
+            firstEnter = false;
             $scope.q1Predict = Math.floor(Math.random() * 1050) + 50;
             $scope.q2Predict = Math.floor(Math.random() * 15) + 50;
-            $scope.q3Predict = Math.floor(Math.random() * 100) + $scope.q1Predict;
-            $scope.q4Predict = Math.floor(Math.random() * $scope.q2Predict) + 50;
+            $scope.q3Predict = Math.floor(Math.random() * 100);
+            $scope.q4Predict = Math.floor(Math.random()) + 50;
             if(!firstEnter) infoService.infoFunction("По модели '" + $scope.model.selected.title + "' получены показатели Квартала 1: "+$scope.q1Predict+". Квартала 2: "+$scope.q2Predict+". Квартала 3: "+$scope.q3Predict+". Квартала 4: "+$scope.q4Predict+".");
         }
     }
