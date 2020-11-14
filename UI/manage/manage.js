@@ -75,11 +75,12 @@ manage.controller('ManageCtrl', function ($scope, $rootScope, $window) {
         };
 
         var ctx = document.getElementById('canvas').getContext('2d');
+        ctx.height = 500;
         barChart = new Chart(ctx, {
             type: 'line',
             data: chartData,
             options: {
-
+                responsive: true,
                 title: {
                     position:'left',
                     display: true,

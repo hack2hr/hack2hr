@@ -12,15 +12,15 @@
     </div>
     <div class="row">
         <div class="col-9">
-            <div class="card mb-3">
+            <div class="card mb-3" style="min-height: 400px; max-height: 400px;">
                 <div class="card-header   border-bottom-0 p-3" >
                     <ul class="nav nav-tabs" >
                         <li ng-repeat="year in years" class="nav-item" ng-click="selectYear(year)"><a ng-class="{'active':activeTab == year }" data-toggle="tab"  class="nav-link" href="">{{year!='All'?year:'Все'}}</a></li>
                     </ul>
                 </div>
-                <div class="card-body ">
-                    <div>
-                        <canvas id="canvas" style="display: block; width: 400px; min-height: 400px; max-height: 400px;" width="800"  class="chartjs-render-monitor"></canvas>
+                <div class="card-body " >
+                    <div >
+                        <canvas id="canvas" style="position: relative; height:40vh; width:80vw" class="chartjs-render-monitor"></canvas>
                     </div>
                 </div>
             </div>
