@@ -110,9 +110,9 @@
                                        ng-change="getPredictionByModel()"
                                        theme="selectize"
                                        style="width: 245px !important;">
-                                <ui-select-match placeholder="Выберите модель..."><span>{{model.selected.modelName}}</span></ui-select-match>
+                                <ui-select-match placeholder="Выберите модель..."><span>{{model.selected.name}}</span></ui-select-match>
                                 <ui-select-choices repeat="model in models | filter:$select.search">
-                                    {{model.modelName}}
+                                    {{model.name}}
                                 </ui-select-choices>
                             </ui-select>
 

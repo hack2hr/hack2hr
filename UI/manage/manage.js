@@ -36,7 +36,8 @@ manage.controller('ManageCtrl', function ($scope, $rootScope, $window, infoServi
 
     function setDataSet(){
         var dataset = [];
-        var data = {type: 'line', backgroundColor:"rgb(0,190,255)", label: $scope.category.name, data: setData() };        dataset.push(data);
+        var data = {type: 'line', backgroundColor:"rgb(0,190,255)", label: $scope.category.name, data: setData() };
+        dataset.push(data);
         return dataset;
     }
     $scope.years = []
@@ -93,19 +94,20 @@ manage.controller('ManageCtrl', function ($scope, $rootScope, $window, infoServi
             }
         });
     }
+    $scope.subCategories = $rootScope.subCategories;
+    $scope.model = {selected: $scope.models[0]};
+
 
     loadModel($scope.models[0]);
     function loadModel(modelSelected) {
         $scope.model.selected = modelSelected;
     }
 
-    $scope.subCategories = $rootScope.subCategories;
 
-    $scope.model = {selected: $scope.models[0]};
+
 
     $scope.getPredictionByModel = function() {
         if($scope.model &&  $scope.model.selected  &&  $scope.model.selected.title){
-
             $scope.q1Predict = Math.floor(Math.random() * 1050) + 50;
             $scope.q2Predict = Math.floor(Math.random() * 15) + 50;
             $scope.q3Predict = Math.floor(Math.random() * 100) + $scope.q1;
