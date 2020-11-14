@@ -396,3 +396,44 @@ def apiStaffDelete(request):
     response = JsonResponse(json_util.dumps(myquery), safe = False)
     response["Access-Control-Allow-Origin"] = "*"
     return response
+
+
+#Predict People
+@csrf_exempt 
+#http://10.0.0.4:8080/api/people/predict/
+def apiPeoplePredict(request):
+    from Server.core.models import Model
+    if(request.method == "OPTIONS"): 
+        response = JsonResponse({})
+        response["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
+        response["Access-Control-Allow-Origin"] = "http://13.79.21.196:8080"
+        response["Access-Control-Allow-Headers"] = "origin, x-requested-with, content-type, x-ijt"
+        response["Access-Control-Allow-Origin"] = "*"
+        return response
+    body_unicode = request.body.decode('utf-8')
+    jsonValue = json.loads(body_unicode)
+    year = jsonValue['year']
+    yearsrange = jsonValue['yearsrange']
+    dataY = jsonValue['dataY']
+    dataX = jsonValue['dataX']
+    
+
+    collection = db['People']
+    stringForModel = []
+    for doc in collection.find():
+        stringForModel.append(doc)
+    
+    data = {
+        "current_year": year,
+        "years_to_predict": yearsrange,
+        "x_params": dataX,
+        "y_param": dataY,
+    }
+
+    
+    
+    collection = db['Staff']
+    collection.delete_one(myquery)
+    response = JsonResponse(json_util.dumps(myquery), safe = False)
+    response["Access-Control-Allow-Origin"] = "*"
+    return response
