@@ -2,7 +2,7 @@
 
 var manage = angular.module('myApp.manage', ['ngRoute']);
 
-manage.controller('ManageCtrl', function ($scope, $rootScope, $window, infoService) {
+manage.controller('ManageCtrl', function ($scope, $rootScope, $window, infoService, modelService) {
 
     $scope.category = $rootScope.category;
     $scope.currentYear = new Date().getFullYear();
@@ -23,8 +23,6 @@ manage.controller('ManageCtrl', function ($scope, $rootScope, $window, infoServi
 
     $scope.years = {};
 
-
-
     $scope.selectYear = function(year){
         $scope.currentYear = year;
     }
@@ -36,6 +34,10 @@ manage.controller('ManageCtrl', function ($scope, $rootScope, $window, infoServi
         {title:"Нормативная", name: 'default'}
     ];
 
+    $scope.functions = [
+        {title: 'hh', name: 'hh.ru'}
+    ];
+
     var dynamicColors = function() {
         var r = Math.floor(Math.random() * 255);
         var g = Math.floor(Math.random() * 255);
@@ -43,15 +45,9 @@ manage.controller('ManageCtrl', function ($scope, $rootScope, $window, infoServi
         return "rgb(" + r + "," + g + "," + b + ")";
     };
 
-    function setData(subCategory) {
-        return Object.values($scope.category.years).map(function(year) {
-            return Number(year).toFixed(2);
-        });
-    }
-
-    function setDataSet(){
+    function setDataSet(year){
         var dataset = [];
-        var data = {type: 'line', backgroundColor:"rgb(0,190,255)", label: $scope.category.name, data: setData() };
+        var data = {type: 'line', backgroundColor:"rgb(0,190,255)", label: $scope.category.name, data: $scope.years[year] };
         dataset.push(data);
         return dataset;
     }
@@ -73,6 +69,16 @@ manage.controller('ManageCtrl', function ($scope, $rootScope, $window, infoServi
             years.push(afterDate);
             years.unshift(beforeDate);
         }
+
+        $scope.yearsGraph.forEach(function(year) {
+            $scope.years[year] = Object.keys($scope.category.years)
+                .filter(function(catYear) {
+                    return catYear <= $scope.currentYear;
+                })
+                .map(function(catYear) {
+                    return $scope.category.years[catYear];
+                })
+        })
     }
 
     $scope.drawChart = function(){
@@ -81,12 +87,11 @@ manage.controller('ManageCtrl', function ($scope, $rootScope, $window, infoServi
 
     var barChart = null;
 
-    drawChart();
-    function drawChart(){
+    function drawChart(year){
         if(barChart!=null) barChart.destroy();
         var chartData = {
             labels: years,
-            datasets:  setDataSet()
+            datasets: setDataSet(year)
         };
 
         var ctx = document.getElementById('canvas').getContext('2d');
@@ -115,17 +120,40 @@ manage.controller('ManageCtrl', function ($scope, $rootScope, $window, infoServi
 
     $scope.subCategories = $rootScope.subCategories;
     $scope.model = {selected: $scope.models[0]};
+    $scope.func = {selected: $scope.functions[0]};
 
-    var firstEnter = false;
+    var firstEnter = true;
     $scope.getPredictionByModel = function() {
         if($scope.model &&  $scope.model.selected  &&  $scope.model.selected.title) {
-            firstEnter = true;
-            $scope.q1Predict = Math.floor(Math.random() * 1050) + 50;
-            $scope.q2Predict = Math.floor(Math.random() * 15) + 50;
-            $scope.q3Predict = Math.floor(Math.random() * 100);
-            $scope.q4Predict = Math.floor(Math.random()) + 50;
+            // $scope.q1Predict = Math.floor(Math.random() * 1050) + 50;
+            // $scope.q2Predict = Math.floor(Math.random() * 15) + 50;
+            // $scope.q3Predict = Math.floor(Math.random() * 100);
+            // $scope.q4Predict = Math.floor(Math.random()) + 50;
+            var selectedSubCategories = Object.keys($scope.subCategories).filter(function(sub) {
+                return $scope.subCategories[sub].isSelected;
+            });
+
+            modelService.predict({
+                year: $scope.currentYear,
+                yearsRange: 6,
+                model: $scope.model.selected.name,
+                dataY: $scope.category.id,
+                dataX: selectedSubCategories
+            }).then(function(prediction) {
+                prediction.map(function(year) {
+                    var total = year.reduce(function(sum, value) {
+                        return sum + value
+                    }, 0);
+                });
+                darwChart($scope.currentYear);
+            }, function(error) {
+                console.error('Error in predicting model: ', error);
+            })
+
+
             if(!firstEnter) infoService.infoFunction("По модели '" + $scope.model.selected.title + "' получены показатели Квартала 1: <b>"+$scope.q1Predict
                 +"</b>. Квартала 2: <b>" + $scope.q2Predict+"</b>. Квартала 3: <b>"+$scope.q3Predict+"</b>. Квартала 4: <b>"+$scope.q4Predict+".", "Автоматический расчет");
+            firstEnter = false;
         }
     }
     $scope.getPredictionByModel();

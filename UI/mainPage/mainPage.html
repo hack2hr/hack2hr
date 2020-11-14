@@ -7,8 +7,16 @@
             </div>
         </div>
         <div class="col-3">
-            <button class="btn btn-outline-primary mt-2">Выгрузка отчёта</button>
-            <button class="btn btn-primary mt-2" ng-click="">Новая категория</button>
+            <div class="d-inline">
+                <div class="text-center" ng-if="isLoadingReport">
+                    <div class="spinner-border m-3" role="status">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </div>
+                <button ng-if="!isLoadingReport"  ng-click="downloadReport()" class="btn btn-outline-primary mt-2">Выгрузка отчёта</button>
+            </div>
+
+            <button class="btn btn-primary mt-2">Новая категория</button>
         </div>
     </div>
     <div class="row">

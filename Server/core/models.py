@@ -76,6 +76,6 @@ if __name__ == '__main__':
     print(Model(string, {
         'current_year': 1999,
         'years_to_predict': 1,
-        'x_params': ['data.q1.other.old', 'data.q1.workAble'],
-        'y_param': 'data.q1.migrants'
+        'x_params': ['other.old', 'workAble'],
+        'y_param': 'migrants'
     }).predict('exponential'))
