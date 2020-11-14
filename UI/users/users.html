@@ -31,13 +31,13 @@
                     <tr ng-repeat="user in users">
                         <td>{{$index+1}}</td>
                         <td>
-                            {{user.lastName + " " + user.firstName + " " +user.patronymic + " "}}
+                            {{user.surname + " " + user.name + " " +user.secname + " "}}
                         </td>
                         <td>
                             {{user.email}}
                         </td>
                         <td>
-                            {{user.kindOfActivity}}
+                            {{user.rank}}
                         </td>
                         <td>
                             {{user.status}}
@@ -56,7 +56,7 @@
 
                     </tbody>
                     <tfoot>
-                    <tr></tr>
+                    {# <tr></tr> #}
                     </tfoot>
                 </table>
             </div>
