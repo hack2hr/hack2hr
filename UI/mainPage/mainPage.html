@@ -28,6 +28,7 @@
                     <div class="mt-0 mb-2">Отросли</div>
                     <div ng-repeat="subCategory in categorySelect.subCategories"  ng-click="drawChart(subCategory); ">
                         <hr><input id="{{$index}}" type="radio" class="pointer" ng-checked="subCategory.isChecked" name="subCat" /> <label for="{{$index}}" class="pointer d-inline">{{subCategory.categoryName}}</label>
+                        <a href="#/manage"><i class="fa fa-pencil"></i></a>
                     </div>
                 </div>
             </div>
