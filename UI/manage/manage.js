@@ -83,7 +83,7 @@ manage.controller('ManageCtrl', function ($scope, $rootScope, $window) {
                 title: {
                     position:'left',
                     display: true,
-                    text: 'Отросль'
+                    text: 'Отрасль'
                 },
                 //tooltips: {
                 //    mode: 'index',
