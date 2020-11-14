@@ -11,7 +11,7 @@ addUserModal.controller('AddUserModalCtrl', function ($scope, $uibModalInstance,
             $uibModalInstance.close(result);
         }, function(error) {
             console.error('AddUserModalCtrl: ', error);
-        })
+        });
     }
 
 

@@ -54,13 +54,10 @@ services.factory('userService', function ($http, $uibModal, $sce, $q) {
     var service = {};
 
     service.getAllUsers = function () {
-        var deferred = $q.defer();
-        $http.get(ipAdress + "/api/staff/all/").success(function (response) {
-            deferred.resolve(JSON.parse(response));
-        }).error(function () {
-            deferred.reject('Error in getAllUsers in userService function');
-        });
-        return deferred.promise;
+        return request($http, $q, 'get', '/api/staff/all/', 'getAllUsers', 'userService')
+            .then(function(result) {
+                return JSON.parse(result);
+            });
     }
 
     service.addUserModal = function () {
@@ -75,7 +72,7 @@ services.factory('userService', function ($http, $uibModal, $sce, $q) {
     };
 
     service.editUserModal = function (user) {
-        var props = {
+        var modalInstance = $uibModal.open({
             templateUrl: 'modalWindows/editUserModal/editUserModal.html',
             controller: 'EditUserModalCtrl',
             resolve: {
@@ -83,20 +80,35 @@ services.factory('userService', function ($http, $uibModal, $sce, $q) {
                     return user;
                 }
             }
-        };
+        });
 
-        return $uibModal.open(props);
+        return modalInstance.result;
     };
+
+    service.deleteUser = function(userId) {
+        return request($http, $q, 'post', '/api/staff/delete/', 
+            'deleteUser', 'userService', userId)
+    }
+
 
     return service;
 });
 
-services.factory('addUserModalService', function($http, $q, ) {
+services.factory('trendService', function($http, $q) {
     var service = {};
 
-    service.addUser = function(data) {
+    service.people = {
+        getAll: function () {
+            return request($http, $q, 'get', '/api/people/all/', 'getAll', 'trendService')
+                .then(function(result) {
+                    return JSON.parse(result);
+                });
+        }
+    }
+
+    service.addPeopleManage = function(data) {
         var deferred = $q.defer();
-        $http.post(ipAdress + "/api/staff/add/", data).success(function (response) {
+        $http.post(ipAdress + "/api/people/add/", data).success(function (response) {
             deferred.resolve(response);
         }).error(function () {
             deferred.reject('Error in addUser in addUserModalService function');
@@ -105,6 +117,24 @@ services.factory('addUserModalService', function($http, $q, ) {
     }
 
     return service;
+});
+
+services.factory('addUserModalService', function($http, $q) {
+    return {
+        addUser: function(data) {
+            return request($http, $q, 'post', '/api/staff/add/',
+                'addUser', 'addUserModalService', data);
+        }
+    }
+});
+
+services.factory('editUserModalService', function($http, $q) {
+    return {
+        editUser: function(data) {
+            return request($http, $q, 'post', '/api/staff/update/', 
+                'editUser', 'editUserModalService', data);
+        }
+    }
 });
 
 services.factory('datesService', function () {
@@ -422,6 +452,20 @@ myApp.factory('mainService', function ($http, $window, $q, $location, $rootScope
 
     return service;
 });
+
+function request($http, $q, method, url, func, service, data='') {
+    var deferred = $q.defer();
+
+    (data
+        ? $http[method](ipAdress + url, data)
+        : $http[method](ipAdress + url)
+    ).success(function (response) {
+        deferred.resolve(response);
+    }).error(function (error) {
+        deferred.reject('Error in ' + func + ' in ' + service + ' function: ' + error);
+    });
+    return deferred.promise;
+}
 
 
 function findAndReplaceLink(inputText) {
