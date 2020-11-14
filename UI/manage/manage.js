@@ -26,17 +26,15 @@ manage.controller('ManageCtrl', function ($scope, $rootScope, $window) {
         return "rgb(" + r + "," + g + "," + b + ")";
     };
 
-    function setData(){
-        var data = [];
-        angular.forEach($scope.years, function (year){
-            data.push( (Math.random() * 10).toFixed(2) )
-        })
-        return data;
+    function setData(subCategory) {
+        return Object.values($scope.category.years).map(function(year) {
+            return year.toFixed(2);
+        });
     }
 
-    function setDataSet(subCategory){
+    function setDataSet(){
         var dataset = [];
-        var data = {type: 'line', backgroundColor:"rgb(0,190,255)", label: $scope.category.categoryName, data: setData(subCategory) };        dataset.push(data);
+        var data = {type: 'line', backgroundColor:"rgb(0,190,255)", label: $scope.category.name, data: setData() };        dataset.push(data);
         return dataset;
     }
     $scope.years = []
@@ -60,18 +58,18 @@ manage.controller('ManageCtrl', function ($scope, $rootScope, $window) {
         $scope.years.unshift("All");
     }
 
-    $scope.drawChart = function(subCategory){
-        drawChart(subCategory);
+    $scope.drawChart = function(){
+        drawChart();
     }
 
     var barChart = null;
 
-    drawChart(null);
-    function drawChart(subCategory){
+    drawChart();
+    function drawChart(){
         if(barChart!=null) barChart.destroy();
         var chartData = {
             labels: years,
-            datasets:  setDataSet(subCategory)
+            datasets:  setDataSet()
         };
 
         var ctx = document.getElementById('canvas').getContext('2d');
@@ -94,13 +92,7 @@ manage.controller('ManageCtrl', function ($scope, $rootScope, $window) {
         });
     }
 
-    $scope.subCategories = [{
-        categoryName:'Трудоспособное население',
-
-    }, {
-        categoryName:'Иностраныне мигранты',
-
-    }];
+    $scope.subCategories = $rootScope.subCategories;
 
     $scope.q1 = 0;
     $scope.q2 = 0;
@@ -162,6 +154,4 @@ manage.controller('ManageCtrl', function ($scope, $rootScope, $window) {
             $scope.$apply();
         }
     }
-
-
 });
