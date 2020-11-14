@@ -114,7 +114,7 @@ mainPage.controller('MainPageCtrl', function ($scope, mainService, trendService,
             backdropColor: dynamicColors(),
             label: subCategory.name,
             data: Object.values(subCategory.years).map(function(value) {
-                return value.toFixed(2);
+                return Number(value).toFixed(2);
             })
         };
         dataset.push(data);

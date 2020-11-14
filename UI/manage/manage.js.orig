@@ -31,7 +31,7 @@ manage.controller('ManageCtrl', function ($scope, $rootScope, $window, infoServi
 
     function setData(subCategory) {
         return Object.values($scope.category.years).map(function(year) {
-            return year.toFixed(2);
+            return Number(year).toFixed(2);
         });
     }
 
