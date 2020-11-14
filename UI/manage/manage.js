@@ -21,7 +21,7 @@ manage.controller('ManageCtrl', function ($scope, $rootScope, $window, infoServi
         }
     }
 
-    $scope.years = {};
+    $scope.graph = {};
 
     $scope.selectYear = function(year){
         $scope.currentYear = year;
@@ -46,9 +46,9 @@ manage.controller('ManageCtrl', function ($scope, $rootScope, $window, infoServi
         return "rgb(" + r + "," + g + "," + b + ")";
     };
 
-    function setDataSet(year){
+    function setDataSet(){
         var dataset = [];
-        var data = {type: 'line', backgroundColor:"rgb(0,190,255)", label: $scope.category.name, data: $scope.years[year] };
+        var data = {type: 'line', backgroundColor:"rgb(0,190,255)", label: $scope.category.name, data: Object.values($scope.graph) };
         dataset.push(data);
         return dataset;
     }
@@ -70,16 +70,6 @@ manage.controller('ManageCtrl', function ($scope, $rootScope, $window, infoServi
             years.push(afterDate);
             years.unshift(beforeDate);
         }
-
-        $scope.yearsGraph.forEach(function(year) {
-            $scope.years[year] = Object.keys($scope.category.years)
-                .filter(function(catYear) {
-                    return catYear <= $scope.currentYear;
-                })
-                .map(function(catYear) {
-                    return $scope.category.years[catYear];
-                })
-        })
     }
 
     $scope.drawChart = function(){
@@ -88,11 +78,11 @@ manage.controller('ManageCtrl', function ($scope, $rootScope, $window, infoServi
 
     var barChart = null;
 
-    function drawChart(year){
+    function drawChart(){
         if(barChart!=null) barChart.destroy();
         var chartData = {
             labels: years,
-            datasets: setDataSet(year)
+            datasets: setDataSet()
         };
 
         var ctx = document.getElementById('canvas').getContext('2d');
@@ -114,42 +104,53 @@ manage.controller('ManageCtrl', function ($scope, $rootScope, $window, infoServi
             }
         });
     }
-    $scope.q1Predict = null;
-    $scope.q2Predict = null;
-    $scope.q3Predict = null;
-    $scope.q4Predict = null;
 
+    $scope.prediction = {};
     $scope.subCategories = $rootScope.subCategories;
     $scope.model = {selected: $scope.models[0]};
     $scope.func = {selected: $scope.functions[0]};
 
+    function fillPredictionData(prediction) {
+        $scope.yearsGraph.forEach(function(year) {
+            $scope.graph[year] = year <= $scope.currentYear ? $scope.category.years[year] : prediction.shift()
+        });
+    }
+
     var firstEnter = true;
     $scope.getPredictionByModel = function() {
+        var QUATERS_AMOUNT = 4;
         if($scope.model &&  $scope.model.selected  &&  $scope.model.selected.title) {
-            // $scope.q1Predict = Math.floor(Math.random() * 1050) + 50;
-            // $scope.q2Predict = Math.floor(Math.random() * 15) + 50;
-            // $scope.q3Predict = Math.floor(Math.random() * 100);
-            // $scope.q4Predict = Math.floor(Math.random()) + 50;
+
             var selectedSubCategories = Object.keys($scope.subCategories).filter(function(sub) {
                 return $scope.subCategories[sub].isSelected;
             });
 
-            modelService.predict({
-                year: $scope.currentYear,
-                yearsRange: 6,
-                model: $scope.model.selected.name,
-                dataY: $scope.category.id,
-                dataX: selectedSubCategories
-            }).then(function(prediction) {
-                prediction.map(function(year) {
+            // modelService.predict({
+            //     year: $scope.currentYear,
+            //     yearsrange: 6,
+            //     modelvalue: $scope.model.selected.name,
+            //     dataY: $scope.category.id,
+            //     dataX: selectedSubCategories
+            // }).then(function(prediction) {
+                var prediction = [
+                    [0, 0, 0, 0],
+                    [0, 0, 0, 0],
+                    [0, 0, 0, 0],
+                    [0, 0, 0, 0],
+                    [0, 0, 0, 0],
+                    [0, 0, 0, 0]
+                ];
+                fillPredictionData(prediction.map(function(year) {
                     var total = year.reduce(function(sum, value) {
                         return sum + value
                     }, 0);
-                });
-                darwChart($scope.currentYear);
-            }, function(error) {
-                console.error('Error in predicting model: ', error);
-            })
+
+                    return total / QUATERS_AMOUNT;
+                }));
+                drawChart();
+            // }, function(error) {
+            //     console.error('Error in predicting model: ', error);
+            // });
 
 
             if(!firstEnter) infoService.infoFunction("По модели '" + $scope.model.selected.title + "' получены показатели Квартала 1: <b>"+$scope.q1Predict
