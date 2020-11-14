@@ -2,9 +2,22 @@
 
 var mainPage = angular.module('myApp.mainPage', ['ngRoute']);
 
-mainPage.controller('MainPageCtrl', function ($scope, mainService, $rootScope) {
+mainPage.controller('MainPageCtrl', function ($scope, mainService, trendService, $rootScope) {
 
-    getTestRequest();
+    /* * * * * * * * * * * * * define globals * * * * * * * * */
+
+    var dynamicColors = function() {
+        var r = Math.floor(Math.random() * 255);
+        var g = Math.floor(Math.random() * 255);
+        var b = Math.floor(Math.random() * 255);
+        return "rgb(" + r + "," + g + "," + b + ")";
+    };
+
+    var months = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
+    var barChart = null;
+    var years = [];
+
+    /* * * * * * * * * * * * * define scope * * * * * * * * * */
 
     $scope.categorySelect = null;
     $scope.activeTab = null;
@@ -46,47 +59,34 @@ mainPage.controller('MainPageCtrl', function ($scope, mainService, $rootScope) {
 
     $scope.isLoading = true;
 
-    $scope.years = [];
-    var years = [];
-    setYears();
-    function setYears(){
-        var currentYear = new Date().getFullYear();
-        var beforeDate = currentYear;
-        var afterDate = currentYear;
-        $scope.years.push(afterDate);
-        years.push(afterDate);
-        for(var i=0; i < 6; i++){
-            beforeDate--;
-            afterDate++;
-            $scope.years.push(afterDate);
-            $scope.years.unshift(beforeDate);
-            years.push(afterDate);
-            years.unshift(beforeDate);
-        }
-    }
-    //$scope.years = ['2020', '2021', '2022', '2023', '2024', '2025', '2026']
-
-    var dynamicColors = function() {
-        var r = Math.floor(Math.random() * 255);
-        var g = Math.floor(Math.random() * 255);
-        var b = Math.floor(Math.random() * 255);
-        return "rgb(" + r + "," + g + "," + b + ")";
-    };
-
-    var months = ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'];
-
-
-
     $scope.categorySelected = function(category){
         categorySelected(category);
     }
 
-    function categorySelected(category){
-        $scope.categorySelect = category
-        $scope.activeTab = category.id;
-        //drawChart(category.subCategories[0]);
-        //category.subCategories[0].isChecked= true
+    $scope.drawChart = function(subCategory){
+        drawChart(subCategory);
     }
+
+    $scope.redirectToManage = function(category){
+        $rootScope.category = category;
+    }
+
+    /* * * * * * * * * * * * call onload * * * * * * * * * * * * * */
+
+    // TODO Do we need this?)))
+    getTestRequest();
+    getTrends();
+
+    $scope.years = [];
+    setYears();
+
+
+    categorySelected($scope.categories[0]);
+    drawChart($scope.categories[0].subCategories[0]);
+    $scope.categories[0].subCategories[0].isChecked = true
+
+
+    /* * * * * * * * * * * * * chart * * * * * * * * * * * * * * */
 
     function setData(){
         var data = [];
@@ -100,14 +100,8 @@ mainPage.controller('MainPageCtrl', function ($scope, mainService, $rootScope) {
         var dataset = [];
         var data = {type: 'line',fill:false, backdropColor:dynamicColors(), label: subCategory.categoryName, data: setData(subCategory) };
         dataset.push(data);
-       return dataset;
+        return dataset;
     }
-
-    $scope.drawChart = function(subCategory){
-        drawChart(subCategory);
-    }
-
-    var barChart = null;
 
     function drawChart(subCategory){
         if(barChart!=null) barChart.destroy();
@@ -117,7 +111,7 @@ mainPage.controller('MainPageCtrl', function ($scope, mainService, $rootScope) {
         };
 
         var ctx = document.getElementById('canvas').getContext('2d');
-          barChart = new Chart(ctx, {
+            barChart = new Chart(ctx, {
             type: 'line',
             data: chartData,
             options: {
@@ -135,6 +129,41 @@ mainPage.controller('MainPageCtrl', function ($scope, mainService, $rootScope) {
         });
     }
 
+    /* * * * * * * * * * * * trends calculation * * * * * * * * * */
+    function getTrends() {
+        trendService.people.getAll().then(function(result) {
+            console.log(result);
+        }, function (error) {
+            console.error('Error loading getTrends on mainPage: ', error);
+        });
+    }
+
+
+    /* * * * * * * * * * * * * helpers * * * * * * * * * * * * * */
+    
+    function setYears(){
+        var currentYear = new Date().getFullYear();
+        var beforeDate = currentYear;
+        var afterDate = currentYear;
+        $scope.years.push(afterDate);
+        years.push(afterDate);
+        for(var i=0; i < 6; i++){
+            beforeDate--;
+            afterDate++;
+            $scope.years.push(afterDate);
+            $scope.years.unshift(beforeDate);
+            years.push(afterDate);
+            years.unshift(beforeDate);
+        }
+    }
+    //$scope.years = ['2020', '2021', '2022', '2023', '2024', '2025', '2026']
+
+    function categorySelected(category){
+        $scope.categorySelect = category
+        $scope.activeTab = category.id;
+        //drawChart(category.subCategories[0]);
+        //category.subCategories[0].isChecked= true
+    }
 
     function getTestRequest() {
         var title = { "title":"TEST" };
@@ -150,14 +179,6 @@ mainPage.controller('MainPageCtrl', function ($scope, mainService, $rootScope) {
         },function(){
             $scope.isLoading = false;
         });*/
-    }
-
-    categorySelected($scope.categories[0]);
-    drawChart($scope.categories[0].subCategories[0]);
-    $scope.categories[0].subCategories[0].isChecked = true
-
-    $scope.redirectToManage = function(category){
-        $rootScope.category = category;
     }
 
 

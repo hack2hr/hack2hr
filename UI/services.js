@@ -111,25 +111,21 @@ services.factory('trendService', function($http, $q) {
 });
 
 services.factory('addUserModalService', function($http, $q) {
-    var service = {};
-
-    service.addUser = function(data) {
-        return request($http, $q, 'post', '/api/staff/add/',
-            'addUser', 'addUserModalService', data);
+    return {
+        addUser: function(data) {
+            return request($http, $q, 'post', '/api/staff/add/',
+                'addUser', 'addUserModalService', data);
+        }
     }
-
-    return service;
 });
 
 services.factory('editUserModalService', function($http, $q) {
-    var service = {};
-
-    service.editUser = function(data) {
-        return request($http, $q, 'post', '/api/staff/update/', 
-            'editUser', 'editUserModalService', data);
+    return {
+        editUser: function(data) {
+            return request($http, $q, 'post', '/api/staff/update/', 
+                'editUser', 'editUserModalService', data);
+        }
     }
-
-    return service;
 });
 
 services.factory('datesService', function () {
