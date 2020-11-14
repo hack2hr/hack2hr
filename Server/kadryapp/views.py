@@ -158,7 +158,7 @@ def apiPeopleOne(request):
 
 #Insert People document
 @csrf_exempt 
-def apiPeopleAdd(request):
+def apiPeopleUpdate(request):
     if(request.method == "OPTIONS"): 
         response = JsonResponse({})
         response["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
@@ -168,6 +168,8 @@ def apiPeopleAdd(request):
         return response
     body_unicode = request.body.decode('utf-8')
     jsonValue = json.loads(body_unicode)
+
+    
 
     year = jsonValue['year']
     totalyear = jsonValue['totalyear']
@@ -199,55 +201,60 @@ def apiPeopleAdd(request):
     q4old = jsonValue['data']['q4']['other']['young']
     q4young = jsonValue['data']['q4']['other']['young']
 
-    data = {
-        "year": year,
-        "totalyear": totalyear,
-        "madeby": madeby,
-        "auto": auto,
-        "accepted": accepted,
-        "data": {
-            "q1": {
-                "totalq1": q1totalq1,
-                "workAble": q1workAble,
-                "migrants": q1migrants,
-                "other": {
-                    "old": q1old,
-                    "young": q1young
-                }
-            },
-            "q2": {
-                "totalq2": q2totalq2,
-                "workAble": q2workAble,
-                "migrants": q2migrants,
-                "other": {
-                    "old": q2old,
-                    "young": q2young
-                }
-            },
-            "q3": {
-                "totalq3": q3totalq3,
-                "workAble": q3workAble,
-                "migrants": q3migrants,
-                "other": {
-                    "old": q3old,
-                    "young": q3young
-                }
-            },
-            "q4": {
-                "totalq4": q4totalq4,
-                "workAble": q4workAble,
-                "migrants": q4migrants,
-                "other": {
-                    "old": q4old,
-                    "young": q4young
-                }
-            }        
+    data = { 
+        "$set": {
+            "year": year,
+            "totalyear": totalyear,
+            "madeby": madeby,
+            "auto": auto,
+            "accepted": accepted,
+            "data": {
+                "q1": {
+                    "totalq1": q1totalq1,
+                    "workAble": q1workAble,
+                    "migrants": q1migrants,
+                    "other": {
+                        "old": q1old,
+                        "young": q1young
+                    }
+                },
+                "q2": {
+                    "totalq2": q2totalq2,
+                    "workAble": q2workAble,
+                    "migrants": q2migrants,
+                    "other": {
+                        "old": q2old,
+                        "young": q2young
+                    }
+                },
+                "q3": {
+                    "totalq3": q3totalq3,
+                    "workAble": q3workAble,
+                    "migrants": q3migrants,
+                    "other": {
+                        "old": q3old,
+                        "young": q3young
+                    }
+                },
+                "q4": {
+                    "totalq4": q4totalq4,
+                    "workAble": q4workAble,
+                    "migrants": q4migrants,
+                    "other": {
+                        "old": q4old,
+                        "young": q4young
+                    }
+                }        
+            }
         }
     }
 
+    
     collection = db['People']
-    doc_id = collection.insert_one(data).inserted_id
-    document = collection.find_one({'_id': ObjectId(doc_id)})
+    myquery = { "year": year }
+
+    collection.update_one(myquery, data)
+    
     response = JsonResponse(json_util.dumps(document), safe = False)
     response["Access-Control-Allow-Origin"] = "*"
     return response
