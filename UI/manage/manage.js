@@ -10,9 +10,10 @@ manage.controller('ManageCtrl', function ($scope, $rootScope, $window, infoServi
     $scope.q2 = 0;
     $scope.q3 = 0;
     $scope.q4 = 0;
-
+    $scope.years = {};
 
     if(!$scope.category || !$rootScope.category) $window.location.hash = "#/main";
+
     setDefaultQuartals();
     function setDefaultQuartals(){
         if($scope.category.years){
@@ -20,8 +21,6 @@ manage.controller('ManageCtrl', function ($scope, $rootScope, $window, infoServi
             $scope.q1=$scope.q2=$scope.q3=$scope.q4 = Number(yearVal/4).toFixed(1); //4 quart in year
         }
     }
-
-    $scope.years = {};
 
     $scope.selectYear = function(year){
         $scope.currentYear = year;

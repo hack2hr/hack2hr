@@ -82,7 +82,7 @@
                     <div class="row" style="margin-bottom: 30px;">
                         <div class="col">
                             <h4>Прогресс по категориям</h4>
-                            <!-- <h6 class="text-muted mb-2">Subtitle</h6>-->
+                            <h6 class="text-muted mb-2">Выберите модель для автоматического расчета значений</h6>
                         </div>
                     </div>
                     <div class="row" style="margin-bottom: 30px;">
@@ -125,7 +125,7 @@
                     <div class="row" style="margin-bottom: 30px;">
                         <div class="col">
                             <h4>Кварталы</h4>
-                             <h6 class="text-muted mb-2">Выберите модель для автоматического расчета значений</h6>
+
                         </div>
                     </div>
                     <div class="row" style="margin-bottom: 30px;">
@@ -167,7 +167,7 @@
                     <div class="row">
                         <div class="col">
                             <h4>Отрасли</h4>
-                            <h6 class="text-muted mb-2">текст</h6>
+                           <!-- <h6 class="text-muted mb-2">текст</h6>-->
                         </div>
 
                     </div>
@@ -183,10 +183,10 @@
                             <tbody>
                             <tr ng-repeat="category in subCategories">
                                 <td >
-                                    <input type="checkbox" ng-click="category.isSelected=!category.isSelected" ng-checked="category.isSelected">
+                                    <input type="checkbox" id="cat{{$index}}" ng-click="category.isSelected=!category.isSelected" ng-checked="category.isSelected">
                                 </td>
                                 <td>
-                                    <span>{{category.name}}</span>
+                                    <label for="cat{{$index}}">{{category.name}}</label>
                                 </td>
                                 <td>
 
