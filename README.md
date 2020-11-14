@@ -14,8 +14,11 @@
  
   
 Технологии, с помощью которых происходит создание подсистемы: 
+
 SERVER: Python + Django 
+
 UI: BOOTSTRAP4 + Angular JS + Charts.js
+
 BD: Mongo DB
 
-Аналитические инструменты будут реализованы на python с использованием библиотек: ...
+Модели будут реализованы на python с использованием библиотек: scipy, status models, sk learn
