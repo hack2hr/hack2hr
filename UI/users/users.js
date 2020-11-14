@@ -15,8 +15,15 @@ users.controller('UsersCtrl', function ($scope, userService) {
 
 
     $scope.deleteUser = function(user){
-        var id = { _id: user._id }
-        userService.deleteUser(id);
+        userService.deleteUser({
+            '_id': user._id.$oid
+        }).then(function (result) {
+            if (result) {
+                uploadUsers();
+            }
+        }), function(error) {
+            console.error('UsersCtrl     deleteUser: ', error);
+        };
     }
 
     $scope.editUser = function(user){
@@ -25,7 +32,7 @@ users.controller('UsersCtrl', function ($scope, userService) {
                 uploadUsers();
             }
         }, function(error) {
-            console.error('UsersCtrl editUserModal: ', error);
+            console.error('UsersCtrl     editUserModal: ', error);
         })
     }
 
