@@ -2,7 +2,7 @@
 
 var mainPage = angular.module('myApp.mainPage', ['ngRoute']);
 
-mainPage.controller('MainPageCtrl', function ($scope, mainService) {
+mainPage.controller('MainPageCtrl', function ($scope, mainService, $rootScope) {
 
     getTestRequest();
 
@@ -133,6 +133,11 @@ mainPage.controller('MainPageCtrl', function ($scope, mainService) {
             $scope.isLoading = false;
         });*/
     }
+
+    $scope.redirectToManage = function(category){
+        $rootScope.category = category;
+    }
+
 
     /*
 

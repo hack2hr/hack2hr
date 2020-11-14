@@ -1,7 +1,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-1">
-            <h1 class="text-dark mb-0 mt-2">Внесение</h1>
+            <h1 class="text-dark mb-0 mt-2 text-nowrap">{{category.categoryName}}</h1>
             <h6 class="text-gray-400 text-nowrap">Показатели {{years[1] + " - " + years[years.length-1]}} годов</h6>
         </div>
         <!--<div class="col d-xl-flex align-items-xl-center">
@@ -20,7 +20,7 @@
                 </div>
                 <div class="card-body ">
                     <div>
-                        <canvas id="canvas" style="display: block; width: 400px; mmin-height: 400px; max-height: 400px;" width="800"  class="chartjs-render-monitor"></canvas>
+                        <canvas id="canvas" style="display: block; width: 400px; min-height: 400px; max-height: 400px;" width="800"  class="chartjs-render-monitor"></canvas>
                     </div>
                 </div>
             </div>
