@@ -98,6 +98,7 @@ def testAddMongo(request):
     doc_id = collection.insert_one(data).inserted_id
     document = collection.find_one({'_id': ObjectId(doc_id)})
     response = JsonResponse(json_util.dumps(document), safe = False)
+    response["Access-Control-Allow-Origin"] = "*"
     return response
 
 @csrf_exempt 
@@ -110,7 +111,7 @@ def testPyMongo(request):
         test.append(doc)
     
 
-        
+    response["Access-Control-Allow-Origin"] = "*"    
     response = JsonResponse(json_util.dumps(test), safe = False)
     return response
 
@@ -127,6 +128,7 @@ def apiPeopleAll(request):
     for doc in collection.find():
         test.append(doc)
     response = JsonResponse(json_util.dumps(test), safe = False)
+    response["Access-Control-Allow-Origin"] = "*"
     return response
 
 #Get one People document
@@ -137,6 +139,7 @@ def apiPeopleOne(request):
     collection = db['People']  
     result = collection.find_one({"year": year})  
     response = JsonResponse(json_util.dumps(result), safe = False)
+    response["Access-Control-Allow-Origin"] = "*"
     return response
 
 #Insert People document
@@ -153,10 +156,16 @@ def apiPeopleAdd(request):
     jsonValue = json.loads(body_unicode)
     year = jsonValue['year']
     totalyear = jsonValue['totalyear']
+    madeby = jsonValue['madeby']
+    accepted = jsonValue['accepted']
+    
 
     data = {
         "year": "2000",
         "totalyear": "1000",
+        "madeby": "Ivanov",
+        "auto": "true",
+        "accepted": "false",
         "data": {
             "q1": {
                 "totalq1": "800",
@@ -201,6 +210,7 @@ def apiPeopleAdd(request):
     doc_id = collection.insert_one(data).inserted_id
     document = collection.find_one({'_id': ObjectId(doc_id)})
     response = JsonResponse(json_util.dumps(document), safe = False)
+    response["Access-Control-Allow-Origin"] = "*"
     return response
 
 
@@ -216,6 +226,7 @@ def apiStaffAll(request):
     for doc in collection.find():
         test.append(doc)
     response = JsonResponse(json_util.dumps(test), safe = False)
+    response["Access-Control-Allow-Origin"] = "*"
     return response
 
 #Get one Staff document
@@ -226,6 +237,7 @@ def apiStaffOne(request):
     collection = db['Staff']  
     result = collection.find_one({"_id": _id})  
     response = JsonResponse(json_util.dumps(result), safe = False)
+    response["Access-Control-Allow-Origin"] = "*"
     return response
 
 #Insert Staff document
@@ -260,6 +272,7 @@ def apiStaffAdd(request):
     collection = db['Staff']
     doc_id = collection.insert_one(data).inserted_id
     response = JsonResponse(json_util.dumps(doc_id), safe = False)
+    response["Access-Control-Allow-Origin"] = "*"
     return response
 
 #Update Staff document
@@ -298,6 +311,7 @@ def apiStaffUpdate(request):
     collection = db['Staff']
     collection.update_one(myquery, data)
     response = JsonResponse(json_util.dumps(myquery), safe = False)
+    response["Access-Control-Allow-Origin"] = "*"
     return response
 
 #Delete Staff document
@@ -320,4 +334,5 @@ def apiStaffDelete(request):
     collection = db['Staff']
     collection.delete_one(myquery)
     response = JsonResponse(json_util.dumps(myquery), safe = False)
+    response["Access-Control-Allow-Origin"] = "*"
     return response
