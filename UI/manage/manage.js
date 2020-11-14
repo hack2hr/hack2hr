@@ -25,7 +25,7 @@ manage.controller('ManageCtrl', function ($scope, $rootScope, $window, infoServi
     $scope.graph = {};
     $scope.selectYear = function(year){
         $scope.currentYear = year;
-        recalculateQuartals();
+        fillQuartals();
         // setDefaultQuartals();
     }
 
@@ -127,8 +127,10 @@ manage.controller('ManageCtrl', function ($scope, $rootScope, $window, infoServi
                     return sum + value
                 }, 0);
 
-                $scope.graph[year] = total / QUATERS_AMOUNT;
-                $scope.prediction[year] = quaters;
+                $scope.graph[year] = (total / QUATERS_AMOUNT).toFixed(2);
+                $scope.prediction[year] = quaters.map(function (value) {
+                    return value.toFixed(2);
+                });
             }
         });
     }
@@ -171,12 +173,16 @@ manage.controller('ManageCtrl', function ($scope, $rootScope, $window, infoServi
         }
     }
 
-    $scope.showPredictionQuartals = true
+    $scope.showPredictionQuartals = true;
     $scope.acceptedChosen = function() {
         $scope.showPredictionQuartals = !$scope.isAccepted;
         if ($scope.isAccepted) {
             $scope.getPredictionByModel();
         }
+        fillQuartals();
+    }
+
+    function fillQuartals() {
         $scope.q1 = $scope.isAccepted ? $scope.prediction[$scope.currentYear][0] : 0;
         $scope.q2 = $scope.isAccepted ? $scope.prediction[$scope.currentYear][1] : 0;
         $scope.q3 = $scope.isAccepted ? $scope.prediction[$scope.currentYear][2] : 0;
