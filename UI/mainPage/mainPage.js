@@ -93,7 +93,7 @@ mainPage.controller('MainPageCtrl', function ($scope, mainService, trendService,
             $scope.$apply();
         }
     }
-    
+
     /* * * * * * * * * * * * * chart * * * * * * * * * * * * * * */
 
     function setDataByLabels(labels){
