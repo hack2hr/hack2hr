@@ -71,11 +71,143 @@ class Model:
 
 
 if __name__ == '__main__':
-    string = [{}, {}]
+    string = [{
+        '_id': {
+            '$oid': '5faef371cdf178651838d36d'
+        },
+        'year': '1998',
+        'totalyear': '1000',
+        'data': {
+            'q1': {
+                'totalq1': '800',
+                'workAble': '200',
+                'migrants': '200',
+                'other': {
+                    'old': '200',
+                    'young': '200'
+                }
+            },
+            'q2': {
+                'totalq2': '800',
+                'workAble': '200',
+                'migrants': '200',
+                'other': {
+                    'old': '200',
+                    'young': '200'
+                }
+            },
+            'q3': {
+                'totalq3': '800',
+                'workAble': '200',
+                'migrants': '200',
+                'other': {
+                    'old': '200',
+                    'young': '200'
+                }
+            },
+            'q4': {
+                'totalq4': '800',
+                'workAble': '200',
+                'migrants': '200',
+                'other': {
+                    'old': '200',
+                    'young': '200'
+                }
+            }
+        }
+    }, {
+        '_id': {
+            '$oid': '5faef3b814bcc17c7a4af696'
+        },
+        'year': '1999',
+        'totalyear': '1000',
+        'data': {
+            'q1': {
+                'totalq1': '800',
+                'workAble': '200',
+                'migrants': '200',
+                'other': {
+                    'old': '200',
+                    'young': '200'
+                }
+            },
+            'q2': {
+                'totalq2': '800',
+                'workAble': '200',
+                'migrants': '200',
+                'other': {
+                    'old': '200',
+                    'young': '200'
+                }
+            },
+            'q3': {
+                'totalq3': '800',
+                'workAble': '200',
+                'migrants': '200',
+                'other': {
+                    'old': '200',
+                    'young': '200'
+                }
+            },
+            'q4': {
+                'totalq4': '800',
+                'workAble': '200',
+                'migrants': '200',
+                'other': {
+                    'old': '200',
+                    'young': '200'
+                }
+            }
+        }
+    }, {
+        '_id': {
+            '$oid': '5faef3d08e3f2d43500bdb92'
+        },
+        'year': '2000',
+        'totalyear': '1000',
+        'data': {
+            'q1': {
+                'totalq1': '800',
+                'workAble': '200',
+                'migrants': '200',
+                'other': {
+                    'old': '200',
+                    'young': '200'
+                }
+            },
+            'q2': {
+                'totalq2': '800',
+                'workAble': '200',
+                'migrants': '200',
+                'other': {
+                    'old': '200',
+                    'young': '200'
+                }
+            },
+            'q3': {
+                'totalq3': '800',
+                'workAble': '200',
+                'migrants': '200',
+                'other': {
+                    'old': '200',
+                    'young': '200'
+                }
+            },
+            'q4': {
+                'totalq4': '800',
+                'workAble': '200',
+                'migrants': '200',
+                'other': {
+                    'old': '200',
+                    'young': '200'
+                }
+            }
+        }
+    }]
 
     print(Model(string, {
         'current_year': 1999,
         'years_to_predict': 1,
-        'x_params': ['other.old', 'workAble'],
-        'y_param': 'migrants'
+        'x_params': ['data.q1.other.old', 'data.q1.workAble'],
+        'y_param': 'data.q1.migrants'
     }).predict('exponential'))
