@@ -1,5 +1,4 @@
 from django.shortcuts import render
-
 import statsmodels
 import json
 from django.http.response import JsonResponse
@@ -9,6 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 import pprint
+import openpyxl
 client = MongoClient('localhost', 27017)
 db = client['KadryTest']
 
@@ -430,7 +430,7 @@ def apiPeoplePredict(request):
         "y_param": dataY,
     }
 
-    
+
 
     
     
@@ -439,3 +439,23 @@ def apiPeoplePredict(request):
     response = JsonResponse(json_util.dumps(myquery), safe = False)
     response["Access-Control-Allow-Origin"] = "*"
     return response
+
+
+#Predict People
+@csrf_exempt 
+#http://10.0.0.4:8080/api/people/predict/
+def apiPeopleDownload(request):
+    
+    if(request.method == "OPTIONS"): 
+        response = JsonResponse({})
+        response["Access-Control-Allow-Methods"] = "POST, GET, OPTIONS"
+        response["Access-Control-Allow-Origin"] = "http://13.79.21.196:8080"
+        response["Access-Control-Allow-Headers"] = "origin, x-requested-with, content-type, x-ijt"
+        response["Access-Control-Allow-Origin"] = "*"
+        return response
+    collection = db['People']
+    data = []
+    for doc in collection.find():
+        data.append(doc)
+
+    print(data)
