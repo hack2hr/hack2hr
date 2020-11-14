@@ -435,9 +435,6 @@ def apiPeoplePredict(request):
 
     result = Model(stringForModel, data).predict(modelValue)
 
-
-
-    
     response = JsonResponse(json_util.dumps(result), safe = False)
     response["Access-Control-Allow-Origin"] = "*"
     return response

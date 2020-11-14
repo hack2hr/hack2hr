@@ -21,29 +21,32 @@ class Model:
 
     def predict(self, model='default'):
         if model != 'default':
-            for x_param in self.x_params:
-                self.X.append([self.parse_param(x_param.split('.'), year) for year in self.data])
+            self.Y = [self.parse_param(self.y_param.split('.'), quater) for year in self.data for quater in year['data'].values()]
+            if len(self.x_params) > 0:
+                for x_param in self.x_params:
+                    self.X.append([self.parse_param(x_param.split('.'), quater) for year in self.data for quater in year['data'].values()])
 
-            self.Y = [self.parse_param(self.y_param.split('.'), year) for year in self.data]
-
-            self.X = np.array(self.X).T
+                self.X = np.array(self.X).T
+                self.X = np.hstack((self.X, np.arange(len(self.X)).reshape(-1, 1)))
+            else:
+                self.X = np.arange(len(self.Y)).reshape(-1, 1)
 
         return getattr(self, model)()
 
     def linear(self):
         return LinearRegression() \
-            .fit(self.X[: (-1) * self.years_to_predict], self.Y[: (-1) * self.years_to_predict]) \
-            .predict(self.X[(-1) * self.years_to_predict:])
+            .fit(self.X[: (-1) * self.years_to_predict * 4], self.Y[: (-1) * self.years_to_predict * 4]) \
+            .predict(self.X[(-1) * self.years_to_predict * 4:])
 
     def exponential(self):
         return [np.exp(i) for i in LinearRegression()
-                .fit(self.X[: (-1) * self.years_to_predict], np.log(self.Y[: (-1) * self.years_to_predict]))
-                .predict(self.X[(-1) * self.years_to_predict:])]
+                .fit(self.X[: (-1) * self.years_to_predict * 4], np.log(self.Y[: (-1) * self.years_to_predict * 4]))
+                .predict(self.X[(-1) * self.years_to_predict * 4:])]
 
     def logarithmic(self):
         return LinearRegression() \
-            .fit(np.log(self.X[: (-1) * self.years_to_predict]), self.Y[: (-1) * self.years_to_predict]) \
-            .predict(np.log(self.X[(-1) * self.years_to_predict:]))
+            .fit(np.log(self.X[: (-1) * self.years_to_predict * 4]), self.Y[: (-1) * self.years_to_predict * 4]) \
+            .predict(np.log(self.X[(-1) * self.years_to_predict * 4:]))
 
     def default(self):
         """
@@ -208,6 +211,6 @@ if __name__ == '__main__':
     print(Model(string, {
         'current_year': 1999,
         'years_to_predict': 1,
-        'x_params': ['data.q1.other.old', 'data.q1.workAble'],
-        'y_param': 'data.q1.migrants'
-    }).predict('exponential'))
+        'x_params': ['other.old'],
+        'y_param': 'migrants'
+    }).predict('linear'))
