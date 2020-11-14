@@ -6,43 +6,208 @@ class Model:
 
     def __init__(self, data, params):
         self.data = data
-        self.id, self.start_year, self.years_amount = params
+        self.current_year = params['current_year']
+        self.years_to_predict = params['years_to_predict']
+        self.x_params = params['x_params']
+        self.y_param = params['y_param']
+
         self.X = []
         self.Y = []
 
-    def predict(self, model='linear'):
-        # TODO разобраться с парсингом json данных
-        for year, trend in self.data.items():
-            if year == self.start_year:
-                self.Y = trend
-            else:
-                self.X.append(trend)
+    def parse_param(self, path, data):
+        if len(path) == 1:
+            return int(data[path[0]])
+        return self.parse_param(path[1:], data[path[0]])
 
-        self.X = np.array(self.X).T
+    def predict(self, model='default'):
+        if model != 'default':
+            for x_param in self.x_params:
+                self.X.append([self.parse_param(x_param.split('.'), year) for year in self.data])
+
+            self.Y = [self.parse_param(self.y_param.split('.'), year) for year in self.data]
+
+            self.X = np.array(self.X).T
+
         return getattr(self, model)()
 
     def linear(self):
         return LinearRegression() \
-            .fit(self.X[: (-1) * self.years_amount], self.Y[: (-1) * self.years_amount]) \
-            .predict(self.X[(-1) * self.years_amount:])
+            .fit(self.X[: (-1) * self.years_to_predict], self.Y[: (-1) * self.years_to_predict]) \
+            .predict(self.X[(-1) * self.years_to_predict:])
 
     def exponential(self):
-        pass
+        return [np.exp(i) for i in LinearRegression()
+                .fit(self.X[: (-1) * self.years_to_predict], np.log(self.Y[: (-1) * self.years_to_predict]))
+                .predict(self.X[(-1) * self.years_to_predict:])]
 
     def logarithmic(self):
-        pass
+        return LinearRegression() \
+            .fit(np.log(self.X[: (-1) * self.years_to_predict]), self.Y[: (-1) * self.years_to_predict]) \
+            .predict(np.log(self.X[(-1) * self.years_to_predict:]))
+
+    def default(self):
+        """
+        1. Данные 2020, кол-во занятых
+        2. Объемы проз-ва, по 26-ой год -> индекс роста объема проз=ва (тек / пред года)
+        3. Произ=ть труда по 26-ой год, -> индекс роста (тек / пред)
+
+        Можем посчитать кол-во занятых за 21-ый год = занятость в 20-ом году * иденкс роста объмов про-ва / индекс роста произ-ва
+        :return:
+        """
+        people = self.data['people']
+        pr = self.data['pr']
+        tr = self.data['tr']
+
+        def iob_pr(year):
+            return pr[int(year)][self.y_param] / pr[int(year) - 1][self.y_param]
+
+        def ipr_tr(year):
+            return tr[int(year)][self.y_param] / tr[int(year) - 1][self.y_param]
+
+        return [
+            self.parse_param(self.y_param.split('.'), year) * iob_pr(year['year']) / ipr_tr(year['year'])
+            for year in people[: (-1) * self.years_to_predict]
+        ]
 
 
 if __name__ == '__main__':
-    Model({
-        2016: [1, 2, 3],
-        2017: [2, 3, 4],
-        2018: [3, 4, 5],
-        2019: [3, 4, 5],
-        2020: [3, 4, 5],
-        2021: [3, 4, 5]
+    string = [{
+        '_id': {
+            '$oid': '5faef371cdf178651838d36d'
+        },
+        'year': '1998',
+        'totalyear': '1000',
+        'data': {
+            'q1': {
+                'totalq1': '800',
+                'workAble': '200',
+                'migrants': '200',
+                'other': {
+                    'old': '200',
+                    'young': '200'
+                }
+            },
+            'q2': {
+                'totalq2': '800',
+                'workAble': '200',
+                'migrants': '200',
+                'other': {
+                    'old': '200',
+                    'young': '200'
+                }
+            },
+            'q3': {
+                'totalq3': '800',
+                'workAble': '200',
+                'migrants': '200',
+                'other': {
+                    'old': '200',
+                    'young': '200'
+                }
+            },
+            'q4': {
+                'totalq4': '800',
+                'workAble': '200',
+                'migrants': '200',
+                'other': {
+                    'old': '200',
+                    'young': '200'
+                }
+            }
+        }
     }, {
-        'id': [],
-        'start_year': 2021,
-        'years_amount': 6
-    }).predict()
+        '_id': {
+            '$oid': '5faef3b814bcc17c7a4af696'
+        },
+        'year': '1999',
+        'totalyear': '1000',
+        'data': {
+            'q1': {
+                'totalq1': '800',
+                'workAble': '200',
+                'migrants': '200',
+                'other': {
+                    'old': '200',
+                    'young': '200'
+                }
+            },
+            'q2': {
+                'totalq2': '800',
+                'workAble': '200',
+                'migrants': '200',
+                'other': {
+                    'old': '200',
+                    'young': '200'
+                }
+            },
+            'q3': {
+                'totalq3': '800',
+                'workAble': '200',
+                'migrants': '200',
+                'other': {
+                    'old': '200',
+                    'young': '200'
+                }
+            },
+            'q4': {
+                'totalq4': '800',
+                'workAble': '200',
+                'migrants': '200',
+                'other': {
+                    'old': '200',
+                    'young': '200'
+                }
+            }
+        }
+    }, {
+        '_id': {
+            '$oid': '5faef3d08e3f2d43500bdb92'
+        },
+        'year': '2000',
+        'totalyear': '1000',
+        'data': {
+            'q1': {
+                'totalq1': '800',
+                'workAble': '200',
+                'migrants': '200',
+                'other': {
+                    'old': '200',
+                    'young': '200'
+                }
+            },
+            'q2': {
+                'totalq2': '800',
+                'workAble': '200',
+                'migrants': '200',
+                'other': {
+                    'old': '200',
+                    'young': '200'
+                }
+            },
+            'q3': {
+                'totalq3': '800',
+                'workAble': '200',
+                'migrants': '200',
+                'other': {
+                    'old': '200',
+                    'young': '200'
+                }
+            },
+            'q4': {
+                'totalq4': '800',
+                'workAble': '200',
+                'migrants': '200',
+                'other': {
+                    'old': '200',
+                    'young': '200'
+                }
+            }
+        }
+    }]
+
+    print(Model(string, {
+        'current_year': 1999,
+        'years_to_predict': 1,
+        'x_params': ['data.q1.other.old', 'data.q1.workAble'],
+        'y_param': 'data.q1.migrants'
+    }).predict('exponential'))
