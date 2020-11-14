@@ -15,7 +15,7 @@
             <div class="card mb-3">
                 <div class="card-header   border-bottom-0 p-3" >
                     <ul class="nav nav-tabs" >
-                        <li ng-repeat="year in years" class="nav-item" ng-click="selectYear(year)"><a ng-class="{'active':activeTab == year }" data-toggle="tab"  class="nav-link" href="">{{year?year:'Все'}}</a></li>
+                        <li ng-repeat="year in years" class="nav-item" ng-click="selectYear(year)"><a ng-class="{'active':activeTab == year }" data-toggle="tab"  class="nav-link" href="">{{year!='All'?year:'Все'}}</a></li>
                     </ul>
                 </div>
                 <div class="card-body ">
