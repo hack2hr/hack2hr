@@ -102,7 +102,7 @@ services.factory('userService', function ($http, $uibModal, $sce, $q) {
     return service;
 });
 
-services.factory('trendService', function() {
+services.factory('trendService', function($q, $http) {
     var service = {};
 
     service.people = {
@@ -114,6 +114,15 @@ services.factory('trendService', function() {
         }
     }
 
+    service.addPeopleManage = function(data) {
+        var deferred = $q.defer();
+        $http.post(ipAdress + "/api/people/add/", data).success(function (response) {
+            deferred.resolve(response);
+        }).error(function () {
+            deferred.reject('Error in addUser in addUserModalService function');
+        });
+        return deferred.promise;
+    }
 
     return service;
 });

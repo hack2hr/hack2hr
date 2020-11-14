@@ -36,7 +36,7 @@ manage.controller('ManageCtrl', function ($scope, $rootScope, $window) {
 
     function setDataSet(subCategory){
         var dataset = [];
-        var data = {type: 'line', backgroundColor:"rgb(0,190,255)", label: "test", data: setData(subCategory) };        dataset.push(data);
+        var data = {type: 'line', backgroundColor:"rgb(0,190,255)", label: $scope.category.categoryName, data: setData(subCategory) };        dataset.push(data);
         return dataset;
     }
     $scope.years = []
@@ -92,5 +92,75 @@ manage.controller('ManageCtrl', function ($scope, $rootScope, $window) {
             }
         });
     }
+
+    $scope.subCategories = [{
+        categoryName:'Трудоспособное население',
+
+    }, {
+        categoryName:'Иностраныне мигранты',
+
+    }];
+
+    $scope.q1 = 0;
+    $scope.q2 = 0;
+    $scope.q3 = 0;
+    $scope.q4 = 0;
+    $scope.isAccepted = false;
+    $scope.isAuto = false;
+
+    $scope.addPeopleManage = function(){
+        $scope.isAnySelected = false;
+        angular.forEach($scope.subCategories, function (subCat) {
+            if (subCat.isSelected) {
+                $scope.isAnySelected = true;
+            }
+        });
+        if(q1 && q2 && q3 && q4 && $scope.isAnySelected) {
+            var year = new Date().getFullYear();
+            var peopleData = null;
+            var q1 = [];
+            var q2 = [];
+            var q3 = [];
+            var q4 = [];
+            angular.forEach($scope.subCategories, function (subCat) {
+                if (subCat.isSelected) {
+                    q1.push({tota: q1});
+                    q2.push({subCat: q2});
+                    q3.push({subCat: q3});
+                    q4.push({subCat: q4});
+                }
+            });
+            peopleData.year = year;
+            peopleData.totalyear = q1 + q2 + q3 + q4;
+            peopleData.data = {
+                q1: q1,
+                q2: q2,
+                q3: q3,
+                q4: q4
+            };
+            peopleData.accepted = $scope.isAccepted;
+            peopleData.auto = $scope.isAuto;
+            peopleData.madeby = "Ivanov";
+
+            trendService.addPeopleManage(peopleData).then(function () {
+
+            }, function (error) {
+                console.log(error)
+            });
+        } else {
+            $scope.addError = true;
+            setTimeout(function (){
+                $scope.addError = false;
+                tryDigest();
+            }, 1000)
+        }
+    }
+
+    function tryDigest() {
+        if (!$scope.$$phase) {
+            $scope.$apply();
+        }
+    }
+
 
 });
