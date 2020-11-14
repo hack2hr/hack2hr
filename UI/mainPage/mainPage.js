@@ -17,32 +17,33 @@ mainPage.controller('MainPageCtrl', function ($scope, mainService, trendService,
     var barChart = null;
     var years = [];
 
+
     /* * * * * * * * * * * * * define scope * * * * * * * * * */
 
     $scope.categorySelect = null;
     $scope.activeTab = null;
 
-    $scope.categories = [{ id:1,
-        categoryName: "Численность трудовых ресурсов", subCategories:[
-            {categoryName: "трудоспособное население в трудоспособном возрасте"},
-            {categoryName: "иностранные трудовые мигранты"},
-            {categoryName: "лица старше трудоспособного возраста"},
-            {categoryName: "подростки"}]
-    },{id:2,
-        categoryName: " Среднегодовая численность занятых в экономике", subCategories:[
-            {categoryName: "А – Сельское, лесное хозяйство, охота, рыболовство и рыбоводство"},
-            {categoryName: "В – Добыча полезных ископаемых", },
-            {categoryName: "С – Обрабатывающие производства" },
-            {categoryName: "D – Обеспечение электрическое энергией, газом и паром, кондиционирование воздуха"}]
-    },{
-
-    },{
-
-    },{
-
-    },{
-
+    $scope.categories = [{
+        id: 'people',
+        title: "Численность трудовых ресурсов",
+        subCategories: {
+            workAble: { name: 'Трудоспособное население в трудоспособном возрасте', years: {} },
+            migrants: { name: 'Иностранные трудовые мигранты', years: {} },
+            'other.old': { name: 'Лица старше трудоспособного возраста', years: {} },
+            'other.young': { name: 'Подростки', years: {} }
+        }
     }];
+
+    // {
+    //     id: 'production',
+    //     title: "Среднегодовая численность занятых в экономике",
+    //     subCategories: {
+    //         a: { name: 'А – Сельское, лесное хозяйство, охота, рыболовство и рыбоводство', years: {} },
+    //         b: { name: 'В – Добыча полезных ископаемых', years: {} },
+    //         c: { name: 'С – Обрабатывающие производства', years: {} },
+    //         d: { name: 'D – Обеспечение электрическое энергией, газом и паром, кондиционирование воздуха', years: {} }
+    //     }
+    // }
 
 
 
@@ -73,28 +74,21 @@ mainPage.controller('MainPageCtrl', function ($scope, mainService, trendService,
 
     /* * * * * * * * * * * * call onload * * * * * * * * * * * * * */
 
-    // TODO Do we need this?)))
-    getTestRequest();
-    getTrends();
-
+    // getTestRequest();
     $scope.years = [];
     setYears();
 
-
-    categorySelected($scope.categories[0]);
-    drawChart($scope.categories[0].subCategories[0]);
-    $scope.categories[0].subCategories[0].isChecked = true
+    getTrends()
+        .then(setTrends)
+        .then(function() {
+            categorySelected($scope.categories[0]);
+            drawChart($scope.categorySelect.subCategories.workAble);
+            $scope.categorySelect.subCategories.workAble.isChecked = true;
+            $scope.isLoading = false;
+        });
 
 
     /* * * * * * * * * * * * * chart * * * * * * * * * * * * * * */
-
-    function setData(){
-        var data = [];
-        angular.forEach($scope.years, function (year){
-            data.push( (Math.random() * 10).toFixed(2) )
-        })
-        return data;
-    }
 
     function setDataByLabels(labels){
         var data = [];
@@ -106,7 +100,15 @@ mainPage.controller('MainPageCtrl', function ($scope, mainService, trendService,
 
     function setDataSet(subCategory){
         var dataset = [];
-        var data = {type: 'line',fill:false, backgroundColor:dynamicColors(), label: subCategory.categoryName, data: setData(subCategory) };
+        var data = {
+            type: 'line',
+            fill: false,
+            backdropColor: dynamicColors(),
+            label: subCategory.name,
+            data: Object.values(subCategory.years).map(function(value) {
+                return value.toFixed(2);
+            })
+        };
         dataset.push(data);
         return dataset;
     }
@@ -131,19 +133,18 @@ mainPage.controller('MainPageCtrl', function ($scope, mainService, trendService,
         if(barChart!=null) barChart.destroy();
         var chartData = {
             labels: $scope.years,
-            datasets:  setDataSet(subCategory)
+            datasets: setDataSet(subCategory)
         };
 
         var ctx = document.getElementById('canvas').getContext('2d');
-            barChart = new Chart(ctx, {
+        barChart = new Chart(ctx, {
             type: 'line',
             data: chartData,
             options: {
-
                 title: {
                     position:'left',
                     display: true,
-                    text: 'Отросль'
+                    text: 'Ресурсы'
                 },
                 //tooltips: {
                 //    mode: 'index',
@@ -218,11 +219,30 @@ mainPage.controller('MainPageCtrl', function ($scope, mainService, trendService,
 
     /* * * * * * * * * * * * trends calculation * * * * * * * * * */
     function getTrends() {
-        trendService.people.getAll().then(function(result) {
-            console.log(result);
-        }, function (error) {
-            console.error('Error loading getTrends on mainPage: ', error);
+        return Promise.all(
+            $scope.categories.map(function(trend) {
+                return trendService[trend.id].getAll();
+            })
+        );
+    }
+
+    function setTrends(uploadedTrends) {
+        var QUATER_AMOUNT = 4;
+
+        uploadedTrends.forEach(function(categoryTrend, index) {
+            categoryTrend.forEach(function(trend) {
+                var params = JSON.parse(JSON.stringify($scope.categories[index].subCategories));
+                Object.keys(params).forEach(function(param) {
+                    var total = Object.keys(trend.data).reduce(function(sum, quater) {
+                        return sum + parseParam(param.split('.'), trend.data[quater]);
+                    }, 0);
+
+                    $scope.categories[index].subCategories[param].years[trend.year] = total / QUATER_AMOUNT;
+                });
+            });
         });
+
+        return Promise.resolve();
     }
 
 
@@ -252,21 +272,28 @@ mainPage.controller('MainPageCtrl', function ($scope, mainService, trendService,
         //category.subCategories[0].isChecked= true
     }
 
-    function getTestRequest() {
-        var title = { "title":"TEST" };
-        mainService.getTestRequest(title).then(function (response) {
-            $scope.testData = response;
-            $scope.isLoading = false;
-        },function(){
-            $scope.isLoading = false;
-        });
-        /*mainService.getTestRequest(title).then(function (response) {
-            $scope.testData = response;
-            $scope.isLoading = false;
-        },function(){
-            $scope.isLoading = false;
-        });*/
+    function parseParam(path, data) {
+        if (path.length == 1) {
+            return parseFloat(data[path[0]]);
+        }
+        return parseParam(path.slice(1), data[path[0]])
     }
+
+    // function getTestRequest() {
+    //     var title = { "title":"TEST" };
+    //     mainService.getTestRequest(title).then(function (response) {
+    //         $scope.testData = response;
+    //         $scope.isLoading = false;
+    //     },function(){
+    //         $scope.isLoading = false;
+    //     });
+    //     /*mainService.getTestRequest(title).then(function (response) {
+    //         $scope.testData = response;
+    //         $scope.isLoading = false;
+    //     },function(){
+    //         $scope.isLoading = false;
+    //     });*/
+    // }
 
 
     /*

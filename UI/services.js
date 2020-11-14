@@ -99,7 +99,16 @@ services.factory('trendService', function($http, $q) {
 
     service.people = {
         getAll: function () {
-            return request($http, $q, 'get', '/api/people/all/', 'getAll', 'trendService')
+            return request($http, $q, 'get', '/api/people/all/', 'getAllPeople', 'trendService')
+                .then(function(result) {
+                    return JSON.parse(result);
+                });
+        }
+    }
+
+    service.production = {
+        getAll: function () {
+            return request($http, $q, 'get', '/api/production/all/', 'getAllProduction', 'trendService')
                 .then(function(result) {
                     return JSON.parse(result);
                 });
