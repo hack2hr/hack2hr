@@ -46,13 +46,13 @@
                 </div>
                 <div class="card-body" style="height: 504px">
                     
-                    <div ng-repeat="subCategory in categorySelect.subCategories"  ng-click="drawChart(subCategory); ">
+                    <div ng-repeat="(subName, subCategory) in categorySelect.subCategories"  ng-click="drawChart(subCategory); ">
                     <div class="row">
                             <div class="col ">
                                 <div style="padding-bottom: 10px; padding-top: 10px;" ><input  id="{{$index}}" type="radio" class="pointer" ng-checked="subCategory.isChecked" name="subCat" /> <label  for="{{$index}}" class="pointer d-inline">{{subCategory.name}}</label></div>
                             </div>
                             <div class="col-1 d-flex justify-content-center align-items-center">
-                                <a href="#/manage" ng-click="redirectToManage(subCategory)"><i class="fa fa-pencil"></i></a>
+                                <a href="#/manage" ng-click="redirectToManage(subName, subCategory)"><i class="fa fa-pencil"></i></a>
                             </div>
                     </div>
                         

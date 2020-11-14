@@ -68,8 +68,10 @@ mainPage.controller('MainPageCtrl', function ($scope, mainService, trendService,
         drawChart(subCategory);
     }
 
-    $scope.redirectToManage = function(category){
+    $scope.redirectToManage = function(selectedSubName, category){
         $rootScope.category = category;
+        $rootScope.subCategories = JSON.parse(JSON.stringify($scope.categorySelect.subCategories));
+        delete $rootScope.subCategories[selectedSubName];
     }
 
     /* * * * * * * * * * * * call onload * * * * * * * * * * * * * */
@@ -93,7 +95,7 @@ mainPage.controller('MainPageCtrl', function ($scope, mainService, trendService,
             $scope.$apply();
         }
     }
-    
+
     /* * * * * * * * * * * * * chart * * * * * * * * * * * * * * */
 
     function setDataByLabels(labels){
@@ -269,13 +271,10 @@ mainPage.controller('MainPageCtrl', function ($scope, mainService, trendService,
             years.unshift(beforeDate);
         }
     }
-    //$scope.years = ['2020', '2021', '2022', '2023', '2024', '2025', '2026']
 
     function categorySelected(category){
-        $scope.categorySelect = category
+        $scope.categorySelect = category;
         $scope.activeTab = category.id;
-        //drawChart(category.subCategories[0]);
-        //category.subCategories[0].isChecked= true
     }
 
     function parseParam(path, data) {

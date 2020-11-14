@@ -2,7 +2,7 @@
 
 var manage = angular.module('myApp.manage', ['ngRoute']);
 
-manage.controller('ManageCtrl', function ($scope, $rootScope, $window) {
+manage.controller('ManageCtrl', function ($scope, $rootScope, $window, infoService) {
 
     $scope.category = $rootScope.category;
 
@@ -15,9 +15,11 @@ manage.controller('ManageCtrl', function ($scope, $rootScope, $window) {
     }
 
     $scope.models = [
-        {modelName:"Линейная регрессия"},
-        {modelName:"С использованием экспоненты"},
-        {modelName:"Другое"}]
+        {title:"Линейная регрессия", name: 'linear'},
+        {title:"С использованием экспоненты", name: 'exponential'},
+        {title:"Логарифмическая", name: 'logarithmic'},
+        {title:"Нормативная", name: 'default'}
+    ];
 
     var dynamicColors = function() {
         var r = Math.floor(Math.random() * 255);
@@ -26,17 +28,15 @@ manage.controller('ManageCtrl', function ($scope, $rootScope, $window) {
         return "rgb(" + r + "," + g + "," + b + ")";
     };
 
-    function setData(){
-        var data = [];
-        angular.forEach($scope.years, function (year){
-            data.push( (Math.random() * 10).toFixed(2) )
-        })
-        return data;
+    function setData(subCategory) {
+        return Object.values($scope.category.years).map(function(year) {
+            return year.toFixed(2);
+        });
     }
 
-    function setDataSet(subCategory){
+    function setDataSet(){
         var dataset = [];
-        var data = {type: 'line', backgroundColor:"rgb(0,190,255)", label: $scope.category.categoryName, data: setData(subCategory) };        dataset.push(data);
+        var data = {type: 'line', backgroundColor:"rgb(0,190,255)", label: $scope.category.name, data: setData() };        dataset.push(data);
         return dataset;
     }
     $scope.years = []
@@ -60,18 +60,18 @@ manage.controller('ManageCtrl', function ($scope, $rootScope, $window) {
         $scope.years.unshift("All");
     }
 
-    $scope.drawChart = function(subCategory){
-        drawChart(subCategory);
+    $scope.drawChart = function(){
+        drawChart();
     }
 
     var barChart = null;
 
-    drawChart(null);
-    function drawChart(subCategory){
+    drawChart();
+    function drawChart(){
         if(barChart!=null) barChart.destroy();
         var chartData = {
             labels: years,
-            datasets:  setDataSet(subCategory)
+            datasets:  setDataSet()
         };
 
         var ctx = document.getElementById('canvas').getContext('2d');
@@ -94,13 +94,29 @@ manage.controller('ManageCtrl', function ($scope, $rootScope, $window) {
         });
     }
 
-    $scope.subCategories = [{
-        categoryName:'Трудоспособное население',
+    loadModel($scope.models[0]);
+    function loadModel(modelSelected) {
+        $scope.model.selected = modelSelected;
+    }
 
-    }, {
-        categoryName:'Иностраныне мигранты',
+    $scope.subCategories = $rootScope.subCategories;
 
-    }];
+    $scope.model = {selected: $scope.models[0]};
+
+    $scope.getPredictionByModel = function() {
+        if($scope.model &&  $scope.model.selected  &&  $scope.model.selected.title){
+
+            $scope.q1Predict = Math.floor(Math.random() * 1050) + 50;
+            $scope.q2Predict = Math.floor(Math.random() * 15) + 50;
+            $scope.q3Predict = Math.floor(Math.random() * 100) + $scope.q1;
+            $scope.q4Predict = Math.floor(Math.random() * $scope.q2) + 50;
+            infoService.infoFunction("По модели '" + $scope.model.selected.title + "' получены показатели Квартала 1: "+$scope.q1+". Квартала 2: "+$scope.q2+". Квартала 3: "+$scope.q3+". Квартала 4: "+$scope.q4+".");
+        }
+    }
+    $scope.q1Predict = null;
+    $scope.q2Predict = null;
+    $scope.q3Predict = null;
+    $scope.q4Predict = null;
 
     $scope.q1 = 0;
     $scope.q2 = 0;
@@ -162,6 +178,4 @@ manage.controller('ManageCtrl', function ($scope, $rootScope, $window) {
             $scope.$apply();
         }
     }
-
-
 });
