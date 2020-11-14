@@ -72,7 +72,7 @@ def testPost(request):
 1. Были открыты корс для работы и тестирвоания с наших локальных клиентов
 2. Для ангуляр приложения разрешили в options запросе некоторые headers
 3. @csrf_exempt - csrf токен выключен
-...
+
 ## Запуск SERVER
 python manage.py runserver <IP ADDRESS>:8080
 
@@ -125,6 +125,6 @@ services.factory('trendService', function($http, $q) {
     return service;
 });
 </pre>
-...
+
 ## Запуск UI
 python -m http.server --directory ".\hack2hr\UI" 80
