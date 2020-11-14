@@ -15,9 +15,11 @@ manage.controller('ManageCtrl', function ($scope, $rootScope, $window, infoServi
     }
 
     $scope.models = [
-        {modelName:"Линейная регрессия"},
-        {modelName:"С использованием экспоненты"},
-        {modelName:"Другое"}]
+        {title:"Линейная регрессия", name: 'linear'},
+        {title:"С использованием экспоненты", name: 'exponential'},
+        {title:"Логарифмическая", name: 'logarithmic'},
+        {title:"Нормативная", name: 'default'}
+    ];
 
     var dynamicColors = function() {
         var r = Math.floor(Math.random() * 255);
@@ -92,18 +94,23 @@ manage.controller('ManageCtrl', function ($scope, $rootScope, $window, infoServi
         });
     }
 
+    loadModel($scope.models[0]);
+    function loadModel(modelSelected) {
+        $scope.model.selected = modelSelected;
+    }
+
     $scope.subCategories = $rootScope.subCategories;
 
-    $scope.model = {selected: null}
+    $scope.model = {selected: $scope.models[0]};
 
-    $scope.getPredictionByModel = function(){
-        if($scope.model &&  $scope.model.selected  &&  $scope.model.selected.modelName){
+    $scope.getPredictionByModel = function() {
+        if($scope.model &&  $scope.model.selected  &&  $scope.model.selected.title){
 
             $scope.q1 = Math.floor(Math.random() * 1050) + 50;
             $scope.q2 = Math.floor(Math.random() * 15) + 50;
             $scope.q3 = Math.floor(Math.random() * 100) + $scope.q1;
             $scope.q4 = Math.floor(Math.random() * $scope.q2) + 50;
-            infoService.infoFunction("По модели '" + $scope.model.selected.modelName + "' получены показатели Квартала 1: "+$scope.q1+". Квартала 2: "+$scope.q2+". Квартала 3: "+$scope.q3+". Квартала 4: "+$scope.q4+".");
+            infoService.infoFunction("По модели '" + $scope.model.selected.title + "' получены показатели Квартала 1: "+$scope.q1+". Квартала 2: "+$scope.q2+". Квартала 3: "+$scope.q3+". Квартала 4: "+$scope.q4+".");
         }
     }
 
